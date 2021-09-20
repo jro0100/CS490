@@ -1,0 +1,27 @@
+body, html {
+    min-height: 100%;
+}
+body {
+    background-image: url("../img/background.jpg");
+    background-size: cover; 
+}
+#container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 80vh;
+}
+#login {
+    background: #f0f1f0;
+    box-shadow: 0 1.5px 0 0 rgba(0,0,0,0.1);
+    width:400px;
+    opacity:0.9;
+}
+#error {
+    opacity: 0;
+    background-color: red;
+}
+input {
+    box-shadow: 0 1.5px 0 0 rgba(0,0,0,0.1);
+}
