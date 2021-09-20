@@ -46,5 +46,10 @@
             }
         })
     </script>
+
+    <?php
+     // This PHP tag is only here so Heroku recognizes a language and does not fail to deploy.
+     // When actual PHP is added, this can be taken out.
+    ?>
 </body>
 </html>
