@@ -2,7 +2,7 @@
 session_start();
 require("./userutil/userfunctions.php");
 
-redirect_to_login_if_not_user();
+redirect_to_login_if_not_valid_user();
 
 ?>
 

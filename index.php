@@ -3,6 +3,12 @@ session_start();
 
 require("./util/functions.php");
 
+/**
+ * Validate a username and unhashed password against credentials stored in the database
+ * @param $username string Username to be validated against the database
+ * @param $password string Unhashed password to be validated against hashed password in database
+ * @return bool
+ */
 function check_credentials($username, $password) {
     $sqlstmt = "SELECT * FROM users WHERE username = :username";
     $params = array(":username"=>$username);

@@ -2,7 +2,7 @@
 session_start();
 require("./adminutil/adminfunctions.php");
 
-redirect_to_login_if_not_admin();
+redirect_to_login_if_not_valid_admin();
 
 ?>
 
