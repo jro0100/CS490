@@ -59,7 +59,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
         <div id="error">
             Incorrect username or password
         </div>
-        <form id="sign-in-form" method="post" action="index.php">
+        <form id="sign-in-form" method="post" action="./">
             <input type="text" id="username" name="username" placeholder="Username"><br><br>
             <input type="password" id="password" name="password" placeholder="Password"><br><br>
             <input type="submit" id="submit" value="Login"><br><br>
