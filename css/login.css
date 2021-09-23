@@ -11,13 +11,13 @@ body {
     justify-content: center;
     text-align: center;
     height: 80vh;
+    border-radius: 25px;
 }
 #login {
     background: #f0f1f0;
     box-shadow: 0 1.5px 0 0 rgba(0,0,0,0.1);
     width:400px;
     opacity:0.9;
-    border-radius: 25px;
 }
 #error {
     opacity: 0;
