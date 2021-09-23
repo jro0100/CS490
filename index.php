@@ -76,30 +76,5 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
         </form>
     </div>
 </div>
-
-<!--- Javascript for basic logic --->
-<script>
-    /*
-    const signInForm = document.getElementById("sign-in-form");
-    const submitButton = document.getElementById("submit");
-    const error = document.getElementById("error");
-
-    submitButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        const username = signInForm.username.value;
-        const password = signInForm.password.value;
-
-        if(username === "test" && password === "test") {
-            alert("Logged In");
-            location.reload();
-        }
-        else {
-            error.style.opacity = 1;
-            signInForm.username.value = "";
-            signInForm.password.value = "";
-        }
-    })
-     */
-</script>
 </body>
 </html>
