@@ -28,6 +28,8 @@ function check_credentials($username, $password) {
     return false;
 }
 
+$loginError = false;
+
 // Checks if there is any reentrant data from the login form and validates it, then redirects accordingly
 if (isset($_POST["username"]) && isset($_POST["password"])) {
     if (check_credentials($_POST["username"], $_POST["password"])) {
@@ -42,6 +44,8 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
             header("Location: " . $landingPage);
             exit();
         }
+    } else {
+        $loginError = true;
     }
 }
 
@@ -62,7 +66,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
             <br>
             Sign In
         </div>
-        <div id="error">
+        <div id="error" <?php if ($loginError) echo 'style="opacity: 1"'; ?>>
             Incorrect username or password
         </div>
         <form id="sign-in-form" method="post" action="./">
