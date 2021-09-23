@@ -15,6 +15,6 @@ redirect_to_login_if_not_valid_user();
     <h1 style="text-align:center;">
     User Landing Page
     </h1>
-    <a href="../logout.php">Logout</a>
+    <a href="../logout.php" style="text-align:center;">Logout</a>
 </body>
 </html>
