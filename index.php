@@ -62,7 +62,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
 <!--- Displays login box in the center of the page --->
 <div id="container">
     <div id="login">
-        <div>
+        <div id="increase-Font">
             <br>
             Sign In
         </div>
