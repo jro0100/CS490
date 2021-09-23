@@ -1,14 +1,17 @@
 <?php
 
 /**
- * Establishes a PDO connection to a MYSQL database using the credentials stored in dbcredentials.php
+ * Establishes a PDO connection to a MYSQL database using the credentials stored in environment variables
  * @return PDO|null
  */
 function get_db() {
     global $db;
     if (!isset($db)) {
         try {
-            require('dbcredentials.php');
+            $dbhost = getenv("DB_HOSTNAME");
+            $dbname = getenv("DB_NAME");
+            $dbuname = getenv("DB_USERNAME");
+            $dbpass = getenv("DB_PASSWORD");
 
             $con = "mysql:dbname=$dbname;host=$dbhost";
             $db = new PDO($con, $dbuname, $dbpass);

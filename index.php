@@ -10,12 +10,12 @@ require("./util/functions.php");
  * @return bool
  */
 function check_credentials($username, $password) {
-    $sqlstmt = "SELECT * FROM users WHERE username = :username";
+    $sqlstmt = "SELECT * FROM login WHERE username = :username";
     $params = array(":username"=>$username);
     $result = db_execute($sqlstmt, $params);
 
     if ($result) {
-        if (password_verify($password, $result["password"])) {
+        if (password_verify($password, $result["pwd"])) {
             if ($result["isAdmin"]) {
                 $_SESSION["logged_admin"] = true;
             } else {
@@ -39,7 +39,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
             } elseif (isset($_SESSION["logged_admin"])) {
                 $landingPage = "./admin/";
             } else {
-                $landingPage = "index.php";
+                $landingPage = "./";
             }
             header("Location: " . $landingPage);
             exit();
