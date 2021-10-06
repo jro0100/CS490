@@ -1,0 +1,51 @@
+html {
+    box-sizing: border-box;
+  }
+  
+  *, *::before, *::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: serif;
+  }
+  
+  nav {
+      display:flex;
+      flex-direction: row;
+      flex-wrap:wrap;
+      justify-content: center;
+      align-items:center;
+      width: 100%;
+      background-color: #323232;
+  }
+  
+  
+  .nav-links {
+      display: flex;
+    list-style: none;
+    justify-content: space-between;
+    
+  }
+  
+  .nav-item a {
+    display: inline-block;
+    padding: 10px 50px;
+    text-decoration: none;
+    color: white;
+    font-size: 130%;
+  }
+  
+  .nav-item:hover {
+    background-color: white;
+  }
+  
+  .nav-item:hover a {
+    color: #323232;
+  }
+
+  .TestClass {
+    text-align: center;
+  }
