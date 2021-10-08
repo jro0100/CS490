@@ -15,7 +15,7 @@ redirect_to_login_if_not_valid_teacher();
 <body>
     <nav class="navbar">
         <ul class="nav-links">
-            <li class="nav-item"><a href="index.html">Question Bank</a></li>
+            <li class="nav-item"><a href="index.php">Question Bank</a></li>
             <li class="nav-item"><a href="exams.html">Exams</a></li>
             <li class="nav-item"><a href="../logout.php">Logout</a></li>
         </ul>
