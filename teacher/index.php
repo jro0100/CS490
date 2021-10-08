@@ -1,8 +1,8 @@
 <?php
 session_start();
-require("./adminutil/adminfunctions.php");
+require("./teacherutil/teacher_functions.php");
 
-redirect_to_login_if_not_valid_admin();
+redirect_to_login_if_not_valid_teacher();
 
 ?>
 

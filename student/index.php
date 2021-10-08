@@ -1,8 +1,8 @@
 <?php
 session_start();
-require("./userutil/userfunctions.php");
+require("./studentutil/studentfunctions.php");
 
-redirect_to_login_if_not_valid_user();
+redirect_to_login_if_not_valid_student();
 
 ?>
 
