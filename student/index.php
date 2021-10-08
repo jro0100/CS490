@@ -1,6 +1,6 @@
 <?php
 session_start();
-require("./studentutil/studentfunctions.php");
+require("./studentutil/student_functions.php");
 
 redirect_to_login_if_not_valid_student();
 
