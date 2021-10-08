@@ -18,8 +18,12 @@ function check_credentials($username, $password) {
         if (password_verify($password, $result["pwd"])) {
             if ($result["isAdmin"]) {
                 $_SESSION["logged_admin"] = true;
+            } elseif ($result["isTeacher"]) {
+                $_SESSION["logged_teacher"] = true;
+            } elseif ($result["isStudent"]) {
+                $_SESSION["logged_student"] = true;
             } else {
-                $_SESSION["logged_user"] = true;
+                return false;
             }
             $_SESSION["username"] = $username;
             return true;
@@ -33,11 +37,11 @@ $loginError = false;
 // Checks if there is any reentrant data from the login form and validates it, then redirects accordingly
 if (isset($_POST["username"]) && isset($_POST["password"])) {
     if (check_credentials($_POST["username"], $_POST["password"])) {
-        if ((isset($_SESSION["logged_user"]) && $_SESSION["logged_user"] == true) || (isset($_SESSION["logged_admin"]) && $_SESSION["logged_admin"] == true)) {
-            if (isset($_SESSION["logged_user"])) {
-                $landingPage = "./user/";
-            } elseif (isset($_SESSION["logged_admin"])) {
-                $landingPage = "./admin/";
+        if ((isset($_SESSION["logged_student"]) && $_SESSION["logged_student"] == true) || (isset($_SESSION["logged_teacher"]) && $_SESSION["logged_teacher"] == true)) {
+            if (isset($_SESSION["logged_student"])) {
+                $landingPage = "./student/";
+            } elseif (isset($_SESSION["logged_teacher"])) {
+                $landingPage = "./teacher/";
             } else {
                 $landingPage = "./";
             }
