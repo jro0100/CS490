@@ -15,7 +15,7 @@ redirect_to_login_if_not_valid_user();
     <body>
         <nav class="navbar">
             <ul class="nav-links">
-                <li class="nav-item"><a href="index.html">Oustanding Exams</a></li>
+                <li class="nav-item"><a href="index.php">Oustanding Exams</a></li>
                 <li class="nav-item"><a href="grades.html">Grades</a></li>
                 <li class="nav-item"><a href="../logout.php">Logout</a></li>
             </ul>
