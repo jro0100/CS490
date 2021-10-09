@@ -13,8 +13,8 @@ $json = "[]";
 if ($result) {
     $json = json_encode($result);
 }
-//echo "Teacher ID: " . $_SESSION["teacherID"] . "<br>";
-//echo $json;
+echo "Teacher ID: " . $_SESSION["teacherID"] . "<br>";
+echo $json;
 
 ?>
 
@@ -53,10 +53,9 @@ if ($result) {
         </div>
     </div>
     -->
-
     
     <script>
-        var text = [{"questionID":"5","teacherID":"5","question":"Write a function called &quotadd&quot that takes 2 numbers, adds them together, and returns the result","questionType":"Basic Function","difficulty":"0","parameterCount":"2","functionToCall":"add"},{"questionID":"15","teacherID":"5","question":"Write a function called &quotsubtract&quot that takes 2 numbers and subtracts the second number from the first one, then returns the result","questionType":"Basic Function","difficulty":"0","parameterCount":"2","functionToCall":"subtract"}];
+        var text = <?php echo $json ?>;
 
         for (i = 0; i < text.length; i++) {
 
@@ -96,6 +95,13 @@ if ($result) {
             row.appendChild(column);
 
             document.body.appendChild(row); //Appends the div to the body of the HTML page
+        }
+
+        if (text.length == 0) {
+            emptiness = document.createElement("div");
+            emptiness.classList.add("center-column-text");
+            emptiness.innerHTML = "NO QUESTIONS EXIST YET!";
+            document.body.appendChild(emptiness);
         }
     </script>
 </body>
