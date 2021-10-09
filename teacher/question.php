@@ -40,6 +40,8 @@ if (isset($_POST["submitQuestion"])) {
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet"  href="../css/menu.css">
+    <link rel="stylesheet"  href="../css/main.css">
+    <link rel="stylesheet"  href="../css/teacher/question.css">
 </head>
 <body>
 <nav class="navbar">
@@ -50,25 +52,33 @@ if (isset($_POST["submitQuestion"])) {
     </ul>
 </nav>
 
-<form method="post" action="question.php" autocomplete="off">
-    <input type="hidden" name="questionID" value="<?php if (isset($questionID)) echo $questionID ?>">
+    <div style="text-align:center">
+        <form method="post" action="question.php" autocomplete="off">
+            <input type="hidden" name="questionID" value="<?php if (isset($questionID)) echo $questionID ?>"><br>
 
-    <label for="question">Question</label>
-    <input type="text" name="question" id="question" value="<?php if (isset($question)) echo $question ?>"><br>
+            <label for="question">Question</label><br>
+            <textarea style="width: 189px; height: 58px;"><?php if (isset($question)) echo $question ?></textarea><br>
+            <!--<input type="text" class="textbox" name="question" id="question" value="<?php if (isset($question)) echo $question ?>"><br>-->
 
-    <label for="questionType">Question Type</label>
-    <input type="text" name="questionType" id="questionType" value="<?php if (isset($questionType)) echo $questionType ?>"><br>
+            <label for="questionType">Question Type</label>
+            <input type="text" name="questionType" id="questionType" value="<?php if (isset($questionType)) echo $questionType ?>"><br>
 
-    <label for="difficulty">Difficulty</label>
-    <input type="text" name="difficulty" id="difficulty" value="<?php if (isset($difficulty)) echo $difficulty ?>"><br>
+            <label for="difficulty" style="margin-top:30px">Difficulty</label>
+            <select name="difficulty" id="difficulty" style="margin-top:30px">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select><br>
+            <!--<input type="text" name="difficulty" id="difficulty" value="<?php if (isset($difficulty)) echo $difficulty ?>"><br>-->
 
-    <label for="parameterCount">Number of Parameters</label>
-    <input type="text" name="parameterCount" id="parameterCount" value="<?php if (isset($parameterCount)) echo $parameterCount ?>"><br>
+            <label for="parameterCount">Number of Parameters</label>
+            <input type="text" name="parameterCount" id="parameterCount" value="<?php if (isset($parameterCount)) echo $parameterCount ?>"><br>
 
-    <label for="functionToCall">Function Name</label>
-    <input type="functionToCall" name="functionToCall" id="functionToCall" value="<?php if (isset($functionToCall)) echo $functionToCall ?>"><br>
+            <label for="functionToCall">Function Name</label>
+            <input type="functionToCall" name="functionToCall" id="functionToCall" value="<?php if (isset($functionToCall)) echo $functionToCall ?>"><br>
 
-    <button type="submit" name="submitQuestion" value="submitQuestion">Save</button>
-</form>
+            <input type="submit" class="submitButton" name="submitQuestion" value="Save Question"></input>
+        </form>
+    </div>
 </body>
 </html>

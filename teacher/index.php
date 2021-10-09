@@ -24,6 +24,7 @@ if ($result) {
     <meta charset="utf-8">
     <link rel="stylesheet"  href="../css/menu.css">
     <link rel="stylesheet"  href="../css/main.css">
+    <link rel="stylesheet"  href="../css/teacher/index.css">
 </head>
 <body>
     <nav class="navbar">
@@ -87,7 +88,7 @@ if ($result) {
     
     <div style="text-align:center" style="padding-top:10px">
         <form action="question.php">
-            <input type="submit" value="Create a question"/>
+            <input type="submit" class="submitButton" value="Create a question"/>
         </form>
     </div>
 

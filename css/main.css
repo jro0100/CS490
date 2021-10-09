@@ -27,26 +27,3 @@
 	line-height: 30px;
 	padding: 10px 5px 5px;
 }
-
-a:link {
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-input {
-    background-color: #555555; /* Black */
-    color:white;
-    transition-duration: 0.4s;
-    border-radius: 4px;
-    padding: 14px 40px;
-    border: 2px solid #555555;
-    font-size: 120%;
-}
-
-input:hover {
-    background-color: white; /* Green */
-    color: #555555;
-  }
