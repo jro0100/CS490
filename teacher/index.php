@@ -85,7 +85,7 @@ if ($result) {
         }
     </script>
     
-    <div style="text-align:center">
+    <div style="text-align:center" style="padding-top:10px">
         <form action="question.php">
             <input type="submit" value="Create a question"/>
         </form>
