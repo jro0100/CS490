@@ -80,7 +80,7 @@ if ($result) {
             column.classList.add("column");
 
             aTag = document.createElement("a");
-            aTag.setAttribute("href", "question.html?questionID=" + obj.questionID);
+            aTag.setAttribute("href", "question.php?questionID=" + obj.questionID);
 
             question = document.createElement("p");
             question.classList.add("center-column-text");
