@@ -8,13 +8,13 @@ $sqlstmt = "SELECT * FROM questionbank WHERE teacherID = :teacherID";
 $params = array(":teacherID" => $_SESSION["teacherID"]);
 $result = db_execute($sqlstmt, $params);
 
-$json = "{}";
+$json = "[]";
 
 if ($result) {
-    $json = htmlentities(json_encode($result));
+    $json = json_encode($result);
 }
-echo "Teacher ID: " . $_SESSION["teacherID"] . "<br>";
-echo $json;
+//echo "Teacher ID: " . $_SESSION["teacherID"] . "<br>";
+//echo $json;
 
 ?>
 

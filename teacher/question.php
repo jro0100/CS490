@@ -6,8 +6,8 @@ redirect_to_login_if_not_valid_teacher();
 
 if (isset($_POST["submitQuestion"])) {
     $params = array(
-        ":question" => $_POST["question"],
-        ":questionType" => $_POST["questionType"],
+        ":question" => htmlentities($_POST["question"]),
+        ":questionType" => htmlentities($_POST["questionType"]),
         ":difficulty" => $_POST["difficulty"],
         ":parameterCount" => $_POST["parameterCount"],
         ":functionToCall" => $_POST["functionToCall"]
