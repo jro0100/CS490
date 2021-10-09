@@ -33,26 +33,6 @@ if ($result) {
             <li class="nav-item"><a href="../logout.php">Logout</a></li>
         </ul>
     </nav>
-
-    <!--
-    <div class="row">
-        <div class="column">
-            <form action="#" method="get" style="cursor:pointer">
-                <input type="hidden" value="value">
-                <a onclick="this.parentNode.submit();">
-                    <p class="center-column-text">
-                        Investing is an effective way to put your money to work and 
-                        build wealth. Smart investing allows your money to 
-                        outpace inflation and increase in value. <br>
-                    </p>
-                    <p class="center-column-text">
-                        Type: For Loop &emsp; Difficulty: Easy
-                    </p>
-                </a>
-        </form>
-        </div>
-    </div>
-    -->
     
     <script>
         var text = <?php echo $json ?>;
@@ -104,5 +84,12 @@ if ($result) {
             document.body.appendChild(emptiness);
         }
     </script>
+    
+    <div style="text-align:center">
+        <form action="question.php">
+            <input type="submit" value="Create a question"/>
+        </form>
+    </div>
+
 </body>
 </html>
