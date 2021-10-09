@@ -25,17 +25,19 @@ redirect_to_login_if_not_valid_teacher();
     <!--
     <div class="row">
         <div class="column">
-            <a href="#">
-            <p class="center-column-text">
-                Investing is an effective way to put your money to work and 
-                build wealth. Smart investing allows your money to 
-                outpace inflation and increase in value. <br>
-            </p>
-            <p class="center-column-text">
-                Type: For Loop &emsp; Difficulty: Easy
-            </p>
-
-            </a>
+            <form action="#" method="get" style="cursor:pointer">
+                <input type="hidden" value="value">
+                <a onclick="this.parentNode.submit();">
+                    <p class="center-column-text">
+                        Investing is an effective way to put your money to work and 
+                        build wealth. Smart investing allows your money to 
+                        outpace inflation and increase in value. <br>
+                    </p>
+                    <p class="center-column-text">
+                        Type: For Loop &emsp; Difficulty: Easy
+                    </p>
+                </a>
+        </form>
         </div>
     </div>
     -->
@@ -66,7 +68,7 @@ redirect_to_login_if_not_valid_teacher();
             column.classList.add("column");
 
             aTag = document.createElement("a");
-            aTag.setAttribute("href", "#");
+            aTag.setAttribute("href", "question.html?questionID=" + obj.questionID);
 
             question = document.createElement("p");
             question.classList.add("center-column-text");
@@ -84,6 +86,5 @@ redirect_to_login_if_not_valid_teacher();
             document.body.appendChild(row); //Appends the div to the body of the HTML page
         }
     </script>
-
 </body>
 </html>
