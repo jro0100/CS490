@@ -2,7 +2,7 @@ body, html {
     min-height: 100%;
 }
 body {
-    background-image: url("../img/background2.jpg");
+    background-image: url("../img/background.jpg");
     background-size: cover; 
 }
 #container {
@@ -10,16 +10,18 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 80vh;
+    height: 70vh;
 }
 #login {
-    background: #f0f1f0;
+    background: #575757;
     box-shadow: 0 1.5px 0 0 rgba(0,0,0,0.1);
     width:400px;
-    opacity:0.9;
+    opacity:0.98;
+    border-radius: 15px;
 }
 #increase-Font {
-    font-size: 1.2em;
+    font-size: 150%;
+    color:white;
 }
 #error {
     opacity: 0;
@@ -27,4 +29,5 @@ body {
 }
 input {
     box-shadow: 0 1.5px 0 0 rgba(0,0,0,0.1);
+    font-size: 110%;
 }
