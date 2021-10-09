@@ -1,8 +1,20 @@
 <?php
 session_start();
 require("./teacherutil/teacher_functions.php");
-
+require("../util/functions.php");
 redirect_to_login_if_not_valid_teacher();
+
+$sqlstmt = "SELECT * FROM questionbank WHERE teacherID = :teacherID";
+$params = array(":teacherID" => $_SESSION["teacherID"]);
+$result = db_execute($sqlstmt, $params);
+
+$json = "[]";
+
+if ($result) {
+    $json = json_encode($result);
+}
+//echo "Teacher ID: " . $_SESSION["teacherID"] . "<br>";
+//echo $json;
 
 ?>
 

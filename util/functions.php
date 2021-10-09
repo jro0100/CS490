@@ -38,7 +38,7 @@ function db_execute($stmtstring, $params) {
         var_export($e);
         exit("Database failure try again");
     }
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->fetchall(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
     return $result;
 }
