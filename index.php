@@ -11,8 +11,8 @@ require("./util/functions.php");
  */
 function check_credentials($username, $password) {
     $sqlstmt = "SELECT * FROM login WHERE username = :username";
-    $params = array(":username"=>$username);
-    $result = db_execute($sqlstmt, $params);
+    $params = array(":username" => $username);
+    $result = db_execute($sqlstmt, $params)[0];
 
     if ($result) {
         if (password_verify($password, $result["pwd"])) {
@@ -20,6 +20,9 @@ function check_credentials($username, $password) {
                 $_SESSION["logged_admin"] = true;
             } elseif ($result["isTeacher"]) {
                 $_SESSION["logged_teacher"] = true;
+                $sqlstmt = "SELECT teacherID FROM teacher WHERE username = :username";
+                $teacherID = db_execute($sqlstmt, $params)[0]["teacherID"];
+                $_SESSION["teacherID"] = $teacherID;
             } elseif ($result["isStudent"]) {
                 $_SESSION["logged_student"] = true;
             } else {
