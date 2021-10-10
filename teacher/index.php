@@ -36,7 +36,10 @@ if ($result) {
     </nav>
     
     <script>
-        var text = <?php echo $json ?>;
+        var text = [{"questionID":"5","teacherID":"5","question":"Write a function called \"add\" that takes 2 numbers, adds them together, and returns the result","questionType":"Basic Function","difficulty":"0","parameterCount":"2","functionToCall":"add"},{"questionID":"15","teacherID":"5","question":"Write a function called \"subtract\" that takes 2 numbers and subtracts the second number from the first one, then returns the result","questionType":"Basic Function","difficulty":"0","parameterCount":"2","functionToCall":"subtract"}];
+        form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "createExam.php");
 
         for (i = 0; i < text.length; i++) {
 
@@ -70,13 +73,31 @@ if ($result) {
             typeAndDif.classList.add("center-column-text");
             typeAndDif.innerHTML = "Type: " + obj.questionType + "&emsp;" + "Difficulty: " + difficulty;
 
+            input = document.createElement("input");
+            input.setAttribute("type", "checkbox");
+            input.id = i;
+
             aTag.appendChild(question);
             aTag.appendChild(typeAndDif);
             column.appendChild(aTag);
+            form.appendChild(input);
+            column.appendChild(input);
             row.appendChild(column);
 
             document.body.appendChild(row); //Appends the div to the body of the HTML page
         }
+        //id = document.getElementById("1").id;
+        //alert(id);
+        buttonDiv = document.createElement("div");
+        buttonDiv.classList.add("center");
+        createExamButton = document.createElement("input");
+        createExamButton.setAttribute("type", "submit");
+        createExamButton.setAttribute("class", "submitButton");
+        createExamButton.setAttribute("name", "createExam");
+        createExamButton.value = "Create Exam";
+        buttonDiv.appendChild(createExamButton);
+        form.appendChild(buttonDiv);
+        document.body.appendChild(form);
 
         if (text.length == 0) {
             emptiness = document.createElement("div");
@@ -86,7 +107,7 @@ if ($result) {
         }
     </script>
     
-    <div style="text-align:center" style="padding-top:10px">
+    <div class="center" style="padding-top:10px">
         <form action="question.php">
             <input type="submit" class="submitButton" value="Create a question"/>
         </form>
