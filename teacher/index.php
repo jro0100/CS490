@@ -75,8 +75,9 @@ if ($result) {
             
             input = document.createElement("input");
             input.setAttribute("type", "checkbox");
-            input.setAttribute("name", obj.questionID);
-            input.id = obj.questionID;
+            input.setAttribute("name", i);
+            input.setAttribute("value", obj.questionID);
+            //input.id = obj.questionID;
 
             aTag.appendChild(question);
             aTag.appendChild(typeAndDif);
