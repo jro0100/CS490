@@ -85,7 +85,6 @@ if (isset($_POST["submitQuestion"])) {
 
             <label for="question">Question</label><br>
             <textarea style="width: 189px; height: 58px;" name="question" id="question"><?php if (isset($question)) echo $question ?></textarea><br>
-            <!--<input type="text" class="textbox" name="question" id="question" value="<?php if (isset($question)) echo $question ?>"><br>-->
 
             <label for="questionType">Question Type</label>
             <input type="text" name="questionType" id="questionType" value="<?php if (isset($questionType)) echo $questionType ?>"><br>
@@ -96,20 +95,16 @@ if (isset($_POST["submitQuestion"])) {
                 <option value="0" <?php if (isset($difficulty) && $difficulty == 0) echo "selected"; ?>>Easy</option>
                 <option value="1" <?php if (isset($difficulty) && $difficulty == 1) echo "selected"; ?>>Medium</option>
                 <option value="2" <?php if (isset($difficulty) && $difficulty == 2) echo "selected"; ?>>Hard</option>
-                <!-- <option selected="selected">Medium</option> -->
             </select><br>
-            <!--
-            <label for="difficulty" style="margin-top:30px">Difficulty (Easy, Medium, Hard)</label>
-            <input type="text" name="difficulty" id="difficulty" value="<?php //if (isset($difficulty)) echo $difficulty ?>"><br>
-            -->
+
             <label for="parameterCount">Number of Parameters</label>
-            <input type="text" name="parameterCount" id="parameterCount" value="<?php if (isset($parameterCount)) echo $parameterCount ?>"><br>
+            <input type="text" name="parameterCount" id="parameterCount" value="<?php if (isset($parameterCount)) echo $parameterCount ?>" required><br>
 
             <label for="testCasesCount">Number of Test Cases</label>
-            <input type="text" name="testCasesCount" id="testCasesCount" value="<?php if (isset($parameterCount)) echo $parameterCount ?>"><br>
+            <input type="text" name="testCasesCount" id="testCasesCount" value="<?php if (isset($parameterCount)) echo $parameterCount ?>" required><br>
 
             <label for="functionToCall">Function Name</label>
-            <input type="functionToCall" name="functionToCall" id="functionToCall" value="<?php if (isset($functionToCall)) echo $functionToCall ?>"><br>
+            <input type="functionToCall" name="functionToCall" id="functionToCall" value="<?php if (isset($functionToCall)) echo $functionToCall ?>" required><br>
 
             <div id="masterParent">
             </div>
@@ -176,6 +171,7 @@ if (isset($_POST["submitQuestion"])) {
                         input.classList.add("inputStyle");
                         input.setAttribute("name", i + "-" + y);
                         input.setAttribute("id", i + "-" + y);
+                        input.required = true;
 
                         column.appendChild(p);
                         column.appendChild(input);
