@@ -1,3 +1,38 @@
+/* Creates a row */
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 0;
+    flex-shrink: 1;
+    margin: 20px 0px 8px 20px;
+    border-radius: 5px;
+}
+
+.center-column-text{
+    text-align:center;
+	font-family:Arial;
+    color: black;
+	font-size: 100%;
+}
+
+.inputStyle {
+    border-radius: 6px;
+    background-color: white;
+    margin: 5px;
+    box-sizing: border-box;
+    flex-grow: 1;
+    border: 1px solid #323232;
+}
+
 a:link {
     text-decoration: none;
 }

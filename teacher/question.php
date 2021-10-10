@@ -40,7 +40,7 @@ if (isset($_POST["submitQuestion"])) {
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet"  href="../css/menu.css">
-    <link rel="stylesheet"  href="../css/main.css">
+    <!--<link rel="stylesheet"  href="../css/main.css">-->
     <link rel="stylesheet"  href="../css/teacher/question.css">
 </head>
 <body>
@@ -53,7 +53,7 @@ if (isset($_POST["submitQuestion"])) {
 </nav>
 
     <div style="text-align:center">
-        <form method="post" action="question.php" autocomplete="off">
+        <form method="post" action="question.php" autocomplete="off" id="testForm">
             <input type="hidden" name="questionID" value="<?php if (isset($questionID)) echo $questionID ?>"><br>
 
             <label for="question">Question</label><br>
@@ -63,16 +63,23 @@ if (isset($_POST["submitQuestion"])) {
             <label for="questionType">Question Type</label>
             <input type="text" name="questionType" id="questionType" value="<?php if (isset($questionType)) echo $questionType ?>"><br>
 
+            <!--
             <label for="difficulty" style="margin-top:30px">Difficulty</label>
             <select name="difficulty" id="difficulty" style="margin-top:30px">
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
+                <option selected="selected">Medium</option>
             </select><br>
-            <!--<input type="text" name="difficulty" id="difficulty" value="<?php if (isset($difficulty)) echo $difficulty ?>"><br>-->
+            -->
+            <label for="difficulty" style="margin-top:30px">Difficulty (Easy, Medium, Hard)</label>
+            <input type="text" name="difficulty" id="difficulty" value="<?php if (isset($difficulty)) echo $difficulty ?>"><br>
 
             <label for="parameterCount">Number of Parameters</label>
             <input type="text" name="parameterCount" id="parameterCount" value="<?php if (isset($parameterCount)) echo $parameterCount ?>"><br>
+
+            <label for="testCasesCount">Number of Test Cases</label>
+            <input type="text" name="testCasesCount" id="testCasesCount" value="<?php if (isset($parameterCount)) echo $parameterCount ?>"><br>
 
             <label for="functionToCall">Function Name</label>
             <input type="functionToCall" name="functionToCall" id="functionToCall" value="<?php if (isset($functionToCall)) echo $functionToCall ?>"><br>
@@ -80,5 +87,66 @@ if (isset($_POST["submitQuestion"])) {
             <input type="submit" class="submitButton" name="submitQuestion" value="Save Question"></input>
         </form>
     </div>
+        
+    <script>
+        let columnCount = document.getElementById('parameterCount');
+        //Get number of columns when key event is triggered in number of parameters field
+        columnCount.addEventListener('keyup', (event) => {
+            colVal = document.getElementById('parameterCount').value;
+            if(Number.isInteger(parseInt(colVal))) {
+                document.getElementById('parameterCount').value = parseInt(colVal);
+                //alert(parseInt(entireVal) + " is an int");
+            } else {
+                document.getElementById('parameterCount').value = "";
+            }
+        });
+
+        //Get number of rows when key event is triggered in number of parameters field
+        let rowCount = document.getElementById('testCasesCount');
+        rowCount.addEventListener('keyup', (event) => {
+            rowVal = document.getElementById('testCasesCount').value;
+            if(Number.isInteger(parseInt(rowVal))) {
+
+                document.getElementById('testCasesCount').value = parseInt(rowVal);
+                
+                for(var i = 0; i < parseInt(rowVal); i++)
+                {
+                    //Create ROW
+                    row = document.createElement("div");
+                    row.classList.add("row");
+                    
+                    //Create COLUMNS and add them to the row
+                    colVal = document.getElementById('parameterCount').value;
+                    
+                    for (var y = 0; y < parseInt(colVal) + 1; y++) {
+                        //Create column
+                        column = document.createElement("div");
+                        column.classList.add("column");
+                        
+                        p = document.createElement("p");
+                        p.classList.add("center-column-text");
+                        if(y == parseInt(colVal)) {
+                            p.innerHTML = "Answer";
+                        } else {
+                            p.innerHTML = "Parameter";
+                        }
+
+                        input = document.createElement("input");
+                        input.setAttribute("type", "text");
+                        input.classList.add("inputStyle");
+
+                        column.appendChild(p);
+                        column.appendChild(input);
+                        row.appendChild(column);
+                    }
+                    form = document.getElementById("functionToCall");
+                    form.parentNode.insertBefore(row, form.nextSibling);
+                }
+                
+            } else {
+                document.getElementById('testCasesCount').value = "";
+            }
+        });
+    </script>
 </body>
 </html>
