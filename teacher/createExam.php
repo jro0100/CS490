@@ -50,7 +50,6 @@ if ($result) {
         var text = <?php echo $json ?>;
 
         form = document.createElement("form");
-        form.classList.add("center-column-text");
         form.setAttribute("method", "post");
         form.setAttribute("action", "exam.php");
 
@@ -87,10 +86,12 @@ if ($result) {
             input.setAttribute("type", "text");
             input.setAttribute("name", obj.questionID + "-pointvalue");
             input.setAttribute("placeholder", "Point Value");
+            input.classList.add("center-column-text");
             input.required = true;
 
             column.appendChild(question);
             column.appendChild(typeAndDif);
+            column.appendChild(input);
             row.appendChild(column);
             form.appendChild(row);
         }
