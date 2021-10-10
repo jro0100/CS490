@@ -72,7 +72,7 @@ if ($result) {
             typeAndDif = document.createElement("p");
             typeAndDif.classList.add("center-column-text");
             typeAndDif.innerHTML = "Type: " + obj.questionType + "&emsp;" + "Difficulty: " + difficulty;
-
+            
             input = document.createElement("input");
             input.setAttribute("type", "checkbox");
             input.setAttribute("name", obj.questionID);
@@ -81,11 +81,9 @@ if ($result) {
             aTag.appendChild(question);
             aTag.appendChild(typeAndDif);
             column.appendChild(aTag);
-            form.appendChild(input);
             column.appendChild(input);
             row.appendChild(column);
-
-            document.body.appendChild(row); //Appends the div to the body of the HTML page
+            form.appendChild(row);
         }
         //id = document.getElementById("1").id;
         //alert(id);
@@ -105,6 +103,8 @@ if ($result) {
             emptiness.classList.add("center-column-text");
             emptiness.innerHTML = "NO QUESTIONS EXIST YET!";
             document.body.appendChild(emptiness);
+        } else {
+            document.body.appendChild(form); //Appends the div to the body of the HTML page
         }
     </script>
     
