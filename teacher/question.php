@@ -84,14 +84,17 @@ if (isset($_POST["submitQuestion"])) {
             <label for="functionToCall">Function Name</label>
             <input type="functionToCall" name="functionToCall" id="functionToCall" value="<?php if (isset($functionToCall)) echo $functionToCall ?>"><br>
 
+            <div id="masterParent">
+            </div>
+
             <input type="submit" class="submitButton" name="submitQuestion" value="Save Question"></input>
         </form>
     </div>
         
     <script>
 
-        masterDiv = document.createElement("div");
-        masterDiv.id = "masterParent";
+        masterDiv = document.getElementById("masterParent");
+        //masterDiv.id = "masterParent";
 
         let columnCount = document.getElementById('parameterCount');
         //Get number of columns when key event is triggered in number of parameters field
