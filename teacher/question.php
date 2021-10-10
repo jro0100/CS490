@@ -12,13 +12,40 @@ if (isset($_POST["submitQuestion"])) {
         ":parameterCount" => $_POST["parameterCount"],
         ":functionToCall" => $_POST["functionToCall"]
     );
+
     if ($_POST["questionID"] != "") {
         $sqlstmt = "UPDATE questionbank SET question = :question, questionType = :questionType, difficulty = :difficulty, parameterCount = :parameterCount, functionToCall = :functionToCall WHERE questionID = " . $_POST["questionID"];
     } else {
         $sqlstmt = "INSERT INTO questionbank (teacherID, question, questionType, difficulty, parameterCount, functionToCall) VALUES (:teacherID, :question, :questionType, :difficulty, :parameterCount, :functionToCall)";
         $params[":teacherID"] = $_SESSION["teacherID"];
     }
-    db_execute($sqlstmt, $params);
+
+    $questionID = "holder";
+    db_execute($sqlstmt, $params, $questionID);
+
+    $parameterCount = intval($_POST["parameterCount"]);
+    $testCasesCount = intval($_POST["testCasesCount"]);
+
+    for ($i = 0; $i < $testCasesCount; $i++) {
+        $sqlstmt = "INSERT INTO testcases (questionID, answer)  VALUES (:questionID, :answer)";
+        $params = array(
+            ":questionID" => $questionID,
+            ":answer" => $_POST[$i . "-" . $parameterCount]
+        );
+
+        $testCaseID = "holder";
+        db_execute($sqlstmt, $params, $testCaseID);
+
+        for ($j = 0; $j < $parameterCount; $j++) {
+            $sqlstmt = "INSERT INTO parameters (testCaseID, parameter) VALUES (:testCaseID, :parameter)";
+            $params = array(
+                ":testCaseID" => $testCaseID,
+                ":parameter" => $_POST[$i . "-" . $j]
+            );
+
+            db_execute($sqlstmt, $params);
+        }
+    }
     header("Location: ./");
     exit();
 } elseif (isset($_GET["questionID"])) {
@@ -27,8 +54,8 @@ if (isset($_POST["submitQuestion"])) {
     $params = array(":questionID" => $questionID, ":teacherID" => $_SESSION["teacherID"]);
     $result = db_execute($sqlstmt, $params)[0];
 
-    $question = str_replace('"', "&#34;", $result["question"]);
-    $questionType = str_replace('"', "&#34;", $result["questionType"]);
+    $question = $result["question"];
+    $questionType = $result["questionType"];
     $difficulty = $result["difficulty"];
     $parameterCount = $result["parameterCount"];
     $functionToCall = $result["functionToCall"];
@@ -66,14 +93,14 @@ if (isset($_POST["submitQuestion"])) {
 
             <label for="difficulty" style="margin-top:30px">Difficulty</label>
             <select name="difficulty" id="difficulty" style="margin-top:30px">
-                <option value="0" <?php if ($difficulty == 0) echo "selected"; ?>>Easy</option>
-                <option value="1" <?php if ($difficulty == 1) echo "selected"; ?>>Medium</option>
-                <option value="2" <?php if ($difficulty == 2) echo "selected"; ?>>Hard</option>
+                <option value="0" <?php if (isset($difficulty) && $difficulty == 0) echo "selected"; ?>>Easy</option>
+                <option value="1" <?php if (isset($difficulty) && $difficulty == 1) echo "selected"; ?>>Medium</option>
+                <option value="2" <?php if (isset($difficulty) && $difficulty == 2) echo "selected"; ?>>Hard</option>
                 <!-- <option selected="selected">Medium</option> -->
             </select><br>
             <!--
             <label for="difficulty" style="margin-top:30px">Difficulty (Easy, Medium, Hard)</label>
-            <input type="text" name="difficulty" id="difficulty" value="<?php if (isset($difficulty)) echo $difficulty ?>"><br>
+            <input type="text" name="difficulty" id="difficulty" value="<?php //if (isset($difficulty)) echo $difficulty ?>"><br>
             -->
             <label for="parameterCount">Number of Parameters</label>
             <input type="text" name="parameterCount" id="parameterCount" value="<?php if (isset($parameterCount)) echo $parameterCount ?>"><br>
