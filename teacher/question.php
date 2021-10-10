@@ -135,7 +135,6 @@ if (isset($_POST["submitQuestion"])) {
                         //Create column
                         column = document.createElement("div");
                         column.classList.add("column");
-                        column.setAttribute("name", rowVal + "-" + colVal);
                         
                         p = document.createElement("p");
                         p.classList.add("center-column-text");
@@ -148,6 +147,8 @@ if (isset($_POST["submitQuestion"])) {
                         input = document.createElement("input");
                         input.setAttribute("type", "text");
                         input.classList.add("inputStyle");
+                        input.setAttribute("name", i + "-" + y);
+                        input.setAttribute("id", i + "-" + y);
 
                         column.appendChild(p);
                         column.appendChild(input);
