@@ -1,3 +1,34 @@
+<?php
+session_start();
+require("./teacherutil/teacher_functions.php");
+require("../util/functions.php");
+redirect_to_login_if_not_valid_teacher();
+
+// Redirect to question bank if user did not come from the exam creation form
+if (!isset($_POST["createExam"])) {
+    header("Location: ./");
+    exit();
+}
+
+$sqlstmt = "SELECT * FROM questionbank WHERE questionID = :questionID";
+$params = array();
+
+// Unset the createExam flag so that we can iterate over POST array and access questionID's without issue
+unset($_POST["createExam"]);
+foreach ($_POST as $q) {
+    array_push($params, array(":questionID" => $q));
+}
+
+$result = db_execute_query_multiple_times($sqlstmt, $params);
+
+$json = "[]";
+
+if ($result) {
+    $json = json_encode($result);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
