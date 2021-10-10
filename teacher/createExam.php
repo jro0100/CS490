@@ -49,6 +49,11 @@ if ($result) {
     <script>
         var text = <?php echo $json ?>;
 
+        form = document.createElement("form");
+        form.classList.add("center-column-text");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "exam.php");
+
         for (i = 0; i < text.length; i++) {
 
             const obj = JSON.parse(JSON.stringify(text[i]));
@@ -77,31 +82,26 @@ if ($result) {
             typeAndDif = document.createElement("p");
             typeAndDif.classList.add("center-column-text");
             typeAndDif.innerHTML = "Type: " + obj.questionType + "&emsp;" + "Difficulty: " + difficulty;
-
-            form = document.createElement("form");
-            form.classList.add("center-column-text");
-            form.setAttribute("method", "post");
-            form.setAttribute("action", "exam.php");
             
             input = document.createElement("input");
             input.setAttribute("type", "text");
-            input.setAttribute("id", "pointValue");
+            input.setAttribute("name", obj.questionID + "-pointvalue");
             input.setAttribute("placeholder", "Point Value");
+            input.required = true;
 
             column.appendChild(question);
             column.appendChild(typeAndDif);
-            form.appendChild(input);
-            column.appendChild(form);
             row.appendChild(column);
-
-            document.body.appendChild(row); //Appends the div to the body of the HTML page
+            form.appendChild(row);
         }
 
         if (text.length == 0) {
             emptiness = document.createElement("div");
             emptiness.classList.add("center-column-text");
-            emptiness.innerHTML = "NO QUESTIONS EXIST YET!";
+            emptiness.innerHTML = "NO QUESTIONS SELECTED TO MAKE EXAM!";
             document.body.appendChild(emptiness);
+        } else {
+            document.body.appendChild(form); //Appends the div to the body of the HTML page
         }
     </script>
     

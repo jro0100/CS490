@@ -77,7 +77,6 @@ if ($result) {
             input.setAttribute("type", "checkbox");
             input.setAttribute("name", i);
             input.setAttribute("value", obj.questionID);
-            //input.id = obj.questionID;
 
             aTag.appendChild(question);
             aTag.appendChild(typeAndDif);
@@ -86,8 +85,6 @@ if ($result) {
             row.appendChild(column);
             form.appendChild(row);
         }
-        //id = document.getElementById("1").id;
-        //alert(id);
         buttonDiv = document.createElement("div");
         buttonDiv.classList.add("center");
         createExamButton = document.createElement("input");
