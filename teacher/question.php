@@ -94,7 +94,6 @@ if (isset($_POST["submitQuestion"])) {
     <script>
 
         masterDiv = document.getElementById("masterParent");
-        //masterDiv.id = "masterParent";
 
         let columnCount = document.getElementById('parameterCount');
         //Get number of columns when key event is triggered in number of parameters field
@@ -102,7 +101,8 @@ if (isset($_POST["submitQuestion"])) {
             colVal = document.getElementById('parameterCount').value;
             if(Number.isInteger(parseInt(colVal))) {
                 document.getElementById('parameterCount').value = parseInt(colVal);
-                //alert(parseInt(entireVal) + " is an int");
+                document.getElementById("masterParent").innerHTML = "";
+                makeBoxes(rowVal, colVal);
             } else {
                 document.getElementById('parameterCount').value = "";
             }
@@ -114,9 +114,7 @@ if (isset($_POST["submitQuestion"])) {
             rowVal = document.getElementById('testCasesCount').value;
             if(Number.isInteger(parseInt(rowVal))) {
                 document.getElementById('testCasesCount').value = parseInt(rowVal);
-                alert("test1"); //This prints
-                document.getElementById("masterParent").innerHTML = ""; //********HELP*******//
-                alert("test2"); //This does not
+                document.getElementById("masterParent").innerHTML = "";
                 makeBoxes(rowVal, colVal);
             } else {
                 document.getElementById('testCasesCount').value = "";
@@ -137,6 +135,7 @@ if (isset($_POST["submitQuestion"])) {
                         //Create column
                         column = document.createElement("div");
                         column.classList.add("column");
+                        column.setAttribute("name", rowVal + "-" + colVal);
                         
                         p = document.createElement("p");
                         p.classList.add("center-column-text");
