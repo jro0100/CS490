@@ -66,7 +66,7 @@
     </script>
     
     <div style="text-align:center" style="padding-top:10px">
-        <form action="exam.php">
+        <form action="createExam.html">
             <input type="submit" class="submitButton" value="Create an exam"/>
         </form>
     </div>
