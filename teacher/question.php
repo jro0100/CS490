@@ -89,6 +89,10 @@ if (isset($_POST["submitQuestion"])) {
     </div>
         
     <script>
+
+        masterDiv = document.createElement("div");
+        masterDiv.id = "masterParent";
+
         let columnCount = document.getElementById('parameterCount');
         //Get number of columns when key event is triggered in number of parameters field
         columnCount.addEventListener('keyup', (event) => {
@@ -106,10 +110,18 @@ if (isset($_POST["submitQuestion"])) {
         rowCount.addEventListener('keyup', (event) => {
             rowVal = document.getElementById('testCasesCount').value;
             if(Number.isInteger(parseInt(rowVal))) {
-
                 document.getElementById('testCasesCount').value = parseInt(rowVal);
-                
-                for(var i = 0; i < parseInt(rowVal); i++)
+                alert("test1"); //This prints
+                document.getElementById("masterParent").innerHTML = ""; //********HELP*******//
+                alert("test2"); //This does not
+                makeBoxes(rowVal, colVal);
+            } else {
+                document.getElementById('testCasesCount').value = "";
+            }
+        });
+
+        function makeBoxes(rowVal, colVal) {
+            for(var i = 0; i < parseInt(rowVal); i++)
                 {
                     //Create ROW
                     row = document.createElement("div");
@@ -138,15 +150,12 @@ if (isset($_POST["submitQuestion"])) {
                         column.appendChild(p);
                         column.appendChild(input);
                         row.appendChild(column);
+                        masterDiv.appendChild(row);
                     }
                     form = document.getElementById("functionToCall");
-                    form.parentNode.insertBefore(row, form.nextSibling);
+                    form.parentNode.insertBefore(masterDiv, form.nextSibling);
                 }
-                
-            } else {
-                document.getElementById('testCasesCount').value = "";
-            }
-        });
+        }
     </script>
 </body>
 </html>
