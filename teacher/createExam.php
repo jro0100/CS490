@@ -107,7 +107,7 @@ if ($result) {
     </script>
     
     <div style="text-align:center" style="padding-top:10px">
-        <form action="question.php">
+        <form action="exams.php">
             <input type="submit" class="submitButton" value="Save Exam"/>
         </form>
     </div>
