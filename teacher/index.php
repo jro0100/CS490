@@ -94,7 +94,6 @@ if ($result) {
         createExamButton.value = "Create Exam";
         buttonDiv.appendChild(createExamButton);
         form.appendChild(buttonDiv);
-        document.body.appendChild(form);
 
         if (text.length == 0) {
             emptiness = document.createElement("div");
