@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet"  href="../css/menu.css">
+        <link rel="stylesheet"  href="../css/main.css">
     </head>
     <body>
         <nav class="navbar">
@@ -13,14 +14,4 @@
             </ul>
         </nav>
     </body>
-
-    <script>
-        for (let i = 0; i < 5; i++) {
-            let make = document.createElement("div"); //Creates the div
-            make.id = i //Adds an id to the div
-            make.classList.add("TestClass"); //Adds a class to the div
-            make.innerHTML = i; //Adds text to the div
-            document.body.appendChild(make); //Appends the div to the body of the HTML page
-        }
-    </script>
 </html>
