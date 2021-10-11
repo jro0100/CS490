@@ -1,11 +1,3 @@
-<?php
-session_start();
-require("./studentutil/student_functions.php");
-
-redirect_to_login_if_not_valid_student();
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -38,7 +30,7 @@ redirect_to_login_if_not_valid_student();
             column.classList.add("column");
 
             aTag = document.createElement("a");
-            aTag.setAttribute("href", "takeExam.php?examID=" + obj.examID);
+            aTag.setAttribute("href", "reviewExam.php?examID=" + obj.examID);
 
             examName = document.createElement("p");
             examName.classList.add("center-column-text");
@@ -46,7 +38,7 @@ redirect_to_login_if_not_valid_student();
 
             points = document.createElement("p");
             points.classList.add("center-column-text");
-            points.innerHTML = "Points: " + obj.totalPoints;
+            points.innerHTML = "GRADE: " + obj.pointsAwarded + "/" + obj.totalPoints;
 
             aTag.appendChild(examName);
             aTag.appendChild(points);
@@ -59,7 +51,7 @@ redirect_to_login_if_not_valid_student();
         if (text.length == 0) {
             emptiness = document.createElement("div");
             emptiness.classList.add("center-column-text");
-            emptiness.innerHTML = "YOU HAVE NO OUTSTANDING EXAMS TO BE TAKEN!";
+            emptiness.innerHTML = "YOU CURRENTLY HAVE NO GRADED EXAMS!";
             document.body.appendChild(emptiness);
         }
     </script>
