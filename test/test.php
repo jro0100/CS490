@@ -1,18 +1,27 @@
 <?php
 
 
-$questionID = 5;
+$questionID = 15;
 $_POST["functionToCall"] = "addtwo";
 
-//$out = array();
+$out = array();
 //echo $_SERVER["DOCUMENT_ROOT"] . dirname($_SERVER["PHP_SELF"]);
-mkdir($_SERVER["DOCUMENT_ROOT"] . dirname($_SERVER["PHP_SELF"]) . "/testdir");
-exec("cd testdir && echo hello world > a.txt");
+
+$currentDir = $_SERVER["DOCUMENT_ROOT"] . dirname($_SERVER["PHP_SELF"]);
+
+if (php_uname("s") == "Windows NT") {
+    echo "Windows";
+} else {
+    echo "Linux";
+}
+//mkdir($currentDir . "/" . $questionID);
+//mkdir($currentDir . "/" . $questionID . "/studentanswer");
+//exec("cd testdir && echo hello world > a.txt");
 //exec("echo test", $out);
-//exec("./maketestcasefile.sh 15 addfour");
-//exec("./populateunittests.sh 1 5 4 3 addfour 13 1 15", $out);
-//exec("./populateunittests.sh 72 3 65 19 addfour 159 2 15", $out);
-//exec("./addclosingtag.sh 15");
+//exec("maketestcasefile.sh 15 addfour");
+//exec("populateunittests.sh 1 5 4 3 addfour 13 1 15", $out);
+//exec("populateunittests.sh 72 3 65 19 addfour 159 2 15", $out);
+//exec("addclosingtag.sh 15");
 //var_export($out);
 //echo "it work?";
 ?>
