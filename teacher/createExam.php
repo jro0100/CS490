@@ -51,7 +51,7 @@ if ($result) {
 
         form = document.createElement("form");
         form.setAttribute("method", "post");
-        form.setAttribute("action", "examList.php");
+        form.setAttribute("action", "exam.php");
 
         examTag = document.createElement("div");
         examTag.classList.add("center-column-text");

@@ -4,32 +4,6 @@ require("./teacherutil/teacher_functions.php");
 require("../util/functions.php");
 redirect_to_login_if_not_valid_teacher();
 
-if (isset($_POST["saveExam"])) {
-    unset($_POST["saveExam"]);
-
-    // Save and unset exam name from POST array to easily iterate over array to pull out question ID's
-    $examName = $_POST["examName"];
-    unset($_POST["examName"]);
-
-    $examID = "holder";
-    $sqlstmt = "INSERT INTO exams (teacherID, examName, released, gradedByTeacher) VALUES (:teacherID, :examName, 0, 0)";
-    $params = array(":teacherID" => $_SESSION["teacherID"],
-        "examName" => $examName);
-    db_execute($sqlstmt, $params, $examID);
-
-    $sqlstmt = "INSERT INTO questionsonexam (questionID, examID, maxPoints) VALUES (:questionID, :examID, :maxPoints)";
-    $params = array();
-    foreach ($_POST as $key => $val) {
-        $questionID = explode("-", $key)[0];
-        array_push($params, array(
-                ":questionID" => $questionID,
-                ":examID" => $examID,
-                ":maxPoints" => $val
-        ));
-    }
-    db_execute_query_multiple_times($sqlstmt, $params);
-}
-
 $sqlstmt = "SELECT * FROM exams WHERE teacherID = :teacherID";
 $params = array(":teacherID" => $_SESSION["teacherID"]);
 $result = db_execute($sqlstmt, $params);
