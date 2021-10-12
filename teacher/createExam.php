@@ -86,7 +86,7 @@ if ($result) {
             input.setAttribute("type", "text");
             input.setAttribute("name", obj.questionID + "-pointvalue");
             input.setAttribute("placeholder", "Point Value");
-            input.setAttribute("pattern", "^[0-9]+$");
+            input.setAttribute("pattern", "^[1-9][0-9]*$");
             input.classList.add("center-column-text");
             input.required = true;
 
