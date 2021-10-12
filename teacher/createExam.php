@@ -95,6 +95,15 @@ if ($result) {
             row.appendChild(column);
             form.appendChild(row);
         }
+        buttonDiv = document.createElement("div");
+        buttonDiv.classList.add("center");
+        createExamButton = document.createElement("input");
+        createExamButton.setAttribute("type", "submit");
+        createExamButton.setAttribute("class", "submitButton");
+        createExamButton.setAttribute("name", "saveExam");
+        createExamButton.value = "Save Exam";
+        buttonDiv.appendChild(createExamButton);
+        form.appendChild(buttonDiv);
 
         if (text.length == 0) {
             emptiness = document.createElement("div");
@@ -102,15 +111,8 @@ if ($result) {
             emptiness.innerHTML = "NO QUESTIONS SELECTED TO MAKE EXAM!";
             document.body.appendChild(emptiness);
         } else {
-            document.body.appendChild(form); //Appends the div to the body of the HTML page
+            document.body.appendChild(form);
         }
     </script>
-    
-    <div style="text-align:center" style="padding-top:10px">
-        <form action="exams.php">
-            <input type="submit" class="submitButton" value="Save Exam"/>
-        </form>
-    </div>
-
 </body>
 </html>
