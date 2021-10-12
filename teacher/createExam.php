@@ -51,7 +51,7 @@ if ($result) {
 
         form = document.createElement("form");
         form.setAttribute("method", "post");
-        form.setAttribute("action", "exam.php");
+        form.setAttribute("action", "exams.php");
 
         for (i = 0; i < text.length; i++) {
 
