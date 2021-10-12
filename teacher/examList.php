@@ -16,6 +16,27 @@ if (isset($_POST["saveExam"])) {
     $params = array(":teacherID" => $_SESSION["teacherID"],
         "examName" => $examName);
     db_execute($sqlstmt, $params, $examID);
+
+    $sqlstmt = "INSERT INTO questionsonexam (questionID, examID, maxPoints) VALUES (:questionID, :examID, :maxPoints)";
+    $params = array();
+    foreach ($_POST as $key => $val) {
+        $questionID = explode("-", $key)[0];
+        array_push($params, array(
+                ":questionID" => $questionID,
+                ":examID" => $examID,
+                ":maxPoints" => $val
+        ));
+    }
+    db_execute_query_multiple_times($sqlstmt, $params);
+}
+
+$sqlstmt = "SELECT * FROM exams WHERE teacherID = :teacherID";
+$params = array(":teacherID" => $_SESSION["teacherID"]);
+$result = db_execute($sqlstmt, $params);
+
+$json = "[]";
+if ($result) {
+    $json = json_encode($result);
 }
 
 ?>
@@ -32,7 +53,7 @@ if (isset($_POST["saveExam"])) {
     <nav class="navbar">
         <ul class="nav-links">
             <li class="nav-item"><a href="index.php">Question Bank</a></li>
-            <li class="nav-item"><a href="exams.php">Exams</a></li>
+            <li class="nav-item"><a href="examList.php">Exams</a></li>
             <li class="nav-item"><a href="../logout.php">Logout</a></li>
         </ul>
     </nav>
