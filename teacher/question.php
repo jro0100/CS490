@@ -98,10 +98,10 @@ if (isset($_POST["submitQuestion"])) {
             </select><br>
 
             <label for="parameterCount">Number of Parameters</label>
-            <input type="text" name="parameterCount" id="parameterCount" value="<?php if (isset($parameterCount)) echo $parameterCount ?>" required><br>
+            <input type="text" name="parameterCount" id="parameterCount" pattern="^[1-9][0-9]*$" value="<?php if (isset($parameterCount)) echo $parameterCount ?>" required><br>
 
             <label for="testCasesCount">Number of Test Cases</label>
-            <input type="text" name="testCasesCount" id="testCasesCount" value="<?php if (isset($parameterCount)) echo $parameterCount ?>" required><br>
+            <input type="text" name="testCasesCount" id="testCasesCount" pattern="^[1-9][0-9]*$" value="<?php if (isset($parameterCount)) echo $parameterCount ?>" required><br>
 
             <label for="functionToCall">Function Name</label>
             <input type="functionToCall" name="functionToCall" id="functionToCall" value="<?php if (isset($functionToCall)) echo $functionToCall ?>" required><br>
@@ -122,11 +122,8 @@ if (isset($_POST["submitQuestion"])) {
         columnCount.addEventListener('keyup', (event) => {
             colVal = document.getElementById('parameterCount').value;
             if(Number.isInteger(parseInt(colVal))) {
-                document.getElementById('parameterCount').value = parseInt(colVal);
                 document.getElementById("masterParent").innerHTML = "";
                 makeBoxes(rowVal, colVal);
-            } else {
-                document.getElementById('parameterCount').value = "";
             }
         });
 
@@ -135,11 +132,8 @@ if (isset($_POST["submitQuestion"])) {
         rowCount.addEventListener('keyup', (event) => {
             rowVal = document.getElementById('testCasesCount').value;
             if(Number.isInteger(parseInt(rowVal))) {
-                document.getElementById('testCasesCount').value = parseInt(rowVal);
                 document.getElementById("masterParent").innerHTML = "";
                 makeBoxes(rowVal, colVal);
-            } else {
-                document.getElementById('testCasesCount').value = "";
             }
         });
 
