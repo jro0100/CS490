@@ -47,7 +47,7 @@ if ($result) {
     </nav>
     
     <script>
-        var text = [{"questionID":"5","teacherID":"5","question":"Write a function called add that takes 2 numbers, adds them together, and returns the result","questionType":"Basic Function","difficulty":"0","parameterCount":"2","functionToCall":"add"},{"questionID":"15","teacherID":"5","question":"Write a function called subtract that takes 2 numbers and subtracts the second number from the first one, then returns the result","questionType":"Basic Function","difficulty":"0","parameterCount":"2","functionToCall":"subtract"}];
+        var text = <?php echo $json ?>;
 
         form = document.createElement("form");
         form.setAttribute("method", "post");
