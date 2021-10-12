@@ -5,10 +5,10 @@ $questionID = 5;
 $_POST["functionToCall"] = "addtwo";
 
 $out = array();
-exec("maketestcasefile.sh 15 addfour");
-exec("populateunittests.sh 1 5 4 3 addfour 13 1 15", $out);
-exec("populateunittests.sh 72 3 65 19 addfour 159 2 15", $out);
-exec("addclosingtag.sh 15");
+exec("./maketestcasefile.sh 15 addfour");
+exec("./populateunittests.sh 1 5 4 3 addfour 13 1 15", $out);
+exec("./populateunittests.sh 72 3 65 19 addfour 159 2 15", $out);
+exec("./addclosingtag.sh 15");
 var_export($out);
 //echo "it work?";
 ?>
