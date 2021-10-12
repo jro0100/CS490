@@ -53,6 +53,18 @@ if ($result) {
         form.setAttribute("method", "post");
         form.setAttribute("action", "exam.php");
 
+        examTag = docuemnt.createElement("div");
+        examTag.classList.add("center-column-text");
+        examTag.HTML = "Exam Name;"
+        input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("name", "examName");
+        input.classList.add("center-column-text");
+        input.required = true;
+
+        form.appendChild(examTag);
+        form.appendChild(input)
+
         for (i = 0; i < text.length; i++) {
 
             const obj = JSON.parse(JSON.stringify(text[i]));
