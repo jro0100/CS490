@@ -55,7 +55,7 @@ if ($result) {
 
         examTag = docuemnt.createElement("div");
         examTag.classList.add("center-column-text");
-        examTag.HTML = "Exam Name;"
+        examTag.HTML = "Exam Name";
         input = document.createElement("input");
         input.setAttribute("type", "text");
         input.setAttribute("name", "examName");
