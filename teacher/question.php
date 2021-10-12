@@ -74,7 +74,7 @@ if (isset($_POST["submitQuestion"])) {
 <nav class="navbar">
     <ul class="nav-links">
         <li class="nav-item"><a href="index.php">Question Bank</a></li>
-        <li class="nav-item"><a href="examList.php">Exams</a></li>
+        <li class="nav-item"><a href="exams.php">Exams</a></li>
         <li class="nav-item"><a href="../logout.php">Logout</a></li>
     </ul>
 </nav>
