@@ -47,13 +47,13 @@ if ($result) {
     </nav>
     
     <script>
-        var text = <?php echo $json ?>;
+        var text = [{"questionID":"5","teacherID":"5","question":"Write a function called add that takes 2 numbers, adds them together, and returns the result","questionType":"Basic Function","difficulty":"0","parameterCount":"2","functionToCall":"add"},{"questionID":"15","teacherID":"5","question":"Write a function called subtract that takes 2 numbers and subtracts the second number from the first one, then returns the result","questionType":"Basic Function","difficulty":"0","parameterCount":"2","functionToCall":"subtract"}];
 
         form = document.createElement("form");
         form.setAttribute("method", "post");
         form.setAttribute("action", "exams.php");
 
-        examTag = docuemnt.createElement("div");
+        examTag = document.createElement("div");
         examTag.classList.add("center-column-text");
         examTag.HTML = "Exam Name";
         input = document.createElement("input");
@@ -62,8 +62,8 @@ if ($result) {
         input.classList.add("center-column-text");
         input.required = true;
 
+        examTag.appendChild(input);
         form.appendChild(examTag);
-        form.appendChild(input);
 
         for (i = 0; i < text.length; i++) {
 
