@@ -1,3 +1,47 @@
+<?php
+session_start();
+require("./studentutil/student_functions.php");
+require ("../util/functions.php");
+redirect_to_login_if_not_valid_student();
+
+if (!isset($_GET["examID"])) {
+    header("Location: ./");
+    exit();
+}
+
+// Verify that the exam ID given actually exists, can be taken by the current student, and has not been grade/released yet
+$stmtstring = "SELECT * FROM exams WHERE examID = :examID AND teacherID = :teacherID AND released = 0 AND gradedByTeacher = 0";
+$params = array(":examID" => $_GET["examID"],
+    ":teacherID" => $_SESSION["teacherID"]);
+$result = db_execute($stmtstring, $params)[0];
+if (!$result) {
+    header("Location: ./");
+    exit();
+}
+
+$stmtstring = "SELECT questionID, maxPoints from questionsonexam WHERE examID = :examID";
+$params = array(":examID" => $_GET["examID"]);
+$questionIDScoreArray = db_execute($stmtstring, $params);
+
+$stmtstring = "SELECT questionID, question, questionType, difficulty FROM questionbank WHERE questionID = :questionID";
+$params = array();
+foreach ($questionIDScoreArray as $question) {
+    array_push($params, array(":questionID" => $question["questionID"]));
+}
+$questionArray = db_execute_query_multiple_times($stmtstring, $params);
+
+// Populate questionArray with point values
+for ($i = 0; $i < count($questionIDScoreArray); $i++) {
+    $questionArray[$i]["points"] = $questionIDScoreArray[$i]["maxPoints"];
+}
+
+$json = "[]";
+if ($questionArray) {
+    $json = json_encode($questionArray);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
