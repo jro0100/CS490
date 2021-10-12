@@ -124,6 +124,8 @@ if (isset($_POST["submitQuestion"])) {
             if(Number.isInteger(parseInt(colVal))) {
                 document.getElementById("masterParent").innerHTML = "";
                 makeBoxes(rowVal, colVal);
+            } else if(columnCount.value === "") {
+                document.getElementById("masterParent").innerHTML = "";
             }
         });
 
@@ -134,6 +136,8 @@ if (isset($_POST["submitQuestion"])) {
             if(Number.isInteger(parseInt(rowVal))) {
                 document.getElementById("masterParent").innerHTML = "";
                 makeBoxes(rowVal, colVal);
+            } else if(rowCount.value === "") {
+                document.getElementById("masterParent").innerHTML = "";
             }
         });
 
