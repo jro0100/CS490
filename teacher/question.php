@@ -80,7 +80,7 @@ if (isset($_POST["submitQuestion"])) {
 </nav>
 
     <div style="text-align:center">
-        <form method="post" action="index.php" autocomplete="off">
+        <form method="post" action="question.php" autocomplete="off">
             <input type="hidden" name="questionID" value="<?php if (isset($questionID)) echo $questionID ?>"><br>
 
             <label for="question">Question</label><br>
