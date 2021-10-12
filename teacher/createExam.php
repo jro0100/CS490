@@ -63,7 +63,7 @@ if ($result) {
         input.required = true;
 
         form.appendChild(examTag);
-        form.appendChild(input)
+        form.appendChild(input);
 
         for (i = 0; i < text.length; i++) {
 
