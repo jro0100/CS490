@@ -6,17 +6,31 @@ a:hover {
     text-decoration: none;
 }
 
-.submitButton {
-    background-color: #555555; /* Black */
+.reviewExam {
+    background-color: #323232; /* Black */
     color:white;
     transition-duration: 0.4s;
+    padding: 4px 8px;
     border-radius: 4px;
-    padding: 14px 40px;
-    border: 2px solid #555555;
-    font-size: 120%;
+    border: 2px solid #323232;
+    font-size: 95%;
+    margin-bottom: 4px;
 }
 
-.submitButton:hover {
+.releaseExam {
+    background-color: #323232; /* Black */
+    color:white;
+    transition-duration: 0.4s;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 2px solid #323232;
+    font-size: 95%;
+    margin-bottom: 4px;
+    margin-top: 5px;
+}
+
+.reviewExam:hover, .releaseExam:hover {
     background-color: white; /* Green */
-    color: #555555;
+    color: #323232;
+    cursor: pointer;
   }
