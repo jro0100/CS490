@@ -16,7 +16,7 @@
     </nav>
 
     <script>
-        var text = <?php echo $json ?>;
+        var text = [{"examID":"5","teacherID":"5","examName":"Test Exam","released":"0","gradedByTeacher":"0"},{"examID":"15","teacherID":"5","examName":"Test 2","released":"0","gradedByTeacher":"0"},{"examID":"25","teacherID":"5","examName":"Test Exam Again","released":"0","gradedByTeacher":"0"}];
 
         for (i = 0; i < text.length; i++) {
 
@@ -34,26 +34,25 @@
             exam.classList.add("center-column-text");
             exam.innerHTML = obj.examName;
 
-            points = document.createElement("p");
-            points.classList.add("center-column-text");
-            points.innerHTML = "Points: " + obj.points;
-
-            if(obj.released == false) {
-                column.appendChild(exam);
-                column.appendChild(points);
-                //Add button to release the exam
-                //column.appendChild(releaseButton)
-            } else {
-                //Add how many student have taken the exam over how many students are in the class
-                aTag = document.createElement("a");
-                aTag.setAttribute("href", "exam.php?examID=" + obj.examID);
-                aTag.appendChild(exam);
-                aTag.appendChild(points);
-                column.appendChild(aTag);
-            }
+            centerDiv = document.createElement("div");
+            centerDiv.classList.add("center");
+            form = document.createElement("form");
+            form.setAttribute("method", "get");
+            form.setAttribute("action", "exams.php");
+            submit = document.createElement("button");
+            submit.setAttribute("type", "submit");
+            submit.setAttribute("name", "releaseExam");
+            submit.setAttribute("value", obj.examID);
+            submit.innerHTML = "Release Exam";
+            
+            //Add review exam button
+            
+            column.appendChild(exam);
+            form.appendChild(submit);
+            centerDiv.appendChild(form);
+            column.appendChild(centerDiv) //Add button to release the exam
 
             row.appendChild(column);
-
             document.body.appendChild(row); //Appends the div to the body of the HTML page
         }
 
