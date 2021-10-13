@@ -19,7 +19,7 @@ if ($result) {
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet"  href="../css/menu.css">
-        <link rel="stylesheet"  href="../css/main.css">
+        <link rel="stylesheet"  href="../css/student/index.css">
     </head>
     <body>
         <nav class="navbar">
@@ -45,20 +45,28 @@ if ($result) {
             column = document.createElement("div");
             column.classList.add("column");
 
-            aTag = document.createElement("a");
-            aTag.setAttribute("href", "takeExam.php?examID=" + obj.examID);
-
             examName = document.createElement("p");
             examName.classList.add("center-column-text");
             examName.innerHTML = obj.examName;
 
-            points = document.createElement("p");
-            points.classList.add("center-column-text");
-            points.innerHTML = "Points: " + obj.totalPoints;
+            //Create release exam button
+            centerDiv = document.createElement("div");
+            centerDiv.classList.add("center");
+            form = document.createElement("form");
+            form.setAttribute("method", "get");
+            form.setAttribute("action", "takeExam.php");
+            submit = document.createElement("button");
+            submit.setAttribute("type", "submit");
+            submit.setAttribute("name", "takeExam");
+            submit.setAttribute("class", "takeExam");
+            submit.setAttribute("value", obj.examID);
+            submit.innerHTML = "Take Exam";
 
-            aTag.appendChild(examName);
-            aTag.appendChild(points);
-            column.appendChild(aTag);
+            form.appendChild(submit);
+            centerDiv.appendChild(form);
+
+            column.appendChild(examName);
+            column.appendChild(centerDiv);
             row.appendChild(column);
 
             document.body.appendChild(row);
