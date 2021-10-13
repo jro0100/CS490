@@ -48,7 +48,7 @@ if ($questionArray) {
         <meta charset="utf-8">
         <link rel="stylesheet"  href="../css/menu.css">
         <link rel="stylesheet"  href="../css/main.css">
-        <link rel="stylesheet"  href="../css/student/exams.css">
+        <link rel="stylesheet"  href="../css/student/stuExams.css">
     </head>
     <body>
         <nav class="navbar">
