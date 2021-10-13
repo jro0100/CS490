@@ -18,13 +18,20 @@ function check_credentials($username, $password) {
         if (password_verify($password, $result["pwd"])) {
             if ($result["isAdmin"]) {
                 $_SESSION["logged_admin"] = true;
+
             } elseif ($result["isTeacher"]) {
                 $_SESSION["logged_teacher"] = true;
                 $sqlstmt = "SELECT teacherID FROM teacher WHERE username = :username";
-                $teacherID = db_execute($sqlstmt, $params)[0]["teacherID"];
+                $teacherID = db_execute($sqlstmt, $params)[0]["teacherID"]; // Can reuse previous parameter array because username remains the same
                 $_SESSION["teacherID"] = $teacherID;
+
             } elseif ($result["isStudent"]) {
                 $_SESSION["logged_student"] = true;
+                $sqlstmt = "SELECT studentID, teacherID FROM student WHERE username = :username";
+                $result = db_execute($sqlstmt, $params)[0]; // Can reuse previous parameter array because username remains the same
+                $_SESSION["studentID"] = $result["studentID"];
+                $_SESSION["teacherID"] = $result["teacherID"];
+
             } else {
                 return false;
             }
