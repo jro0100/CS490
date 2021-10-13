@@ -18,7 +18,7 @@ a:hover {
 }
 
 .submitButton:hover {
-    background-color: white; /* Green */
+    background-color: white;
     color: #323232;
     cursor: pointer;
   }
