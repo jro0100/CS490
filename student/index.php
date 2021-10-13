@@ -57,8 +57,8 @@ if ($result) {
             form.setAttribute("action", "takeExam.php");
             submit = document.createElement("button");
             submit.setAttribute("type", "submit");
-            submit.setAttribute("name", "takeExam");
-            submit.setAttribute("class", "takeExam");
+            submit.setAttribute("name", "examID");
+            submit.setAttribute("class", "examID");
             submit.setAttribute("value", obj.examID);
             submit.innerHTML = "Take Exam";
 
