@@ -58,7 +58,7 @@ if ($result) {
     </nav>
 
     <script>
-        var text = [{"examID":"5","teacherID":"5","examName":"Test Exam","released":"0","gradedByTeacher":"0"},{"examID":"15","teacherID":"5","examName":"Test 2","released":"0","gradedByTeacher":"0"},{"examID":"25","teacherID":"5","examName":"Test Exam Again","released":"0","gradedByTeacher":"0"}];
+        var text = <?php echo $json ?>;
 
         for (i = 0; i < text.length; i++) {
 
@@ -88,7 +88,7 @@ if ($result) {
             submit.innerHTML = "Release Exam";
             
             //Add review exam button
-            
+
             column.appendChild(exam);
             form.appendChild(submit);
             centerDiv.appendChild(form);
