@@ -41,7 +41,7 @@ a:hover {
 }
 
 .reviewExam {
-    background-color: #323232; /* Black */
+    background-color: #323232;
     color:white;
     transition-duration: 0.4s;
     padding: 6px 10px;
@@ -52,7 +52,7 @@ a:hover {
 }
 
 .releaseExam {
-    background-color: #323232; /* Black */
+    background-color: #323232;
     color:white;
     transition-duration: 0.4s;
     padding: 6px 10px;
@@ -64,7 +64,7 @@ a:hover {
 }
 
 .reviewExam:hover, .releaseExam:hover {
-    background-color: white; /* Green */
+    background-color: white;
     color: #323232;
     cursor: pointer;
   }

@@ -58,7 +58,7 @@ if ($result) {
             submit = document.createElement("button");
             submit.setAttribute("type", "submit");
             submit.setAttribute("name", "examID");
-            submit.setAttribute("class", "examID");
+            submit.setAttribute("class", "takeExam");
             submit.setAttribute("value", obj.examID);
             submit.innerHTML = "Take Exam";
 

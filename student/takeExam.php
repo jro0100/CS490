@@ -63,12 +63,20 @@ if ($questionArray) {
     <script>
         var text = <?php echo $json ?>;
 
+        form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "index.php");
+
         for (i = 0; i < text.length; i++) {
             const obj = JSON.parse(JSON.stringify(text[i]));
 
-            form = document.createElement("form");
-            form.setAttribute("method", "post");
-            form.setAttribute("action", "index.php");
+            //Create row
+            row = document.createElement("div");
+            row.classList.add("row");
+
+            //Create column
+            column = document.createElement("div");
+            column.classList.add("column");
 
             question = document.createElement("p");
             question.classList.add("center-column-text");
@@ -76,22 +84,32 @@ if ($questionArray) {
 
             points = document.createElement("p");
             points.classList.add("center-column-text");
-            points.innerHTML = "(Points: " + obj.points;
+            points.innerHTML = "(Points: " + obj.points + ")";
 
+            centerDiv = document.createElement("div");
+            centerDiv.classList.add("center");
             textArea = document.createElement("textarea");
+            textArea.classList.add("text-area");
             textArea.setAttribute("name", obj.questionID);
-
-            form.appendChild(question);
-            form.appendChild(points);
-            form.appendChild(textArea);
+            
+            textArea.setAttribute("id", obj.questionID);
+            centerDiv.appendChild(textArea);
+            column.appendChild(question);
+            column.appendChild(points);
+            column.appendChild(centerDiv);
+            row.appendChild(column);
+            form.appendChild(row);
         }
 
+        centerButton = document.createElement("div");
+        centerButton.classList.add("center");
         submitExam = document.createElement("input");
         submitExam.setAttribute("type", "submit");
         submitExam.setAttribute("name", "submitExam");
         submitExam.classList.add("submitButton");
+        centerButton.appendChild(submitExam);
 
-        form.appendChild(submitExam);
+        form.appendChild(centerButton);
         document.body.appendChild(form);
     </script>
 </html>
