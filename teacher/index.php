@@ -23,7 +23,6 @@ if ($result) {
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet"  href="../css/menu.css">
-    <link rel="stylesheet"  href="../css/main.css">
     <link rel="stylesheet"  href="../css/teacher/index.css">
 </head>
 <body>
@@ -75,6 +74,7 @@ if ($result) {
             
             input = document.createElement("input");
             input.setAttribute("type", "checkbox");
+            input.setAttribute("class", "check");
             input.setAttribute("name", i);
             input.setAttribute("value", obj.questionID);
 
@@ -105,7 +105,7 @@ if ($result) {
         }
     </script>
     
-    <div class="center" style="padding-top:10px">
+    <div class="center">
         <form action="question.php">
             <input type="submit" class="submitButton" value="Create a question"/>
         </form>

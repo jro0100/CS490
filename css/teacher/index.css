@@ -1,3 +1,37 @@
+/* Creates a row */
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+/* Creates a column */
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+    margin: 20px 20vw 6px 20vw;
+    border: 2px solid #323232;
+    border-radius: 5px;
+    background-color:lightgrey;
+}
+
+/* Centers text within columns */
+.center-column-text{
+    text-align:center;
+	font-family:Arial;
+    color: black;
+	font-size: 130%;
+	line-height: 30px;
+	padding: 10px 5px 5px;
+}
+
+.center {
+    text-align: center;
+}
+
 a:link {
     text-decoration: none;
 }
@@ -13,6 +47,7 @@ a:hover {
     transition-duration: 0.4s;
     border-radius: 4px;
     padding: 14px 40px;
+    margin-top: 20px;
     border: 2px solid #323232;
     font-size: 120%;
 }
@@ -22,3 +57,13 @@ a:hover {
     color: #323232;
     cursor: pointer;
   }
+
+.check {
+    width:30px;
+    height:30px;
+    background:white;
+    border-radius:5px;
+    border:2px solid #555;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
