@@ -34,3 +34,20 @@ $sqlstmt = "UPDATE studentexam SET completedByStudent = 1 WHERE studentID = :stu
 $params = array(":studentID" => $_SESSION["studentID"],
     ":examID" => $examID);
 db_execute($sqlstmt, $params);
+
+// Autograding
+$currentDir = $_SERVER["DOCUMENT_ROOT"] . dirname($_SERVER["PHP_SELF"]);
+mkdir($currentDir . "/" . $_SESSION["studentID"]);
+chdir($_SESSION["studentID"]);
+foreach ($_POST as $questionID => $studentAnswer) {
+    $sqlstmt = "SELECT * FROM testcases WHERE questionID = :questionID";
+    $params = array(":questionID" => $questionID);
+    $testcases = db_execute($sqlstmt, $params);
+    $numTests = count($testcases);
+    foreach ($testcases as $testcase) {
+        $sqlstmt = "SELECT * FROM parameters WHERE testCaseID = :testCaseID";
+        $params = array(":testCaseID" => $testcase["testCaseID"]);
+        //TODO Create parameter string and run each test case
+    }
+    exec("echo -en " . $studentAnswer . " > test.py");
+}
