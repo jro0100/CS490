@@ -28,6 +28,20 @@ if (isset($_POST["saveExam"])) {
         ));
     }
     db_execute_query_multiple_times($sqlstmt, $params);
+
+
+    // Create entry for each student in studentexam table
+    $sqlstmt = "SELECT studentID FROM student WHERE teacherID = :teacherID";
+    $params = array(":teacherID" => $_SESSION["teacherID"]);
+    $result = db_execute($sqlstmt, $params);
+
+    $sqlstmt = "INSERT INTO studentexam (studentID, examID, completedByStudent) VALUES (:studentID, :examID, 0)";
+    $params = array();
+    foreach ($result as $student) {
+        array_push($params, array(":studentID" => $student["studentID"],
+            ":examID" => $examID));
+    }
+    db_execute_query_multiple_times($sqlstmt, $params);
 }
 
 $sqlstmt = "SELECT * FROM exams WHERE teacherID = :teacherID";

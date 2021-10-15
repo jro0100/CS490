@@ -65,7 +65,7 @@ if ($questionArray) {
 
         form = document.createElement("form");
         form.setAttribute("method", "post");
-        form.setAttribute("action", "index.php");
+        form.setAttribute("action", "submitExam.php");
 
         for (i = 0; i < text.length; i++) {
             const obj = JSON.parse(JSON.stringify(text[i]));
@@ -109,7 +109,13 @@ if ($questionArray) {
         submitExam.classList.add("submitButton");
         centerButton.appendChild(submitExam);
 
+        examID = document.createElement("input");
+        examID.setAttribute("type", "hidden");
+        examID.setAttribute("name", "examID");
+        examID.setAttribute("value", "<?php echo $_GET["examID"]; ?>");
+
         form.appendChild(centerButton);
+        form.appendChild(examID);
         document.body.appendChild(form);
     </script>
 </html>

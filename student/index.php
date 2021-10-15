@@ -4,8 +4,8 @@ require("./studentutil/student_functions.php");
 require ("../util/functions.php");
 redirect_to_login_if_not_valid_student();
 
-$sqlstmt = "SELECT * FROM exams WHERE teacherID = :teacherID AND released = 0 AND gradedByTeacher = 0";
-$params = array(":teacherID" => $_SESSION["teacherID"]);
+$sqlstmt = "SELECT exams.* FROM exams WHERE exams.examID IN (SELECT studentexam.examID FROM studentexam WHERE studentID = :studentID AND completedByStudent = 0)";
+$params = array(":studentID" => $_SESSION["studentID"]);
 $result = db_execute($sqlstmt, $params);
 
 $json = "[]";
