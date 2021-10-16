@@ -85,7 +85,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
 
 // Add total score to studentexam table
 $sqlstmt = "UPDATE studentexam SET studentGrade = :studentGrade WHERE studentID = :studentID AND examID = :examID";
-$params = array(":studentGrade" => $totalPointsScored / $maxPointsOverall,
+$params = array(":studentGrade" => ($totalPointsScored / $maxPointsOverall) * 100,
     ":studentID" => $_SESSION["studentID"],
     ":examID" => $examID);
 db_execute($sqlstmt, $params);
