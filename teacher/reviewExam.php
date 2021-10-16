@@ -104,7 +104,7 @@ if ($studentID) {
             var text = <?php echo $json ?>;
             form = document.createElement("form");
             form.setAttribute("method", "post");
-            form.setAttribute("action", "reviewExam.php");
+            form.setAttribute("action", "saveChanges.php");
     
             for (i = 0; i < text.length; i++) {
     
@@ -130,7 +130,7 @@ if ($studentID) {
                 points = document.createElement("input");
                 points.classList.add("input-text-field");
                 points.setAttribute("type", "input");
-                points.setAttribute("name", "points-" + obj.questionID);
+                points.setAttribute("name", "achievedPoints-" + obj.questionID);
                 points.value = obj.achievedPoints;
                 pointsCol.appendChild(points);
 
@@ -139,7 +139,7 @@ if ($studentID) {
                 comment = document.createElement("input");
                 comment.classList.add("input-text-field");
                 comment.setAttribute("type", "input");
-                comment.setAttribute("name", "comment-" + obj.questionID);
+                comment.setAttribute("name", "teacherComment-" + obj.questionID);
                 if (obj.teacherComment == "") {
                     comment.value = "No Comment";
                 } else {
@@ -158,10 +158,22 @@ if ($studentID) {
             createExamButton = document.createElement("input");
             createExamButton.setAttribute("type", "submit");
             createExamButton.setAttribute("class", "submitButton");
-            createExamButton.setAttribute("name", "createExam");
-            createExamButton.value = "Create Exam";
+            createExamButton.setAttribute("name", "saveChanges");
+            createExamButton.value = "Save Changes";
             buttonDiv.appendChild(createExamButton);
             form.appendChild(buttonDiv);
+
+            studentIDInfo = document.createElement("input");
+            studentIDInfo.setAttribute("type", "hidden");
+            studentIDInfo.setAttribute("name", "studentID");
+            studentIDInfo.setAttribute("value", "<?php echo $studentID ?>");
+            form.appendChild(studentIDInfo);
+
+            examIDInfo = document.createElement("input");
+            examIDInfo.setAttribute("type", "hidden");
+            examIDInfo.setAttribute("name", "examID");
+            examIDInfo.setAttribute("value", "<?php echo $examID ?>");
+            form.appendChild(examIDInfo)
     
             document.body.appendChild(form); //Appends the div to the body of the HTML page
         </script>
