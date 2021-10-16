@@ -33,21 +33,43 @@ db_execute_query_multiple_times($sqlstmt, $params);
 $sqlstmt = "UPDATE studentexam SET completedByStudent = 1 WHERE studentID = :studentID AND examID = :examID";
 $params = array(":studentID" => $_SESSION["studentID"],
     ":examID" => $examID);
-db_execute($sqlstmt, $params);
+//db_execute($sqlstmt, $params);
 
 // Autograding
 $currentDir = $_SERVER["DOCUMENT_ROOT"] . dirname($_SERVER["PHP_SELF"]);
-mkdir($currentDir . "/" . $_SESSION["studentID"]);
-chdir($_SESSION["studentID"]);
+mkdir($currentDir . "/autograde/" . $_SESSION["studentID"]);
+chdir("autograde/" . $_SESSION["studentID"]);
 foreach ($_POST as $questionID => $studentAnswer) {
+    $sqlstmt = "SELECT functionToCall FROM questionbank WHERE questionID = :questionID";
+    $params = array(":questionID" => $questionID);
+    $functionToCall = db_execute($sqlstmt, $params)[0]["functionToCall"];
+
+    echo "function: " . $functionToCall . "<br>";
+
     $sqlstmt = "SELECT * FROM testcases WHERE questionID = :questionID";
     $params = array(":questionID" => $questionID);
     $testcases = db_execute($sqlstmt, $params);
     $numTests = count($testcases);
+
     foreach ($testcases as $testcase) {
         $sqlstmt = "SELECT * FROM parameters WHERE testCaseID = :testCaseID";
         $params = array(":testCaseID" => $testcase["testCaseID"]);
+        $testcaseParameters = db_execute($sqlstmt, $params);
+        $testCaseParamArray = array();
+        foreach ($testcaseParameters as $p) {
+            array_push($testCaseParamArray, $p["parameter"]);
+        }
+        $paramString = join(", ", $testCaseParamArray);
+        echo "Parameters: " . $paramString . "<br>";
+        echo "Answer: " . $testcase["answer"] . "<br><br>";
+        //echo $paramString;
+        //var_export($testcaseParameters);
         //TODO Create parameter string and run each test case
+        echo "<br>";
+        exec("echo $studentAnswer print($functionToCall($paramString)) > test.py");
+        //exec("echo print($functionToCall($paramString)) >> test.py");
     }
-    exec("echo -en " . $studentAnswer . " > test.py");
+    echo "<br><br>";
+    //echo $paramString;
+
 }
