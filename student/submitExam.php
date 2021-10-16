@@ -19,17 +19,6 @@ if (isset($_POST["examID"])) {
     exit();
 }
 
-// Create default grade of 0, to be updated when students take exam, or left at 0 if they do not
-$sqlstmt = "INSERT INTO questiongrade (studentID, examID, questionID, studentAnswer) VALUES (:studentID, :examID, :questionID, :studentAnswer)";
-$params = array();
-foreach ($_POST as $questionID => $studentAnswer) {
-    array_push($params, array(":studentID" => $_SESSION["studentID"],
-        ":examID" => $examID,
-        ":questionID" => $questionID,
-        ":studentAnswer" => $studentAnswer));
-}
-db_execute_query_multiple_times($sqlstmt, $params);
-
 // Mark exam as completed for student
 $sqlstmt = "UPDATE studentexam SET completedByStudent = 1 WHERE studentID = :studentID AND examID = :examID";
 $params = array(":studentID" => $_SESSION["studentID"],
@@ -85,8 +74,9 @@ foreach ($_POST as $questionID => $studentAnswer) {
     $maxPointsOverall += $maxPoints;
 
     // Update student's grade for question to the calculated score
-    $sqlstmt = "UPDATE questiongrade SET achievedPoints = :achievedPoints WHERE studentID = :studentID AND examID = :examID AND questionID = :questionID";
+    $sqlstmt = "UPDATE questiongrade SET achievedPoints = :achievedPoints, studentAnswer = :studentAnswer WHERE studentID = :studentID AND examID = :examID AND questionID = :questionID";
     $params = array(":achievedPoints" => $achievedPoints,
+        ":studentAnswer" => $studentAnswer,
         ":studentID" => $_SESSION["studentID"],
         ":examID" => $examID,
         ":questionID" => $questionID);

@@ -17,6 +17,10 @@ if (isset($_POST["saveExam"])) {
         "examName" => $examName);
     db_execute($sqlstmt, $params, $examID);
 
+    // Save list of all question and student ID's in this exam
+    $questionIDArray = array();
+    $studentIDArray = array();
+
     $sqlstmt = "INSERT INTO questionsonexam (questionID, examID, maxPoints) VALUES (:questionID, :examID, :maxPoints)";
     $params = array();
     foreach ($_POST as $key => $val) {
@@ -26,6 +30,7 @@ if (isset($_POST["saveExam"])) {
             ":examID" => $examID,
             ":maxPoints" => $val
         ));
+        array_push($questionIDArray, $questionID);
     }
     db_execute_query_multiple_times($sqlstmt, $params);
 
@@ -40,6 +45,22 @@ if (isset($_POST["saveExam"])) {
     foreach ($result as $student) {
         array_push($params, array(":studentID" => $student["studentID"],
             ":examID" => $examID));
+        array_push($studentIDArray, $student["studentID"]);
+    }
+    db_execute_query_multiple_times($sqlstmt, $params);
+
+
+    // Create default grade and answer of 0 for each student in questiongrade table, to be updated when they actually
+    // take and submit exam
+    $sqlstmt = "INSERT INTO questiongrade (studentID, examID, questionID) VALUES (:studentID, :examID, :questionID)";
+    $params = array();
+    foreach ($questionIDArray as $questionID) {
+        foreach ($studentIDArray as $studentID) {
+            array_push($params, array(
+                ":studentID" => $studentID,
+                ":examID" => $examID,
+                ":questionID" => $questionID));
+        }
     }
     db_execute_query_multiple_times($sqlstmt, $params);
 }
