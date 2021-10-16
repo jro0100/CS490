@@ -1,0 +1,89 @@
+select {
+    margin-top:30px;
+    font-size: 110%;
+}
+
+label {
+    font-size:110%;
+}
+
+.submitButton {
+    background-color: #323232;
+    color:white;
+    transition-duration: 0.4s;
+    border-radius: 4px;
+    padding: 5px 15px;
+    border: 2px solid #323232;
+    font-size: 110%;
+    margin-top: 10px;
+}
+
+.submitButton:hover {
+    background-color: white;
+    color: #323232;
+    cursor: pointer;
+  }
+
+  /* Creates a row */
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+/* Creates a column */
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+    margin: 20px 20px 8px 25px;
+    border: 2px solid #323232;
+    border-radius: 5px;
+}
+
+/* Creates a column */
+.columnHeader {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+    margin: 20px 20px 2px 25px;
+}
+
+/* Centers text within columns */
+.center-column-text{
+    text-align:center;
+	font-family:Arial;
+    color: black;
+	font-size: 110%;
+	line-height: 30px;
+	padding: 10px 5px 5px;
+}
+
+/* Centers text within columns */
+.center-column-text-font-size{
+    text-align:center;
+	font-family:Arial;
+    color: black;
+	font-size: 130%;
+	line-height: 5px;
+	padding: 10px 5px 5px;
+}
+
+/* Centers text within columns */
+.input-text-field{
+    text-align:center;
+	font-family:Arial;
+    color: black;
+	font-size: 110%;
+	line-height: 30px;
+	padding: 10px 5px 5px;
+    border: 2px solid #323232;
+    border-radius: 5px;
+}
+
+.center {
+    text-align: center;
+}
