@@ -6,11 +6,25 @@ redirect_to_login_if_not_valid_student();
 
 $sqlstmt = "SELECT * FROM exams WHERE teacherID = :teacherID AND released = 1";
 $params = array(":teacherID" => $_SESSION["teacherID"]);
-$results = db_execute($sqlstmt, $params);
+$exams = db_execute($sqlstmt, $params);
+
+for ($i = 0; $i < count($exams); $i++) {
+    $sqlstmt = "SELECT SUM(achievedPoints) as studentTotalPoints FROM questiongrade WHERE examID = :examID AND studentID = :studentID";
+    $params = array(":examID" => $exams[$i]["examID"],
+        ":studentID" => $_SESSION["studentID"]);
+    $studentTotalPoints = db_execute($sqlstmt, $params)[0]["studentTotalPoints"];
+
+    $sqlstmt = "SELECT SUM(maxPoints) AS examMaxPoints FROM questionsonexam WHERE examID = :examID";
+    $params = array(":examID" => $exams[$i]["examID"]);
+    $examMaxPoints = db_execute($sqlstmt, $params)[0]["examMaxPoints"];
+
+    $exams[$i]["studentTotalPoints"] = $studentTotalPoints;
+    $exams[$i]["examMaxPoints"] = $examMaxPoints;
+}
 
 $json = "[]";
-if ($results) {
-    $json = json_encode($results);
+if ($exams) {
+    $json = json_encode($exams);
 }
 ?>
 
@@ -54,7 +68,7 @@ if ($results) {
 
             points = document.createElement("p");
             points.classList.add("center-column-text");
-            points.innerHTML = "GRADE: " + obj.pointsAwarded + "/" + obj.totalPoints;
+            points.innerHTML = "GRADE: " + obj.studentTotalPoints + "/" + obj.examMaxPoints;
 
             aTag.appendChild(examName);
             aTag.appendChild(points);
