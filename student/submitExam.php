@@ -35,6 +35,8 @@ chdir($currentDir . "/autograde/student" . $_SESSION["studentID"]);
 $maxPointsOverall = 0;
 $totalPointsScored = 0;
 foreach ($_POST as $questionID => $studentAnswer) {
+    $pointsForBadFunctionDef = 3;
+
     $sqlstmt = "SELECT functionToCall FROM questionbank WHERE questionID = :questionID";
     $params = array(":questionID" => $questionID);
     $functionToCall = db_execute($sqlstmt, $params)[0]["functionToCall"];
@@ -48,6 +50,15 @@ foreach ($_POST as $questionID => $studentAnswer) {
     $numTests = count($testcases);
     $numCorrect = 0;
 
+    // Check if student defined function with wrong function name, and replace it with the correct one
+    $fixedFunctionName = false;
+    if (!preg_match('/def (' . $functionToCall . ')\(/', $studentAnswer, $match)) {
+        $fixedFunctionName = true;
+        $guaranteedCorrectFunDefinition = preg_replace('/def (.*?)\(/', "def $functionToCall(", $studentAnswer);
+    } else {
+        $guaranteedCorrectFunDefinition = $studentAnswer;
+    }
+
     foreach ($testcases as $testcase) {
         $sqlstmt = "SELECT * FROM parameters WHERE testCaseID = :testCaseID";
         $params = array(":testCaseID" => $testcase["testCaseID"]);
@@ -57,7 +68,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
             array_push($testCaseParamArray, $p["parameter"]);
         }
         $paramString = join(", ", $testCaseParamArray);
-        file_put_contents("test.py", $studentAnswer . "\nprint($functionToCall($paramString))\n");
+        file_put_contents("test.py", $guaranteedCorrectFunDefinition . "\nprint($functionToCall($paramString))\n");
         $studentOutput = exec("python test.py");
         if ($studentOutput == $testcase["answer"]) {
             $numCorrect++;
@@ -70,6 +81,13 @@ foreach ($_POST as $questionID => $studentAnswer) {
         ":examID" => $examID);
     $maxPoints = db_execute($sqlstmt, $params)[0]["maxPoints"];
     $achievedPoints = round(($numCorrect / $numTests) * intval($maxPoints));
+    if ($fixedFunctionName) {
+        if ($achievedPoints - $pointsForBadFunctionDef < 0) {
+            $achievedPoints = 0;
+        } else {
+            $achievedPoints -= $pointsForBadFunctionDef;
+        }
+    }
     $totalPointsScored += $achievedPoints;
     $maxPointsOverall += $maxPoints;
 
