@@ -1,3 +1,42 @@
+<?php
+session_start();
+require("./teacherutil/teacher_functions.php");
+require("../util/functions.php");
+redirect_to_login_if_not_valid_teacher();
+
+if (!isset($_GET["examID"])) {
+    header("Location: exams.php");
+    exit();
+}
+
+$examID = $_GET["examID"];
+
+$sqlstmt = "SELECT studentID FROM studentexam WHERE examID = :examID";
+$params = array(":examID" => $examID);
+$studentIDs = db_execute($sqlstmt, $params);
+
+$studentID = null;
+if (isset($_GET["studentID"])) {
+    $studentID = $_GET["studentID"];
+} else {
+    header("Location: reviewExam.php?examID=$examID&studentID=" . $studentIDs[0]["studentID"]);
+    exit();
+}
+
+// Generate array of JSON objects with student's information for each question
+if ($studentID) {
+    $sqlstmt = "SELECT questiongrade.*, questionbank.question FROM questiongrade LEFT JOIN questionbank ON questiongrade.questionID = questionbank.questionID WHERE studentID = :studentID AND examID = :examID";
+    $params = array(":studentID" => $studentID,
+        ":examID" => $examID);
+    $studentAnswers = db_execute($sqlstmt, $params);
+    $json = "[]";
+    if ($studentAnswers) {
+        $json = str_replace("\\r\\n", "<br>", json_encode($studentAnswers));
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -16,11 +55,25 @@
 
         <form method="get" action="reviewExam.php">
             <div class="center">
-                <select name="student" id="student">
-                    <option>Test</option>
-                    <option>Test2</option>
+                <input type="hidden" name="examID" value="<?php echo $examID ?>">
+                <select name="studentID" id="student">
+                    <?php
+
+                    foreach ($studentIDs as $student) {
+                        $sqlstmt = "SELECT student.studentName FROM student WHERE student.studentID IN (SELECT studentexam.studentID FROM studentexam WHERE student.studentID = :studentID AND examID = :examID)";
+                        $params = array(":studentID" => $student["studentID"],
+                            ":examID" => $examID);
+                        $studentName = db_execute($sqlstmt, $params)[0]["studentName"];
+                        $optionString = '<option value="' . $student["studentID"] . '"';
+                        if ($student["studentID"] == $studentID) {
+                            $optionString .= " selected";
+                        }
+                        $optionString .= ">$studentName</option>";
+                        echo $optionString;
+                    }
+                    ?>
                 </select><br>
-                <input type="submit" class="submitButton" name="getStudent" value="Get Student"></input>
+                <input type="submit" class="submitButton"></input>
             <div>
         </form>
 
@@ -70,7 +123,7 @@
                 answerCol = document.createElement("div");
                 answerCol.classList.add("column");
                 answerCol.classList.add("center-column-text");
-                answerCol.innerHTML = obj.answer;
+                answerCol.innerHTML = obj.studentAnswer;
 
                 pointsCol = document.createElement("div");
                 pointsCol.classList.add("columnHeader");
@@ -78,7 +131,7 @@
                 points.classList.add("input-text-field");
                 points.setAttribute("type", "input");
                 points.setAttribute("name", "points-" + obj.questionID);
-                points.value = obj.points;
+                points.value = obj.achievedPoints;
                 pointsCol.appendChild(points);
 
                 commentCol = document.createElement("div");
@@ -87,10 +140,10 @@
                 comment.classList.add("input-text-field");
                 comment.setAttribute("type", "input");
                 comment.setAttribute("name", "comment-" + obj.questionID);
-                if (obj.comment == "") {
+                if (obj.teacherComment == "") {
                     comment.value = "No Comment";
                 } else {
-                    comment.value = obj.comment;
+                    comment.value = obj.teacherComment;
                 }
                 commentCol.appendChild(comment);
     

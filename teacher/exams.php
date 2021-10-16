@@ -97,7 +97,7 @@ if ($result) {
             fo.setAttribute("action", "reviewExam.php");
             sub = document.createElement("button");
             sub.setAttribute("type", "submit");
-            sub.setAttribute("name", "reviewExam");
+            sub.setAttribute("name", "examID");
             sub.setAttribute("class", "reviewExam");
             sub.setAttribute("value", obj.examID);
             sub.innerHTML = "Review Exam";
