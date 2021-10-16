@@ -19,6 +19,7 @@ if (isset($_POST["examID"])) {
     exit();
 }
 
+// Create default grade of 0, to be updated when students take exam, or left at 0 if they do not
 $sqlstmt = "INSERT INTO questiongrade (studentID, examID, questionID, studentAnswer) VALUES (:studentID, :examID, :questionID, :studentAnswer)";
 $params = array();
 foreach ($_POST as $questionID => $studentAnswer) {
@@ -33,12 +34,17 @@ db_execute_query_multiple_times($sqlstmt, $params);
 $sqlstmt = "UPDATE studentexam SET completedByStudent = 1 WHERE studentID = :studentID AND examID = :examID";
 $params = array(":studentID" => $_SESSION["studentID"],
     ":examID" => $examID);
-//db_execute($sqlstmt, $params);
+db_execute($sqlstmt, $params);
 
 // Autograding
 $currentDir = $_SERVER["DOCUMENT_ROOT"] . dirname($_SERVER["PHP_SELF"]);
-mkdir($currentDir . "/autograde/" . $_SESSION["studentID"]);
-chdir("autograde/" . $_SESSION["studentID"]);
+if (!is_dir("autograde")) {
+    mkdir($currentDir . "/autograde");
+}
+mkdir($currentDir . "/autograde/student" . $_SESSION["studentID"]);
+chdir($currentDir . "/autograde/student" . $_SESSION["studentID"]);
+$maxPointsOverall = 0;
+$totalPointsScored = 0;
 foreach ($_POST as $questionID => $studentAnswer) {
     $sqlstmt = "SELECT functionToCall FROM questionbank WHERE questionID = :questionID";
     $params = array(":questionID" => $questionID);
@@ -49,7 +55,9 @@ foreach ($_POST as $questionID => $studentAnswer) {
     $sqlstmt = "SELECT * FROM testcases WHERE questionID = :questionID";
     $params = array(":questionID" => $questionID);
     $testcases = db_execute($sqlstmt, $params);
+
     $numTests = count($testcases);
+    $numCorrect = 0;
 
     foreach ($testcases as $testcase) {
         $sqlstmt = "SELECT * FROM parameters WHERE testCaseID = :testCaseID";
@@ -60,16 +68,41 @@ foreach ($_POST as $questionID => $studentAnswer) {
             array_push($testCaseParamArray, $p["parameter"]);
         }
         $paramString = join(", ", $testCaseParamArray);
-        echo "Parameters: " . $paramString . "<br>";
-        echo "Answer: " . $testcase["answer"] . "<br><br>";
-        //echo $paramString;
-        //var_export($testcaseParameters);
-        //TODO Create parameter string and run each test case
-        echo "<br>";
-        exec("echo $studentAnswer print($functionToCall($paramString)) > test.py");
-        //exec("echo print($functionToCall($paramString)) >> test.py");
+        file_put_contents("test.py", $studentAnswer . "\nprint($functionToCall($paramString))\n");
+        $studentOutput = exec("python test.py");
+        if ($studentOutput == $testcase["answer"]) {
+            $numCorrect++;
+        }
     }
-    echo "<br><br>";
-    //echo $paramString;
 
+    // Calculate score based on number of testcases correct
+    $sqlstmt = "SELECT maxPoints FROM questionsonexam WHERE questionID = :questionID AND examID = :examID";
+    $params = array(":questionID" => $questionID,
+        ":examID" => $examID);
+    $maxPoints = db_execute($sqlstmt, $params)[0]["maxPoints"];
+    $achievedPoints = round(($numCorrect / $numTests) * intval($maxPoints));
+    $totalPointsScored += $achievedPoints;
+    $maxPointsOverall += $maxPoints;
+
+    // Update student's grade for question to the calculated score
+    $sqlstmt = "UPDATE questiongrade SET achievedPoints = :achievedPoints WHERE studentID = :studentID AND examID = :examID AND questionID = :questionID";
+    $params = array(":achievedPoints" => $achievedPoints,
+        ":studentID" => $_SESSION["studentID"],
+        ":examID" => $examID,
+        ":questionID" => $questionID);
+    db_execute($sqlstmt, $params);
 }
+
+// Add total score to studentexam table
+$sqlstmt = "UPDATE studentexam SET studentGrade = :studentGrade WHERE studentID = :studentID AND examID = :examID";
+$params = array(":studentGrade" => $totalPointsScored / $maxPointsOverall,
+    ":studentID" => $_SESSION["studentID"],
+    ":examID" => $examID);
+db_execute($sqlstmt, $params);
+
+// Delete autograde files and directory
+unlink("test.py");
+rmdir("./");
+
+header("Location: ./");
+exit();
