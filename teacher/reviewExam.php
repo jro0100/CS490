@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet"  href="../css/menu.css">
-        <link rel="stylesheet"  href="../css/teacher/reviewExam.css">
+        <link rel="stylesheet"  href="../css/reviewExam.css">
     </head>
     <body>
         <nav class="navbar">
