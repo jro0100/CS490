@@ -13,5 +13,10 @@
                 <li class="nav-item"><a href="../logout.php">Logout</a></li>
             </ul>
         </nav>
+
+        <label for="student" style="margin-top:30px">Students</label>
+            <select name="student" id="student" style="margin-top:30px">
+                <!-- <option> Enter code here </option> -->
+            </select>
     </body>
 </html>
