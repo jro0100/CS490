@@ -12,9 +12,10 @@ require("./util/functions.php");
 function check_credentials($username, $password) {
     $sqlstmt = "SELECT * FROM login WHERE username = :username";
     $params = array(":username" => $username);
-    $result = db_execute($sqlstmt, $params)[0];
+    $result = db_execute($sqlstmt, $params);
 
     if ($result) {
+        $result = $result[0];
         if (password_verify($password, $result["pwd"])) {
             if ($result["isAdmin"]) {
                 $_SESSION["logged_admin"] = true;
