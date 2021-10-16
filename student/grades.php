@@ -1,3 +1,19 @@
+<?php
+session_start();
+require("./studentutil/student_functions.php");
+require ("../util/functions.php");
+redirect_to_login_if_not_valid_student();
+
+$sqlstmt = "SELECT * FROM exams WHERE teacherID = :teacherID AND released = 1";
+$params = array(":teacherID" => $_SESSION["teacherID"]);
+$results = db_execute($sqlstmt, $params);
+
+$json = "[]";
+if ($results) {
+    $json = json_encode($results);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>

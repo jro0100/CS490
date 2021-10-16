@@ -4,7 +4,17 @@ require("./teacherutil/teacher_functions.php");
 require("../util/functions.php");
 redirect_to_login_if_not_valid_teacher();
 
-if (isset($_POST["saveExam"])) {
+if (isset($_POST["releaseExam"])) {
+    $examID = $_POST["releaseExam"];
+    $sqlstmt = "UPDATE exams SET released = 1 WHERE examID = :examID";
+    $params = array(":examID" => $examID);
+    db_execute($sqlstmt, $params);
+
+    $sqlstmt = "UPDATE studentexam SET completedByStudent = 1 WHERE examID = :examID";
+    $params = array(":examID" => $examID);
+    db_execute($sqlstmt, $params);
+
+} elseif (isset($_POST["saveExam"])) {
     unset($_POST["saveExam"]);
 
     // Save and unset exam name from POST array to easily iterate over array to pull out question ID's
@@ -127,7 +137,7 @@ if ($result) {
             centerDiv = document.createElement("div");
             centerDiv.classList.add("center");
             form = document.createElement("form");
-            form.setAttribute("method", "get");
+            form.setAttribute("method", "post");
             form.setAttribute("action", "exams.php");
             submit = document.createElement("button");
             submit.setAttribute("type", "submit");
