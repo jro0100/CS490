@@ -1,3 +1,27 @@
+<?php
+session_start();
+require("./studentutil/student_functions.php");
+require ("../util/functions.php");
+redirect_to_login_if_not_valid_student();
+
+if (!isset($_GET["examID"])) {
+    header("Location: grades.php");
+    exit();
+}
+
+$examID = $_GET["examID"];
+
+$sqlstmt = "SELECT questiongrade.*, questionbank.question FROM questiongrade LEFT JOIN questionbank ON questiongrade.questionID = questionbank.questionID WHERE studentID = :studentID AND examID = :examID";
+$params = array(":studentID" => $_SESSION["studentID"],
+    ":examID" => $examID);
+$studentAnswers = db_execute($sqlstmt, $params);
+$json = "[]";
+if ($studentAnswers) {
+    $json = str_replace("\\r\\n", "<br>", json_encode($studentAnswers));
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -58,7 +82,7 @@
                 answerCol = document.createElement("div");
                 answerCol.classList.add("column");
                 answerCol.classList.add("center-column-text");
-                answerCol.innerHTML = obj.answer;
+                answerCol.innerHTML = obj.studentAnswer;
 
                 //Create column
                 pointsCol = document.createElement("div");
@@ -67,7 +91,7 @@
                 points.classList.add("input-text-field");
                 points.setAttribute("type", "input");
                 points.disabled = true;
-                points.value = obj.points;
+                points.value = obj.achievedPoints;
                 pointsCol.appendChild(points);
 
                 //Create column
@@ -78,10 +102,10 @@
                 comment.setAttribute("type", "input");
                 comment.setAttribute("name", "comment-" + obj.questionID);
                 comment.disabled = true;
-                if (obj.comment == "") {
+                if (obj.teacherComment == "") {
                     comment.value = "No Comment";
                 } else {
-                    comment.value = obj.comment;
+                    comment.value = obj.teacherComment;
                 }
                 commentCol.appendChild(comment);
     
