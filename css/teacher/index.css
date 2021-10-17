@@ -52,10 +52,6 @@ a:hover {
     font-size: 120%;
 }
 
-.buttonLower {
-    margin-bottom: 20px;
-}
-
 .submitButton:hover {
     background-color: white;
     color: #323232;
