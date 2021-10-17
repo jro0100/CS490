@@ -107,7 +107,7 @@ if ($result) {
     
     <div class="center">
         <form action="question.php">
-            <input type="submit" class="submitButton" value="Create a question"/>
+            <input type="submit" class="submitButton" class="buttonLower" value="Create a question"/>
         </form>
     </div>
 
