@@ -26,6 +26,29 @@ if ($result) {
     <link rel="stylesheet"  href="../css/teacher/index.css">
 </head>
 <body>
+
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li class="nav-item"><a href="index.php">Question Bank</a></li>
+            <li class="nav-item"><a href="exams.php">Exams</a></li>
+            <li class="nav-item"><a href="../logout.php">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="row">
+        <div class="center-column-text">
+            <div class="column-minus-color">
+                Question Bank
+            </div>
+        </div>
+        <div class="center-column-text">
+            <div class="column-minus-color" class="center-column-text">
+                Selected Questions
+            </div>
+        </div>
+    </div>
+
+
     <script>
         var text = <?php echo $json ?>;
         form = document.createElement("form");

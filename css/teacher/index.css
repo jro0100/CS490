@@ -31,6 +31,15 @@ iframe {
     background-color:lightgrey;
 }
 
+.column-minus-color {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+    margin: 20px 20vw 6px 20vw;
+    border-radius: 5px;
+}
+
 /* Centers text within columns */
 .center-column-text{
     text-align:center;
