@@ -67,6 +67,7 @@ if ($result) {
             column.appendChild(question);
             column.appendChild(typeAndDif);
             row.appendChild(column);
+            document.body.appendChild(row); //Appends the div to the body of the HTML page
         }
 
         if (text.length == 0) {
@@ -74,8 +75,6 @@ if ($result) {
             emptiness.classList.add("center-column-text");
             emptiness.innerHTML = "NO QUESTIONS EXIST YET!";
             document.body.appendChild(emptiness);
-        } else {
-            document.body.appendChild(row); //Appends the div to the body of the HTML page
         }
     </script>
 </body>
