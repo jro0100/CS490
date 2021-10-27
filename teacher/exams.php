@@ -169,7 +169,7 @@ if ($result) {
             document.body.appendChild(emptiness);
         }
         form = document.createElement("form");
-        form.setAttribute("action", "newCreateExam.html");
+        form.setAttribute("action", "newCreateExam.php");
         buttonDiv = document.createElement("div");
         buttonDiv.classList.add("center");
         createExamButton = document.createElement("input");
@@ -177,8 +177,9 @@ if ($result) {
         createExamButton.setAttribute("class", "submitButton");
         createExamButton.setAttribute("name", "createExam");
         createExamButton.value = "Create Exam";
-        buttonDiv.appendChild(createExamButton);
-        document.body.appendChild(createExamButton);
+        form.appendChild(createExamButton);
+        buttonDiv.appendChild(form);
+        document.body.appendChild(buttonDiv);
         
     </script>
 </body>
