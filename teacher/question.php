@@ -73,16 +73,20 @@ if (isset($_POST["submitQuestion"])) {
 </head>
 <body bef>
 
-    <div style="text-align:center">
+    <div class="center-to-page">
         <form method="post" action="question.php" autocomplete="off">
             <input type="hidden" name="questionID" value="<?php if (isset($questionID)) echo $questionID ?>"><br>
 
             <label for="question">Question</label><br>
-            <textarea style="width: 189px; height: 58px;" name="question" id="question"><?php if (isset($question)) echo $question ?></textarea><br>
+            <textarea name="question" id="question"><?php if (isset($question)) echo $question ?></textarea><br>
 
             <label for="questionType">Question Type</label>
-            <input type="text" name="questionType" id="questionType" value="<?php if (isset($questionType)) echo $questionType ?>"><br>
-
+            <select name="questionType" id="questionType" style="margin-top:30px">
+                <option value="general" selected>General</option>
+                <option value="forLoop" >For Loop</option>
+                <option value="whileLoop">While Loop</option>
+                <option value="recursion">Recursion</option>
+            </select><br>
 
             <label for="difficulty" style="margin-top:30px">Difficulty</label>
             <select name="difficulty" id="difficulty" style="margin-top:30px">

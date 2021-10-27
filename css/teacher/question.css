@@ -71,3 +71,17 @@ label {
     font-size: 120%;
     font-family: Arial;
 }
+
+.center-to-page {
+    text-align: center;
+    margin-top: 20vh;
+}
+
+textarea {
+    width: 25vw; 
+    height: 10vh;
+    font-size: 130%;
+    padding-left: 5px;
+    resize: none;
+    margin-top:5px;
+}
