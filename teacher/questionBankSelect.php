@@ -28,6 +28,9 @@ if ($result) {
 <body>
     <script>
         var text = <?php echo $json ?>;
+        form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "createExam.php");
 
         for (i = 0; i < text.length; i++) {
 
@@ -50,8 +53,8 @@ if ($result) {
             column = document.createElement("div");
             column.classList.add("column");
 
-            //aTag = document.createElement("a");
-            //aTag.setAttribute("href", "question.php?questionID=" + obj.questionID);
+            aTag = document.createElement("a");
+            aTag.setAttribute("href", "question.php?questionID=" + obj.questionID);
 
             question = document.createElement("p");
             question.classList.add("center-column-text");
@@ -61,13 +64,28 @@ if ($result) {
             typeAndDif.classList.add("center-column-text");
             typeAndDif.innerHTML = "Type: " + obj.questionType + "&emsp;" + "Difficulty: " + difficulty;
 
-            //aTag.appendChild(question);
-            //aTag.appendChild(typeAndDif);
-            //column.appendChild(aTag);
-            column.appendChild(question);
-            column.appendChild(typeAndDif);
+            input = document.createElement("input");
+            input.setAttribute("type", "checkbox");
+            input.setAttribute("class", "check");
+            input.setAttribute("name", i);
+            input.setAttribute("value", obj.questionID);
+
+            aTag.appendChild(question);
+            aTag.appendChild(typeAndDif);
+            aTag.appendChild(input);
+            column.appendChild(aTag);
             row.appendChild(column);
+            form.appendChild(row);
         }
+        buttonDiv = document.createElement("div");
+        buttonDiv.classList.add("center");
+        createExamButton = document.createElement("input");
+        createExamButton.setAttribute("type", "submit");
+        createExamButton.setAttribute("class", "submitButton");
+        createExamButton.setAttribute("name", "createExam");
+        createExamButton.value = "Create Exam";
+        buttonDiv.appendChild(createExamButton);
+        form.appendChild(buttonDiv);
 
         if (text.length == 0) {
             emptiness = document.createElement("div");
@@ -75,7 +93,7 @@ if ($result) {
             emptiness.innerHTML = "NO QUESTIONS EXIST YET!";
             document.body.appendChild(emptiness);
         } else {
-            document.body.appendChild(row); //Appends the div to the body of the HTML page
+            document.body.appendChild(form); //Appends the div to the body of the HTML page
         }
     </script>
 </body>
