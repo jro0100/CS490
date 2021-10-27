@@ -168,6 +168,18 @@ if ($result) {
             emptiness.innerHTML = "NO EXAMS EXIST YET!";
             document.body.appendChild(emptiness);
         }
+        form = document.createElement("form");
+        form.setAttribute("action", "newCreateExam.html");
+        buttonDiv = document.createElement("div");
+        buttonDiv.classList.add("center");
+        createExamButton = document.createElement("input");
+        createExamButton.setAttribute("type", "submit");
+        createExamButton.setAttribute("class", "submitButton");
+        createExamButton.setAttribute("name", "createExam");
+        createExamButton.value = "Create Exam";
+        buttonDiv.appendChild(createExamButton);
+        document.body.appendChild(createExamButton);
+        
     </script>
 </body>
 </html>

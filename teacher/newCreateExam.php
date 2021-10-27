@@ -82,8 +82,8 @@ if ($result) {
         createExamButton = document.createElement("input");
         createExamButton.setAttribute("type", "submit");
         createExamButton.setAttribute("class", "submitButton");
-        createExamButton.setAttribute("name", "createExam");
-        createExamButton.value = "Create Exam";
+        createExamButton.setAttribute("name", "create");
+        createExamButton.value = "Submit";
         buttonDiv.appendChild(createExamButton);
         form.appendChild(buttonDiv);
 

@@ -68,3 +68,21 @@ a:hover {
     color: #323232;
     cursor: pointer;
   }
+
+  .submitButton {
+    text-align:center;
+    background-color: #323232;
+    color:white;
+    transition-duration: 0.4s;
+    border-radius: 4px;
+    padding: 14px 40px;
+    margin-top: 20px;
+    border: 2px solid #323232;
+    font-size: 120%;
+}
+
+.submitButton:hover {
+    background-color: white;
+    color: #323232;
+    cursor: pointer;
+  }
