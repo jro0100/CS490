@@ -46,8 +46,9 @@ if (isset($_POST["submitQuestion"])) {
             db_execute($sqlstmt, $params);
         }
     }
-    header("Location: ./");
-    exit();
+    $reloadFramesScript = "<script>window.top.location.reload()</script>";
+    //header("Location: ./");
+    //exit();
 } elseif (isset($_GET["questionID"])) {
     $questionID = $_GET["questionID"];
     $sqlstmt = "SELECT * FROM questionbank WHERE questionID = :questionID AND teacherID = :teacherID";
@@ -68,15 +69,9 @@ if (isset($_POST["submitQuestion"])) {
     <meta charset="utf-8">
     <link rel="stylesheet"  href="../css/menu.css">
     <link rel="stylesheet"  href="../css/teacher/question.css">
+    <?php if (isset($reloadFramesScript)) echo $reloadFramesScript ?>
 </head>
-<body>
-<nav class="navbar">
-    <ul class="nav-links">
-        <li class="nav-item"><a href="index.php">Question Bank</a></li>
-        <li class="nav-item"><a href="exams.php">Exams</a></li>
-        <li class="nav-item"><a href="../logout.php">Logout</a></li>
-    </ul>
-</nav>
+<body bef>
 
     <div style="text-align:center">
         <form method="post" action="question.php" autocomplete="off">
@@ -107,8 +102,8 @@ if (isset($_POST["submitQuestion"])) {
 
             <div id="masterParent">
             </div>
-
-            <input type="submit" class="submitButton" name="submitQuestion" value="Save Question"></input>
+            <br>
+            <button type="submit" class="submitButton" name="submitQuestion" value="Save Question">Save Question</button>
         </form>
     </div>
         

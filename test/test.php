@@ -2,35 +2,30 @@
 
 
 $questionID = 15;
+$studentID = 2123;
 $_POST["functionToCall"] = "addtwo";
 
 $out = array();
 //echo $_SERVER["DOCUMENT_ROOT"] . dirname($_SERVER["PHP_SELF"]);
 
+//var_export(explode("-", "15-pointvalue"));
+
 $currentDir = $_SERVER["DOCUMENT_ROOT"] . dirname($_SERVER["PHP_SELF"]);
 
-
-$execPrefix = "";
-if (php_uname("s") != "Windows NT") {
-    $execPrefix = "./";
-}
-mkdir($currentDir . "/" . $questionID);
-mkdir($currentDir . "/" . $questionID . "/studentanswer");
-//exec("cd testdir && echo hello world > a.txt");
-//exec("echo test", $out);
-exec($execPrefix . "maketestcasefile.sh 15 addfour");
-exec($execPrefix . "populateunittests.sh 1 5 4 3 addfour 13 1 15", $out);
-exec($execPrefix . "populateunittests.sh 72 3 65 19 addfour 159 2 15", $out);
-exec("addclosingtag.sh 15");
-var_export($out);
-//echo "it work?";
+//file_put_contents("test.py", "Hello\nWorld");
+echo (1 / 3);
+//echo exec("printf")
+//mkdir($currentDir . "/" . $studentID);
+//chdir($studentID);
+//exec("echo print(\"Hello World\") > hi.py");
+//echo exec("python hi.py");
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Test Page</title>
 </head>
 <body>
 <script type="text/javascript">
