@@ -74,11 +74,11 @@ label {
 
 .center-to-page {
     text-align: center;
-    margin-top: 20vh;
+    margin-top: 10vh;
 }
 
 textarea {
-    width: 25vw; 
+    width: 30vw; 
     height: 10vh;
     font-size: 130%;
     padding-left: 5px;
