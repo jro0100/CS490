@@ -25,7 +25,9 @@ $params = array(":studentID" => $_SESSION["studentID"],
     ":examID" => $examID);
 db_execute($sqlstmt, $params);
 
+// ********************************************************************************************************************
 // Autograding
+// ********************************************************************************************************************
 $currentDir = $_SERVER["DOCUMENT_ROOT"] . dirname($_SERVER["PHP_SELF"]);
 if (!is_dir("autograde")) {
     mkdir($currentDir . "/autograde");
@@ -35,20 +37,43 @@ chdir($currentDir . "/autograde/student" . $_SESSION["studentID"]);
 $maxPointsOverall = 0;
 $totalPointsScored = 0;
 foreach ($_POST as $questionID => $studentAnswer) {
-    $pointsForBadFunctionDef = 3;
 
-    $sqlstmt = "SELECT functionToCall FROM questionbank WHERE questionID = :questionID";
+    // Get correct name of function that student should be defining and type of question
+    $sqlstmt = "SELECT functionToCall, questionType FROM questionbank WHERE questionID = :questionID";
     $params = array(":questionID" => $questionID);
-    $functionToCall = db_execute($sqlstmt, $params)[0]["functionToCall"];
+    $results = db_execute($sqlstmt, $params)[0];
+    $functionToCall = $results["functionToCall"];
+    $questionType = $results["questionType"];
 
-    //echo "function: " . $functionToCall . "<br>";
 
+    // Get maximum points possible for question as given by teacher
+    $sqlstmt = "SELECT maxPoints FROM questionsonexam WHERE questionID = :questionID AND examID = :examID";
+    $params = array(
+        ":questionID" => $questionID,
+        ":examID" => $examID
+    );
+
+    $pointsScoredForQuestion = 0;
+    $maxPoints = intval(db_execute($sqlstmt, $params)[0]["maxPoints"]);
+    $pointsForBadFunctionDef = round($maxPoints / 10);
+    if ($questionType != "default") {
+        $pointsForQuestionConstraint = $pointsForBadFunctionDef * 2;
+    }
+
+
+    // Get array of testcases
     $sqlstmt = "SELECT * FROM testcases WHERE questionID = :questionID";
     $params = array(":questionID" => $questionID);
     $testcases = db_execute($sqlstmt, $params);
 
-    $numTests = count($testcases);
+    $numTests = count($testcases) - 1; // Subtract 1 so that function name test does not have same weight as real test cases
     $numCorrect = 0;
+    if (isset($pointsForQuestionConstraint)) {
+        $pointsPerTest = round($maxPoints - $pointsForBadFunctionDef - $pointsForQuestionConstraint);
+    } else {
+        $pointsPerTest = round($maxPoints - $pointsForBadFunctionDef);
+    }
+
 
     // Check if student defined function with wrong function name, and replace it with the correct one
     $fixedFunctionName = false;
@@ -62,6 +87,9 @@ foreach ($_POST as $questionID => $studentAnswer) {
         $studentFunctionDefinition = $functionToCall;
     }
 
+    //TODO - Check if student answer compliant with constraint
+
+    // Get databse ID of function name test case for this question
     $sqlstmt = "SELECT testCaseID FROM testcases WHERE questionID = :questionID AND answer = :answer";
     $params = array(
         ":questionID" => $questionID,
@@ -69,52 +97,75 @@ foreach ($_POST as $questionID => $studentAnswer) {
     );
     $functionNameTestCaseID = db_execute($sqlstmt, $params)[0]["testCaseID"];
 
+    $insertIntoStudentTestCasesStmt = "INSERT INTO studenttestcases (testCaseID, studentID, maxPoints, achievedPoints, studentOutput) VALUES (:testCaseID, :studentID, :maxPoints, :achievedPoints, :studentOutput)";
+    $insertIntoStudentTestCasesParams = array();
     foreach ($testcases as $testcase) {
-        $insertIntoStudentTestCasesStmt = "INSERT INTO studenttestcases (testCaseID, studentID, maxPoints, achievedPoints, studentOutput) VALUES (:testCaseID, :studentID, :maxPoints, :achievedPoints, :studentOutput)";
-        $insertIntoStudentTestCasesParams = array();
-
         if ($testcase["testCaseID"] == $functionNameTestCaseID) {
-            array_push($insertIntoStudentTestCasesParams, array(
+            $functionNameTestCaseParams = array(
                 ":testCaseID" => $functionNameTestCaseID,
                 ":studentID" => $_SESSION["studentID"],
-                //TODO - Add student outputs to studenttestcases table
-            ));
-        }
-
-        $sqlstmt = "SELECT * FROM parameters WHERE testCaseID = :testCaseID";
-        $params = array(":testCaseID" => $testcase["testCaseID"]);
-        $testcaseParameters = db_execute($sqlstmt, $params);
-        $testCaseParamArray = array();
-        foreach ($testcaseParameters as $p) {
-            array_push($testCaseParamArray, $p["parameter"]);
-        }
-        $paramString = join(", ", $testCaseParamArray);
-        file_put_contents("test.py", $guaranteedCorrectFunDefinition . "\nprint($functionToCall($paramString))\n");
-        $studentOutput = exec("python test.py");
-        if ($studentOutput == $testcase["answer"]) {
-            $numCorrect++;
-        }
-    }
-
-    // Calculate score based on number of testcases correct
-    $sqlstmt = "SELECT maxPoints FROM questionsonexam WHERE questionID = :questionID AND examID = :examID";
-    $params = array(":questionID" => $questionID,
-        ":examID" => $examID);
-    $maxPoints = db_execute($sqlstmt, $params)[0]["maxPoints"];
-    $achievedPoints = round(($numCorrect / $numTests) * intval($maxPoints));
-    if ($fixedFunctionName) {
-        if ($achievedPoints - $pointsForBadFunctionDef < 0) {
-            $achievedPoints = 0;
+                ":maxPoints" => $pointsForBadFunctionDef,
+                ":studentOutput" => $studentFunctionDefinition
+            );
+            if ($fixedFunctionName) {
+                $functionNameTestCaseParams[":achievedPoints"] = 0;
+            } else {
+                $functionNameTestCaseParams["::achievedPoints"] = $pointsForBadFunctionDef;
+            }
+            array_push($insertIntoStudentTestCasesParams, $functionNameTestCaseParams);
         } else {
-            $achievedPoints -= $pointsForBadFunctionDef;
+            // Generate parameter string for test function call
+            $sqlstmt = "SELECT * FROM parameters WHERE testCaseID = :testCaseID";
+            $params = array(":testCaseID" => $testcase["testCaseID"]);
+            $testcaseParameters = db_execute($sqlstmt, $params);
+            $testCaseParamArray = array();
+            foreach ($testcaseParameters as $p) {
+                array_push($testCaseParamArray, $p["parameter"]);
+            }
+            $paramString = join(", ", $testCaseParamArray);
+
+
+            // Execute student's function
+            file_put_contents("test.py", $guaranteedCorrectFunDefinition . "\nprint($functionToCall($paramString))\n");
+            $studentOutput = exec("python test.py");
+
+
+            // Add student's output to param array to insert into database
+            $testCaseOutputParams = array(
+                ":testCaseID" => $testcase["testCaseID"],
+                ":studentID" => $_SESSION["studentID"],
+                ":maxPoints" => $pointsPerTest,
+                ":studentOutput" => $studentOutput
+            );
+            if ($studentOutput == $testcase["answer"]) {
+                $numCorrect++;
+                $pointsScoredForQuestion += $pointsPerTest;
+                $testCaseOutputParams[":achievedPoints"] = $pointsPerTest;
+            } else {
+                $testCaseOutputParams[":achievedPoints"] = 0;
+            }
+            array_push($insertIntoStudentTestCasesParams, $testCaseOutputParams);
         }
     }
-    $totalPointsScored += $achievedPoints;
+    db_execute_query_multiple_times($insertIntoStudentTestCasesStmt, $insertIntoStudentTestCasesParams);
+
+    // Calculate score
+    if (!$fixedFunctionName) {
+        $pointsScoredForQuestion += $pointsForBadFunctionDef;
+    }
+
+    //TODO - Add points scored by constraint to question score
+
+    if ($pointsScoredForQuestion > $maxPoints) {
+        $pointsScoredForQuestion = $maxPoints;
+    }
+
+    $totalPointsScored += $pointsScoredForQuestion;
     $maxPointsOverall += $maxPoints;
 
     // Update student's grade for question to the calculated score
     $sqlstmt = "UPDATE questiongrade SET achievedPoints = :achievedPoints, studentAnswer = :studentAnswer WHERE studentID = :studentID AND examID = :examID AND questionID = :questionID";
-    $params = array(":achievedPoints" => $achievedPoints,
+    $params = array(":achievedPoints" => $pointsScoredForQuestion,
         ":studentAnswer" => $studentAnswer,
         ":studentID" => $_SESSION["studentID"],
         ":examID" => $examID,
