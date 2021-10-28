@@ -24,6 +24,7 @@ if ($result) {
     <meta charset="utf-8">
     <link rel="stylesheet"  href="../css/menu.css">
     <link rel="stylesheet"  href="../css/teacher/index.css">
+    <link rel="stylesheet"  href="../css/teacher/questionBank.css">
 </head>
 <body>
     <script>
@@ -54,11 +55,11 @@ if ($result) {
             //aTag.setAttribute("href", "question.php?questionID=" + obj.questionID);
 
             question = document.createElement("p");
-            question.classList.add("center-column-text");
+            question.classList.add("center-question");
             question.innerHTML = obj.question;
 
             typeAndDif = document.createElement("p");
-            typeAndDif.classList.add("center-column-text");
+            typeAndDif.classList.add("center-question");
             typeAndDif.innerHTML = "Type: " + obj.questionType + "&emsp;" + "Difficulty: " + difficulty;
 
             //aTag.appendChild(question);
