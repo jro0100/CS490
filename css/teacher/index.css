@@ -25,7 +25,7 @@ iframe {
     flex-direction: column;
     flex-basis: 100%;
     flex: 1;
-    margin: 20px 20vw 6px 20vw;
+    margin: 20px 15vw 6px 15vw;
     border: 2px solid #323232;
     border-radius: 5px;
     background-color:lightgrey;
@@ -41,13 +41,32 @@ iframe {
 }
 
 /* Centers text within columns */
-.center-column-text{
+.center-column-text {
     text-align:center;
 	font-family:Arial;
     color: black;
 	font-size: 130%;
 	line-height: 30px;
 	padding: 10px 5px 5px;
+    margin: 20px 7vw 20px 7vw;
+    border: 2px solid #323232;
+    border-radius: 5px;
+    background-color:lightgrey;
+}
+
+.center-column-text-header {
+    text-align:center;
+	font-family:Arial;
+    color: black;
+    font-weight: bold;
+	font-size: 150%;
+	line-height: 30px;
+	padding: 10px 5px 5px;
+    margin: 20px 7vw 20px 7vw;
+}
+
+.center-text {
+    padding: 10px 5px 5px;
 }
 
 .center {
@@ -88,6 +107,27 @@ a:hover {
     border:2px solid #555;
     margin-left: 20px;
     margin-bottom: 10px;
+}
+
+.float-container {
+    padding: 20px;
+}
+
+.float-child {
+    width: 50%;
+    float: left;
+}
+
+.point-val-field {
+    text-align:center;
+	font-family:Arial;
+    color: black;
+	font-size: 130%;
+	line-height: 30px;
+	padding: 10px 5px 5px;
+    margin: 20px 7vw 20px 7vw;
+    border: 2px solid #323232;
+    border-radius: 5px;
 }
 
 /*
