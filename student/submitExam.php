@@ -41,7 +41,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
     $params = array(":questionID" => $questionID);
     $functionToCall = db_execute($sqlstmt, $params)[0]["functionToCall"];
 
-    echo "function: " . $functionToCall . "<br>";
+    //echo "function: " . $functionToCall . "<br>";
 
     $sqlstmt = "SELECT * FROM testcases WHERE questionID = :questionID";
     $params = array(":questionID" => $questionID);
@@ -54,12 +54,33 @@ foreach ($_POST as $questionID => $studentAnswer) {
     $fixedFunctionName = false;
     if (!preg_match('/def (' . $functionToCall . ')\(/', $studentAnswer, $match)) {
         $fixedFunctionName = true;
+        $studentFunctionDefinition = preg_match('/def (.*?)\(/', $studentAnswer, $badMatch);
+        $studentFunctionDefinition = substr($badMatch[1], 4, -1);
         $guaranteedCorrectFunDefinition = preg_replace('/def (.*?)\(/', "def $functionToCall(", $studentAnswer);
     } else {
         $guaranteedCorrectFunDefinition = $studentAnswer;
+        $studentFunctionDefinition = $functionToCall;
     }
 
+    $sqlstmt = "SELECT testCaseID FROM testcases WHERE questionID = :questionID AND answer = :answer";
+    $params = array(
+        ":questionID" => $questionID,
+        ":answer" => $functionToCall
+    );
+    $functionNameTestCaseID = db_execute($sqlstmt, $params)[0]["testCaseID"];
+
     foreach ($testcases as $testcase) {
+        $insertIntoStudentTestCasesStmt = "INSERT INTO studenttestcases (testCaseID, studentID, maxPoints, achievedPoints, studentOutput) VALUES (:testCaseID, :studentID, :maxPoints, :achievedPoints, :studentOutput)";
+        $insertIntoStudentTestCasesParams = array();
+
+        if ($testcase["testCaseID"] == $functionNameTestCaseID) {
+            array_push($insertIntoStudentTestCasesParams, array(
+                ":testCaseID" => $functionNameTestCaseID,
+                ":studentID" => $_SESSION["studentID"],
+                //TODO - Add student outputs to studenttestcases table
+            ));
+        }
+
         $sqlstmt = "SELECT * FROM parameters WHERE testCaseID = :testCaseID";
         $params = array(":testCaseID" => $testcase["testCaseID"]);
         $testcaseParameters = db_execute($sqlstmt, $params);

@@ -26,6 +26,15 @@ if (isset($_POST["submitQuestion"])) {
     $parameterCount = intval($_POST["parameterCount"]);
     $testCasesCount = intval($_POST["testCasesCount"]);
 
+    // Add the correct function name as a test case to compare student answers to
+    $sqlstmt = "INSERT INTO testcases (questionID, answer) VALUES (:questionID, :answer)";
+    $params = array(
+        ":questionID" => $questionID,
+        ":answer" => $_POST["functionToCall"]
+    );
+    db_execute($sqlstmt, $params);
+
+    // Add each test case and associated parameters to database
     for ($i = 0; $i < $testCasesCount; $i++) {
         $sqlstmt = "INSERT INTO testcases (questionID, answer)  VALUES (:questionID, :answer)";
         $params = array(
