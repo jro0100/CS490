@@ -33,12 +33,11 @@ if (isset($_POST["releaseExam"])) {
 
     $sqlstmt = "INSERT INTO questionsonexam (questionID, examID, maxPoints) VALUES (:questionID, :examID, :maxPoints)";
     $params = array();
-    foreach ($_POST as $key => $val) {
-        $questionID = explode("-", $key)[0];
+    foreach ($_POST as $questionID => $pointVal) {
         array_push($params, array(
             ":questionID" => $questionID,
             ":examID" => $examID,
-            ":maxPoints" => $val
+            ":maxPoints" => $pointVal
         ));
         array_push($questionIDArray, $questionID);
     }
