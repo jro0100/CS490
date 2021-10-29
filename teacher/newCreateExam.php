@@ -54,8 +54,27 @@ if ($result) {
 
         rightForm = document.createElement("form");
         rightForm.setAttribute("id", "rightForm");
+        rightForm.setAttribute("method", "post");
+        rightForm.setAttribute("action", "exams.php");
         rightColumn = document.getElementById("rightCol");
         rightColumn.appendChild(rightForm);
+
+
+        createExamButton = document.createElement("input");
+        createExamButton.setAttribute("type", "submit");
+        createExamButton.setAttribute("class", "submitButton");
+        createExamButton.setAttribute("name", "saveExam");
+        createExamButton.value = "Save Exam";
+        rightForm.appendChild(createExamButton);
+
+        input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("name", "examName");
+        input.setAttribute("placeholder", "Exam Name");
+        input.classList.add("center-column-text");
+        input.required = true;
+        rightForm.appendChild(input);
+
 
         for (i = 0; i < text.length; i++) {
             
