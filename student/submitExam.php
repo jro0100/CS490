@@ -56,6 +56,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
     $pointsScoredForQuestion = 0;
     $maxPoints = intval(db_execute($sqlstmt, $params)[0]["maxPoints"]);
     $pointsForBadFunctionDef = round($maxPoints / 10);
+    var_export($questionType);
     if ($questionType != "default") {
         $pointsForQuestionConstraint = $pointsForBadFunctionDef * 2;
     }
@@ -69,9 +70,9 @@ foreach ($_POST as $questionID => $studentAnswer) {
     $numTests = count($testcases) - 1; // Subtract 1 so that function name test does not have same weight as real test cases
     $numCorrect = 0;
     if (isset($pointsForQuestionConstraint)) {
-        $pointsPerTest = round($maxPoints - $pointsForBadFunctionDef - $pointsForQuestionConstraint);
+        $pointsPerTest = round(($maxPoints - $pointsForBadFunctionDef - $pointsForQuestionConstraint) / $numTests);
     } else {
-        $pointsPerTest = round($maxPoints - $pointsForBadFunctionDef);
+        $pointsPerTest = round(($maxPoints - $pointsForBadFunctionDef) / $numTests);
     }
 
 
@@ -110,7 +111,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
             if ($fixedFunctionName) {
                 $functionNameTestCaseParams[":achievedPoints"] = 0;
             } else {
-                $functionNameTestCaseParams["::achievedPoints"] = $pointsForBadFunctionDef;
+                $functionNameTestCaseParams[":achievedPoints"] = $pointsForBadFunctionDef;
             }
             array_push($insertIntoStudentTestCasesParams, $functionNameTestCaseParams);
         } else {
@@ -147,6 +148,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
             array_push($insertIntoStudentTestCasesParams, $testCaseOutputParams);
         }
     }
+    echo "<pre>" . var_export($insertIntoStudentTestCasesParams) . "</pre><br>";
     db_execute_query_multiple_times($insertIntoStudentTestCasesStmt, $insertIntoStudentTestCasesParams);
 
     // Calculate score
@@ -184,5 +186,5 @@ db_execute($sqlstmt, $params);
 unlink("test.py");
 rmdir("./");
 
-header("Location: ./");
-exit();
+//header("Location: ./");
+//exit();
