@@ -7,7 +7,7 @@ redirect_to_login_if_not_valid_teacher();
 if (isset($_POST["submitQuestion"])) {
     $params = array(
         ":question" => htmlentities($_POST["question"]),
-        ":questionType" => htmlentities($_POST["questionType"]),
+        ":questionType" => $_POST["questionType"],
         ":difficulty" => $_POST["difficulty"],
         ":parameterCount" => $_POST["parameterCount"],
         ":functionToCall" => $_POST["functionToCall"]
@@ -91,7 +91,7 @@ if (isset($_POST["submitQuestion"])) {
 
             <label for="questionType">Question Type</label>
             <select name="questionType" id="questionType" style="margin-top:30px">
-                <option value="general" selected>General</option>
+                <option value="default" selected>General</option>
                 <option value="forLoop" >For Loop</option>
                 <option value="whileLoop">While Loop</option>
                 <option value="recursion">Recursion</option>

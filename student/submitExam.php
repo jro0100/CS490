@@ -55,8 +55,8 @@ foreach ($_POST as $questionID => $studentAnswer) {
 
     $pointsScoredForQuestion = 0;
     $maxPoints = intval(db_execute($sqlstmt, $params)[0]["maxPoints"]);
-    $pointsForBadFunctionDef = round($maxPoints / 10);
-    var_export($questionType);
+    $maxPointsOverall += $maxPoints;
+    $pointsForBadFunctionDef = intval(round($maxPoints / 10));
     if ($questionType != "default") {
         $pointsForQuestionConstraint = $pointsForBadFunctionDef * 2;
     }
@@ -81,7 +81,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
     if (!preg_match('/def (' . $functionToCall . ')\(/', $studentAnswer, $match)) {
         $fixedFunctionName = true;
         $studentFunctionDefinition = preg_match('/def (.*?)\(/', $studentAnswer, $badMatch);
-        $studentFunctionDefinition = substr($badMatch[1], 4, -1);
+        $studentFunctionDefinition = $badMatch[1];
         $guaranteedCorrectFunDefinition = preg_replace('/def (.*?)\(/', "def $functionToCall(", $studentAnswer);
     } else {
         $guaranteedCorrectFunDefinition = $studentAnswer;
@@ -98,11 +98,12 @@ foreach ($_POST as $questionID => $studentAnswer) {
     );
     $functionNameTestCaseID = db_execute($sqlstmt, $params)[0]["testCaseID"];
 
-    $insertIntoStudentTestCasesStmt = "INSERT INTO studenttestcases (testCaseID, studentID, maxPoints, achievedPoints, studentOutput) VALUES (:testCaseID, :studentID, :maxPoints, :achievedPoints, :studentOutput)";
+    $insertIntoStudentTestCasesStmt = "INSERT INTO studenttestcases (examID, testCaseID, studentID, maxPoints, achievedPoints, studentOutput) VALUES (:examID, :testCaseID, :studentID, :maxPoints, :achievedPoints, :studentOutput)";
     $insertIntoStudentTestCasesParams = array();
     foreach ($testcases as $testcase) {
         if ($testcase["testCaseID"] == $functionNameTestCaseID) {
             $functionNameTestCaseParams = array(
+                ":examID" => $examID,
                 ":testCaseID" => $functionNameTestCaseID,
                 ":studentID" => $_SESSION["studentID"],
                 ":maxPoints" => $pointsForBadFunctionDef,
@@ -133,6 +134,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
 
             // Add student's output to param array to insert into database
             $testCaseOutputParams = array(
+                ":examID" => $examID,
                 ":testCaseID" => $testcase["testCaseID"],
                 ":studentID" => $_SESSION["studentID"],
                 ":maxPoints" => $pointsPerTest,
@@ -148,7 +150,6 @@ foreach ($_POST as $questionID => $studentAnswer) {
             array_push($insertIntoStudentTestCasesParams, $testCaseOutputParams);
         }
     }
-    echo "<pre>" . var_export($insertIntoStudentTestCasesParams) . "</pre><br>";
     db_execute_query_multiple_times($insertIntoStudentTestCasesStmt, $insertIntoStudentTestCasesParams);
 
     // Calculate score
