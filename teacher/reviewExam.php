@@ -25,13 +25,55 @@ if (isset($_GET["studentID"])) {
 
 // Generate array of JSON objects with student's information for each question
 if ($studentID) {
-    $sqlstmt = "SELECT questiongrade.*, questionbank.question FROM questiongrade LEFT JOIN questionbank ON questiongrade.questionID = questionbank.questionID WHERE studentID = :studentID AND examID = :examID";
+    $sqlstmt = "SELECT questiongrade.*, questionbank.question, questionbank.functionToCall, questionbank.questionType FROM questiongrade LEFT JOIN questionbank ON questiongrade.questionID = questionbank.questionID WHERE studentID = :studentID AND examID = :examID";
     $params = array(":studentID" => $studentID,
         ":examID" => $examID);
     $studentAnswers = db_execute($sqlstmt, $params);
+
+    $sqlstmt = "SELECT studenttestcases.*, testcases.answer FROM studenttestcases LEFT JOIN testcases ON studenttestcases.testCaseID = testcases.testCaseID WHERE studentID = :studentID AND examID = :examID AND questionID = :questionID";
+    for ($i = 0; $i < count($studentAnswers); $i++) {
+        $questionID = $studentAnswers[$i]["questionID"];
+        $params = array(
+            ":studentID" => $studentID,
+            ":examID" => $examID,
+            ":questionID" => $questionID
+        );
+        $autogradeOutputs = db_execute($sqlstmt, $params);
+
+
+        // Retrieve information about each test case and generate the correct output string for each
+        for ($j = 0; $j < count($autogradeOutputs); $j++) {
+            $answerForTestCase = $autogradeOutputs[$j]["answer"];
+            if ($j == 0) {
+                $correctString = "Defined function as: " . $answerForTestCase;
+            } elseif ($answerForTestCase == "matchConstraint: true") {
+                $questionType = $studentAnswers[$i]["questionType"];
+                $correctString = match ($questionType) {
+                    "forLoop" => "Used a for loop",
+                    "whileLoop" => "Used a while loop",
+                    "recursion" => "Used recursion",
+                };
+            } else {
+                $selectTestCaseParametersStmt = "SELECT * FROM parameters WHERE testCaseID = :testCaseID";
+                $selectTestCaseParametersParams = array(
+                    ":testCaseID" => $autogradeOutputs[$j]["testCaseID"]
+                );
+                $testcaseParameters = db_execute($selectTestCaseParametersStmt, $selectTestCaseParametersParams);
+                $testCaseParamArray = array();
+                foreach ($testcaseParameters as $p) {
+                    array_push($testCaseParamArray, $p["parameter"]);
+                }
+                $paramString = join(", ", $testCaseParamArray);
+                $correctString = $studentAnswers[$i]["functionToCall"] . "($paramString) -> $answerForTestCase";
+            }
+            $autogradeOutputs[$j]["correctOutput"] = $correctString;
+        }
+        $studentAnswers[$i]["autogradeOutputs"] = $autogradeOutputs;
+    }
+
     $json = "[]";
     if ($studentAnswers) {
-        $json = str_replace("\\r\\n", "<br>", json_encode($studentAnswers));
+        $json = str_replace("\\r\\n", "", json_encode($studentAnswers));
     }
 }
 
