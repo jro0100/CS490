@@ -58,7 +58,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
     $maxPointsOverall += $maxPoints;
     $pointsForBadFunctionDef = intval(round($maxPoints / 10));
     if ($questionType != "default") {
-        $pointsForQuestionConstraint = $pointsForBadFunctionDef * 2;
+        $pointsForQuestionConstraint = intval(round($maxPoints / 2));
     }
 
 
@@ -68,11 +68,15 @@ foreach ($_POST as $questionID => $studentAnswer) {
     $testcases = db_execute($sqlstmt, $params);
 
     $numTests = count($testcases) - 1; // Subtract 1 so that function name test does not have same weight as real test cases
+    // Subtract 1 more to account for constraint test case matching
+    if ($questionType != "default") {
+        $numTests -= 1;
+    }
     $numCorrect = 0;
     if (isset($pointsForQuestionConstraint)) {
-        $pointsPerTest = round(($maxPoints - $pointsForBadFunctionDef - $pointsForQuestionConstraint) / $numTests);
+        $pointsPerTest = intval(round(($maxPoints - $pointsForBadFunctionDef - $pointsForQuestionConstraint) / $numTests));
     } else {
-        $pointsPerTest = round(($maxPoints - $pointsForBadFunctionDef) / $numTests);
+        $pointsPerTest = intval(round(($maxPoints - $pointsForBadFunctionDef) / $numTests));
     }
 
 
@@ -88,20 +92,77 @@ foreach ($_POST as $questionID => $studentAnswer) {
         $studentFunctionDefinition = $functionToCall;
     }
 
-    //TODO - Check if student answer compliant with constraint
+    // Check if constraint has been used properly
+    $matchedConstraint = false;
+    switch ($questionType) {
+        case "forLoop":
+            $constraintSearchTerm = "for";
+            break;
+        case "whileLoop":
+            $constraintSearchTerm = "while";
+            break;
+        case "recursion":
+            $constraintSearchTerm = $functionToCall;
+            break;
+    }
+    if (isset($constraintSearchTerm)) {
+        if ($constraintSearchTerm == $functionToCall) {
+            preg_match_all('/' . $constraintSearchTerm . '/', $guaranteedCorrectFunDefinition, $constraintMatches);
+            if (count($constraintMatches[0]) > 1) {
+                $matchedConstraint = true;
+                $pointsScoredForQuestion += $pointsForQuestionConstraint;
+            }
+        } else {
+            preg_match('/' . $constraintSearchTerm . '/', $guaranteedCorrectFunDefinition, $constraintMatches);
+            if (count($constraintMatches) > 0) {
+                $matchedConstraint = true;
+                $pointsScoredForQuestion += $pointsForQuestionConstraint;
+            }
+        }
+    }
 
-    // Get databse ID of function name test case for this question
+    // Get database ID of function name and constraint matching test cases for this question
     $sqlstmt = "SELECT testCaseID FROM testcases WHERE questionID = :questionID AND answer = :answer";
-    $params = array(
+    $params = array(array(
         ":questionID" => $questionID,
         ":answer" => $functionToCall
-    );
-    $functionNameTestCaseID = db_execute($sqlstmt, $params)[0]["testCaseID"];
+    ));
+
+    array_push($params, array(
+        ":questionID" => $questionID,
+        ":answer" => "matchConstraint: true"
+    ));
+
+    $results = db_execute_query_multiple_times($sqlstmt, $params);
+    $functionNameTestCaseID = $results[0]["testCaseID"];
+    if ($questionType != "default") {
+        $constraintTestCaseID = $results[1]["testCaseID"];
+    }
 
     $insertIntoStudentTestCasesStmt = "INSERT INTO studenttestcases (examID, testCaseID, studentID, maxPoints, achievedPoints, studentOutput) VALUES (:examID, :testCaseID, :studentID, :maxPoints, :achievedPoints, :studentOutput)";
     $insertIntoStudentTestCasesParams = array();
     foreach ($testcases as $testcase) {
-        if ($testcase["testCaseID"] == $functionNameTestCaseID) {
+        // Insert true or false as student's answer for constraint matching
+        if (isset($constraintTestCaseID) && $constraintTestCaseID == $testcase["testCaseID"]) {
+            if ($matchedConstraint) {
+                $matchedConstraintString = "true";
+                $constraintAchievedPoints = $pointsForQuestionConstraint;
+            } else {
+                $matchedConstraintString = "false";
+                $constraintAchievedPoints = 0;
+            }
+            $constraintMatchTestCaseParams = array(
+                ":examID" => $examID,
+                ":testCaseID" => $constraintTestCaseID,
+                ":studentID" => $_SESSION["studentID"],
+                ":maxPoints" => $pointsForQuestionConstraint,
+                ":achievedPoints" => $constraintAchievedPoints,
+                ":studentOutput" => $matchedConstraintString
+            );
+            array_push($insertIntoStudentTestCasesParams, $constraintMatchTestCaseParams);
+
+        // Insert student's function definition
+        } elseif ($testcase["testCaseID"] == $functionNameTestCaseID) {
             $functionNameTestCaseParams = array(
                 ":examID" => $examID,
                 ":testCaseID" => $functionNameTestCaseID,
@@ -157,14 +218,11 @@ foreach ($_POST as $questionID => $studentAnswer) {
         $pointsScoredForQuestion += $pointsForBadFunctionDef;
     }
 
-    //TODO - Add points scored by constraint to question score
-
     if ($pointsScoredForQuestion > $maxPoints) {
         $pointsScoredForQuestion = $maxPoints;
     }
 
     $totalPointsScored += $pointsScoredForQuestion;
-    $maxPointsOverall += $maxPoints;
 
     // Update student's grade for question to the calculated score
     $sqlstmt = "UPDATE questiongrade SET achievedPoints = :achievedPoints, studentAnswer = :studentAnswer WHERE studentID = :studentID AND examID = :examID AND questionID = :questionID";
@@ -177,8 +235,9 @@ foreach ($_POST as $questionID => $studentAnswer) {
 }
 
 // Add total score to studentexam table
+$grade = round(($totalPointsScored / $maxPointsOverall) * 100, 2);
 $sqlstmt = "UPDATE studentexam SET studentGrade = :studentGrade WHERE studentID = :studentID AND examID = :examID";
-$params = array(":studentGrade" => ($totalPointsScored / $maxPointsOverall) * 100,
+$params = array(":studentGrade" => $grade,
     ":studentID" => $_SESSION["studentID"],
     ":examID" => $examID);
 db_execute($sqlstmt, $params);
@@ -187,5 +246,5 @@ db_execute($sqlstmt, $params);
 unlink("test.py");
 rmdir("./");
 
-//header("Location: ./");
-//exit();
+header("Location: ./");
+exit();

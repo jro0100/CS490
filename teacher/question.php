@@ -26,13 +26,19 @@ if (isset($_POST["submitQuestion"])) {
     $parameterCount = intval($_POST["parameterCount"]);
     $testCasesCount = intval($_POST["testCasesCount"]);
 
-    // Add the correct function name as a test case to compare student answers to
+    // Add the correct function name and constraint matching as test cases to compare student answers to
     $sqlstmt = "INSERT INTO testcases (questionID, answer) VALUES (:questionID, :answer)";
-    $params = array(
+    $params = array(array(
         ":questionID" => $questionID,
         ":answer" => $_POST["functionToCall"]
-    );
-    db_execute($sqlstmt, $params);
+    ));
+    if ($_POST["questionType"] != "default") {
+        array_push($params, array(
+            ":questionID" => $questionID,
+            ":answer" => "matchConstraint: true"
+        ));
+    }
+    db_execute_query_multiple_times($sqlstmt, $params);
 
     // Add each test case and associated parameters to database
     for ($i = 0; $i < $testCasesCount; $i++) {
