@@ -59,21 +59,16 @@ if ($result) {
         rightColumn = document.getElementById("rightCol");
         rightColumn.appendChild(rightForm);
 
-
-        createExamButton = document.createElement("input");
-        createExamButton.setAttribute("type", "submit");
-        createExamButton.setAttribute("class", "submitButton");
-        createExamButton.setAttribute("name", "saveExam");
-        createExamButton.value = "Save Exam";
-        rightForm.appendChild(createExamButton);
-
+        cDiv = document.createElement("div");
+        cDiv.classList.add("center");
         input = document.createElement("input");
         input.setAttribute("type", "text");
         input.setAttribute("name", "examName");
         input.setAttribute("placeholder", "Exam Name");
-        input.classList.add("center-column-text");
+        input.classList.add("exam-name-light-background");
         input.required = true;
-        rightForm.appendChild(input);
+        cDiv.appendChild(input);
+        rightForm.appendChild(cDiv);
 
 
         for (i = 0; i < text.length; i++) {
@@ -134,20 +129,44 @@ if ($result) {
                         pointVal.classList.add("point-val-field");
                         rightCol = document.getElementById("rightCol");
                         leftChildren[i].firstChild.appendChild(pointVal);
-                        rightForm.appendChild(leftChildren[i]);
+                        rightChildren = document.getElementById("rightForm").children;
+                        if(rightChildren.length == 1) {
+                            rightForm.appendChild(leftChildren[i]);
+                            addSubmitButton();
+                        } else {
+                            rightForm.lastChild.previousSibling.after(leftChildren[i])
+                        }
                     }
                 }
             }
 
             rightChildren = document.getElementById("rightForm").children;
-            for(i = 0; i < rightChildren.length; i++) {
+            for(i = 1; i < rightChildren.length; i++) {
                 input = rightChildren[i].getElementsByTagName("input");
                 if(input[0].checked == false && input[0].id == "checkBox") {
                     input[1].parentNode.removeChild(input[1]);
                     leftCol = document.getElementById("leftCol");
                     leftCol.appendChild(rightChildren[i]);
+                    if(rightChildren.length == 2) {
+                        form = document.getElementById("rightForm");
+                        form.removeChild(form.lastChild);
+                    }
                 }
             }
+        }
+
+        function addSubmitButton() {
+            centerSubmit = document.createElement("div");
+            centerSubmit.classList.add("center");
+
+            createExamButton = document.createElement("input");
+            createExamButton.setAttribute("type", "submit");
+            createExamButton.setAttribute("class", "submitButton");
+            createExamButton.setAttribute("name", "saveExam");
+            createExamButton.value = "Save Exam";
+            
+            centerSubmit.appendChild(createExamButton);
+            rightForm.appendChild(centerSubmit);
         }
     </script>
 </body>

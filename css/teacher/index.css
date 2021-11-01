@@ -65,6 +65,18 @@ iframe {
     margin: 20px 7vw 20px 7vw;
 }
 
+.exam-name-light-background {
+    text-align:center;
+	font-family:Arial;
+    color: black;
+	font-size: 130%;
+	line-height: 30px;
+	padding: 10px 5px 5px;
+    margin: 20px 7vw 20px 7vw;
+    border: 2px solid #323232;
+    border-radius: 5px;
+}
+
 .center-text {
     padding: 10px 5px 5px;
 }
