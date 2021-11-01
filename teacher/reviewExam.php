@@ -146,6 +146,7 @@ if ($studentID) {
 
         <script>
             var text = <?php echo $json ?>;
+
             form = document.createElement("form");
             form.setAttribute("method", "post");
             form.setAttribute("action", "saveChanges.php");
@@ -169,20 +170,55 @@ if ($studentID) {
                 answerCol.classList.add("center-column-text");
                 answerCol.innerHTML = obj.studentAnswer;
 
-                pointsCol = document.createElement("div");
-                pointsCol.classList.add("columnHeader");
-                points = document.createElement("input");
-                points.classList.add("input-text-field");
-                points.setAttribute("type", "input");
-                points.setAttribute("name", "achievedPoints-" + obj.questionID);
-                points.value = obj.achievedPoints;
-                pointsCol.appendChild(points);
+                centerTable = document.createElement("div");
+                centerTable.classList.add("center-table");
+
+                table = document.createElement("table");
+                table.setAttribute("border", "1");
+                tr = document.createElement("tr");
+                th1 = document.createElement("th");
+                th1.innerHTML = "Test Case";
+                th2 = document.createElement("th");
+                th2.innerHTML = "Student Output";
+                th3 = document.createElement("th");
+                th3.innerHTML = "Points Awarded";
+                th4 = document.createElement("th");
+                th4.innerHTML = "Total Worth";
+                tr.appendChild(th1);
+                tr.appendChild(th2);
+                tr.appendChild(th3);
+                tr.appendChild(th4);
+                table.appendChild(tr);
+                
+                for(y = 0; y < obj.autogradeOutputs.length; y++) {
+                    tr = document.createElement("tr");
+                    td1 = document.createElement("td");
+                    td1.innerHTML = obj.autogradeOutputs[y].correctOutput;
+                    td2 = document.createElement("td");
+                    td2.innerHTML = obj.autogradeOutputs[y].answer;
+                    td3 = document.createElement("td");
+                    td4 = document.createElement("td");
+                    td4.innerHTML = obj.autogradeOutputs[y].maxPoints;
+
+                    pointsAchieved = document.createElement("input");
+                    pointsAchieved.setAttribute("type", "text");
+                    pointsAchieved.classList.add("points-achieved");
+                    pointsAchieved.setAttribute("name", "achievedPoints-" + obj.questionID);
+                    pointsAchieved.value = obj.autogradeOutputs[y].achievedPoints;
+
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    td3.appendChild(pointsAchieved);
+                    tr.appendChild(td3);
+                    tr.appendChild(td4);
+                    table.appendChild(tr);
+                }
 
                 commentCol = document.createElement("div");
                 commentCol.classList.add("columnHeader");
                 comment = document.createElement("input");
                 comment.classList.add("input-text-field");
-                comment.setAttribute("type", "input");
+                comment.setAttribute("type", "text");
                 comment.setAttribute("name", "teacherComment-" + obj.questionID);
                 if (obj.teacherComment == "") {
                     comment.value = "No Comment";
@@ -193,7 +229,8 @@ if ($studentID) {
     
                 row.appendChild(questionCol);
                 row.appendChild(answerCol);
-                row.appendChild(pointsCol);
+                centerTable.appendChild(table);
+                row.appendChild(centerTable);
                 row.appendChild(commentCol);
                 form.appendChild(row);
             }
@@ -217,7 +254,7 @@ if ($studentID) {
             examIDInfo.setAttribute("type", "hidden");
             examIDInfo.setAttribute("name", "examID");
             examIDInfo.setAttribute("value", "<?php echo $examID ?>");
-            form.appendChild(examIDInfo)
+            form.appendChild(examIDInfo);
     
             document.body.appendChild(form); //Appends the div to the body of the HTML page
         </script>

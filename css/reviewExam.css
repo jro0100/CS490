@@ -84,6 +84,32 @@ label {
     border-radius: 5px;
 }
 
+.center-table {
+    text-align:center;
+	font-family:Arial;
+    color: black;
+	font-size: 110%;
+	padding: 0px 5px 5px;
+}
+
+.points-achieved {
+    text-align:center;
+	font-family:Arial;
+    color: black;
+	font-size: 110%;
+    border: none;
+}
+
+table {
+    margin-top: 20px;
+}
+
+td, th {
+    padding: 5px 5px 5px 5px;
+}
+
+
+
 .center {
     text-align: center;
 }
