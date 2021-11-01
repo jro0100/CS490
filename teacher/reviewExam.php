@@ -32,6 +32,8 @@ if ($studentID) {
 
     $sqlstmt = "SELECT studenttestcases.*, testcases.answer FROM studenttestcases LEFT JOIN testcases ON studenttestcases.testCaseID = testcases.testCaseID WHERE studentID = :studentID AND examID = :examID AND questionID = :questionID";
     for ($i = 0; $i < count($studentAnswers); $i++) {
+        $studentAnswers[$i]["studentAnswer"] = htmlentities($studentAnswers[$i]["studentAnswer"]);
+
         $questionID = $studentAnswers[$i]["questionID"];
         $params = array(
             ":studentID" => $studentID,
