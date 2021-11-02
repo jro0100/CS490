@@ -208,7 +208,7 @@ if ($studentID) {
 
                     tr.appendChild(td1);
                     tr.appendChild(td2);
-                    td4.appendChild(pointsAchieved);
+                    td3.appendChild(pointsAchieved);
                     tr.appendChild(td4);
                     tr.appendChild(td3);
                     table.appendChild(tr);
