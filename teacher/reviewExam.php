@@ -179,15 +179,15 @@ if ($studentID) {
                 th1 = document.createElement("th");
                 th1.innerHTML = "Test Case";
                 th2 = document.createElement("th");
-                th2.innerHTML = "Student Output";
+                th2.innerHTML = "Output";
                 th3 = document.createElement("th");
-                th3.innerHTML = "Points Awarded";
+                th3.innerHTML = "AG Score";
                 th4 = document.createElement("th");
-                th4.innerHTML = "Total Worth";
+                th4.innerHTML = "Worth";
                 tr.appendChild(th1);
                 tr.appendChild(th2);
-                tr.appendChild(th3);
                 tr.appendChild(th4);
+                tr.appendChild(th3);
                 table.appendChild(tr);
                 
                 for(y = 0; y < obj.autogradeOutputs.length; y++) {
@@ -208,9 +208,9 @@ if ($studentID) {
 
                     tr.appendChild(td1);
                     tr.appendChild(td2);
-                    td3.appendChild(pointsAchieved);
-                    tr.appendChild(td3);
+                    td4.appendChild(pointsAchieved);
                     tr.appendChild(td4);
+                    tr.appendChild(td3);
                     table.appendChild(tr);
                 }
 
