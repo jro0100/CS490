@@ -103,6 +103,14 @@ if (isset($_POST["submitQuestion"])) {
                 <option value="recursion">Recursion</option>
             </select><br>
 
+            <label for="constrain">Constraint</label>
+            <select name="constraint" id="constraint" style="margin-top:30px">
+                <option value="none" selected>None</option>
+                <option value="forLoop" >For Loop</option>
+                <option value="whileLoop">While Loop</option>
+                <option value="recursion">Recursion</option>
+            </select><br>
+
             <label for="difficulty" style="margin-top:30px">Difficulty</label>
             <select name="difficulty" id="difficulty" style="margin-top:30px">
                 <option value="0" <?php if (isset($difficulty) && $difficulty == 0) echo "selected"; ?>>Easy</option>
