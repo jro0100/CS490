@@ -54,9 +54,7 @@ if ($result) {
 
         function printAll(typeFilter, diffFilter) {     
             questionDivClear = document.getElementById("questionDiv");
-            if(questionDivClear) { 
-                alert("Clearing questions");
-                questionDivClear.innerHTML = "" }
+            if(questionDivClear) { questionDivClear.innerHTML = ""; }
 
             for (i = 0; i < text.length; i++) {
 
