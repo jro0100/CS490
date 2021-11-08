@@ -103,7 +103,7 @@ if (isset($_POST["submitQuestion"])) {
                 <option value="recursion">Recursion</option>
             </select><br>
 
-            <label for="constrain">Constraint</label>
+            <label for="constraint">Constraint</label>
             <select name="constraint" id="constraint" style="margin-top:30px">
                 <option value="none" selected>None</option>
                 <option value="forLoop" >For Loop</option>
