@@ -28,28 +28,32 @@ if ($result) {
 </head>
 <body>
     <div class="center">
-        <label for="typeFilter">Question Type</label><br>
-        <select name="typeFilter" id="typeFilter" onchange="filterApplied()">
-            <option value="allTypes" selected>All</option>
-            <option value="default">General</option>
-            <option value="forLoop" >For Loop</option>
-            <option value="whileLoop">While Loop</option>
-            <option value="recursion">Recursion</option>
-        </select><br>
+        <div class = "dropdowns">
+            <label for="typeFilter">Question Type</label><br>
+            <select name="typeFilter" id="typeFilter" style="font-size:17px;" onchange="filterApplied()">
+                <option value="allTypes" selected>All</option>
+                <option value="default">General</option>
+                <option value="forLoop" >For Loop</option>
+                <option value="whileLoop">While Loop</option>
+                <option value="recursion">Recursion</option>
+            </select><br>
+        </div>
 
-        <label for="diffFilter">Difficulty</label><br>
-        <select name="diffFilter" id="diffFilter" onchange="filterApplied()">
-            <option value="allDifficulties">All</option>
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
-        </select><br>
+        <div class = "dropdowns">
+            <label for="diffFilter">Difficulty</label><br>
+            <select name="diffFilter" id="diffFilter" style="font-size:17px;" onchange="filterApplied()">
+                <option value="allDifficulties">All</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+            </select><br>
+        </div>
     </div>
 
     <div id="questionDiv"></div>
 
     <script>
-        var text = <?php echo $json ?>;;
+        var text = <?php echo $json ?>;
         printAll("allTypes", "allDifficulties");
 
         function printAll(typeFilter, diffFilter) {     

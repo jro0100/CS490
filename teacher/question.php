@@ -96,7 +96,7 @@ if (isset($_POST["submitQuestion"])) {
             <textarea name="question" id="question"><?php if (isset($question)) echo $question ?></textarea><br>
 
             <label for="questionType">Question Type</label>
-            <select name="questionType" id="questionType" style="margin-top:30px">
+            <select name="questionType" id="questionType" class="dropdowns">
                 <option value="default" selected>General</option>
                 <option value="forLoop" >For Loop</option>
                 <option value="whileLoop">While Loop</option>
@@ -104,15 +104,15 @@ if (isset($_POST["submitQuestion"])) {
             </select><br>
 
             <label for="constraint">Constraint</label>
-            <select name="constraint" id="constraint" style="margin-top:30px">
+            <select name="constraint" id="constraint" class="dropdowns">
                 <option value="none" selected>None</option>
                 <option value="forLoop" >For Loop</option>
                 <option value="whileLoop">While Loop</option>
                 <option value="recursion">Recursion</option>
             </select><br>
 
-            <label for="difficulty" style="margin-top:30px">Difficulty</label>
-            <select name="difficulty" id="difficulty" style="margin-top:30px">
+            <label for="difficulty">Difficulty</label>
+            <select name="difficulty" id="difficulty" class="dropdowns">
                 <option value="0" <?php if (isset($difficulty) && $difficulty == 0) echo "selected"; ?>>Easy</option>
                 <option value="1" <?php if (isset($difficulty) && $difficulty == 1) echo "selected"; ?>>Medium</option>
                 <option value="2" <?php if (isset($difficulty) && $difficulty == 2) echo "selected"; ?>>Hard</option>
