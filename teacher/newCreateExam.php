@@ -37,7 +37,7 @@ if ($result) {
 
     <div class="float-container">
         <div class="float-child" id="leftCol">
-            <div class="center-column-text-header">
+            <div class="center-column-text-header" id="header">
                 Question Bank
             </div>
         </div>
@@ -70,49 +70,64 @@ if ($result) {
         cDiv.appendChild(input);
         rightForm.appendChild(cDiv);
 
-
+        const objArr = [];
+        const objArrRight = []
         for (i = 0; i < text.length; i++) {
-            
             const obj = JSON.parse(JSON.stringify(text[i]));
+            objArr.push(obj);
 
-            difficulty = "";
-            if(obj.difficulty == 0) {
-                difficulty = "Easy";
-            } else if (obj.difficulty == 1) {
-                difficulty = "Medium";
-            } else {
-                difficulty = "Hard";
+        }
+
+        /* This still contains a slight bug. Almost ready to implement filter feature.*/
+
+        printQuestionBank();
+
+        function printQuestionBank() {
+            leftColClear = document.getElementById("leftCol");
+            while(leftColClear.lastChild.id !== "header") {
+                leftColClear.removeChild(leftColClear.lastChild);
             }
+            for (i = 0; i < text.length; i++) {
 
-            leftQuestion = document.createElement("div");
-            leftQuestion.setAttribute("id", "l" + i);
+                difficulty = "";
+                if(objArr[i].difficulty == 0) {
+                    difficulty = "Easy";
+                } else if (objArr[i].difficulty == 1) {
+                    difficulty = "Medium";
+                } else {
+                    difficulty = "Hard";
+                }
 
-            centerDiv = document.createElement("div");
-            centerDiv.classList.add("center-column-text");
+                leftQuestion = document.createElement("div");
+                leftQuestion.setAttribute("id", "l" + i);
 
-            question = document.createElement("p");
-            question.classList.add("center-text");
-            question.innerHTML = obj.question;
+                centerDiv = document.createElement("div");
+                centerDiv.classList.add("center-column-text");
 
-            typeAndDif = document.createElement("p");
-            typeAndDif.classList.add("center-text");
-            typeAndDif.innerHTML = "Type: " + obj.questionType + "&emsp;" + "Difficulty: " + difficulty;
+                question = document.createElement("p");
+                question.classList.add("center-text");
+                question.innerHTML = objArr[i].question;
 
-            checkBox = document.createElement("input");
-            checkBox.setAttribute("type", "checkbox");
-            checkBox.setAttribute("class", "check");
-            checkBox.setAttribute("id", "checkBox");
-            checkBox.setAttribute("onclick", "checkBoxClicked();")
-            checkBox.setAttribute("value", obj.questionID);
-            checkBox.setAttribute("name", obj.questionID);
+                typeAndDif = document.createElement("p");
+                typeAndDif.classList.add("center-text");
+                typeAndDif.innerHTML = "Type: " + objArr[i].questionType + "&emsp;" + "Difficulty: " + difficulty;
 
-            leftCol = document.getElementById("leftCol");
-            
-            centerDiv.appendChild(question);
-            centerDiv.appendChild(typeAndDif);
-            centerDiv.appendChild(checkBox);
-            leftQuestion.appendChild(centerDiv);
-            leftCol.appendChild(leftQuestion);
+                checkBox = document.createElement("input");
+                checkBox.setAttribute("type", "checkbox");
+                checkBox.setAttribute("class", "check");
+                checkBox.setAttribute("onclick", "checkBoxClicked();")
+                checkBox.setAttribute("id", objArr[i].questionID);
+                checkBox.setAttribute("value", objArr[i].questionID);
+                checkBox.setAttribute("name", objArr[i].questionID);
+
+                leftCol = document.getElementById("leftCol");
+                
+                centerDiv.appendChild(question);
+                centerDiv.appendChild(typeAndDif);
+                centerDiv.appendChild(checkBox);
+                leftQuestion.appendChild(centerDiv);
+                leftCol.appendChild(leftQuestion);
+            }
         }
 
         function checkBoxClicked() {
@@ -130,6 +145,13 @@ if ($result) {
                         rightCol = document.getElementById("rightCol");
                         leftChildren[i].firstChild.appendChild(pointVal);
                         rightChildren = document.getElementById("rightForm").children;
+                        for(z = 0; z < objArr.length; z++) {
+                            if(objArr[z].id == input[y].id) {
+                                objArrRight.push(objArr[z]);
+                                objArr.splice(z, 1);
+                                break;
+                            }
+                        }
                         if(rightChildren.length == 1) {
                             rightForm.appendChild(leftChildren[i]);
                             addSubmitButton();
@@ -143,7 +165,14 @@ if ($result) {
             rightChildren = document.getElementById("rightForm").children;
             for(i = 1; i < rightChildren.length; i++) {
                 input = rightChildren[i].getElementsByTagName("input");
-                if(input[0].checked == false && input[0].id == "checkBox") {
+                if(input[0].checked == false && input[0].type == "checkbox") {
+                    for(j = 0; j < objArrRight.length; j++) {
+                        if(objArrRight[j].id == input[0].id) {
+                            objArr.push(objArrRight[j]);
+                            objArrRight.splice(j, 1);
+                            break;
+                        }
+                    }
                     input[1].parentNode.removeChild(input[1]);
                     leftCol = document.getElementById("leftCol");
                     leftCol.appendChild(rightChildren[i]);
@@ -151,6 +180,7 @@ if ($result) {
                         form = document.getElementById("rightForm");
                         form.removeChild(form.lastChild);
                     }
+                    printQuestionBank();
                 }
             }
         }
