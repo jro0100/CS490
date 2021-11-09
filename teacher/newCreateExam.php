@@ -120,7 +120,7 @@ if ($result) {
                     difficulty = "Hard";
                 }
 
-                if(typeFilter != "allTypes" && typeFilter != obj.questionType) { continue; }
+                if(typeFilter != "allTypes" && typeFilter != objArr[i].questionType) { continue; }
                 if(diffFilter != "allDifficulties" && diffFilter != difficulty) { continue; }
 
                 leftQuestion = document.createElement("div");
