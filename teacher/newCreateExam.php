@@ -24,6 +24,7 @@ if ($result) {
     <meta charset="utf-8">
     <link rel="stylesheet"  href="../css/menu.css">
     <link rel="stylesheet"  href="../css/teacher/index.css">
+    <link rel="stylesheet"  href="../css/teacher/createExam.css">
 </head>
 <body>
 
@@ -39,6 +40,25 @@ if ($result) {
         <div class="float-child" id="leftCol">
             <div class="center-column-text-header" id="header">
                 Question Bank
+            </div>
+            <div class = "dropdowns">
+                <label for="typeFilter">Question Type</label><br>
+                <select name="typeFilter" id="typeFilter" style="font-size:17px;" onchange="filterApplied()">
+                    <option value="allTypes" selected>All</option>
+                    <option value="default">General</option>
+                    <option value="forLoop" >For Loop</option>
+                    <option value="whileLoop">While Loop</option>
+                    <option value="recursion">Recursion</option>
+                </select><br>
+            </div>
+            <div class = "dropdowns" id="lastDiffFilter">
+                <label for="diffFilter">Difficulty</label><br>
+                <select name="diffFilter" id="diffFilter" style="font-size:17px;" onchange="filterApplied()">
+                    <option value="allDifficulties">All</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select><br>
             </div>
         </div>
             <div class="float-child" id="rightCol">
@@ -70,6 +90,8 @@ if ($result) {
         cDiv.appendChild(input);
         rightForm.appendChild(cDiv);
 
+        const filters = ["allTypes", "allDifficulties"];
+
         const objArr = [];
         const objArrRight = []
         for (i = 0; i < text.length; i++) {
@@ -80,11 +102,11 @@ if ($result) {
 
         /* This still contains a slight bug. Almost ready to implement filter feature.*/
 
-        printQuestionBank();
+        printQuestionBank(filters[0], filters[1]);
 
-        function printQuestionBank() {
+        function printQuestionBank(typeFilter, diffFilter) {
             leftColClear = document.getElementById("leftCol");
-            while(leftColClear.lastChild.id !== "header") {
+            while(leftColClear.lastChild.id !== "lastDiffFilter") {
                 leftColClear.removeChild(leftColClear.lastChild);
             }
             for (i = 0; i < text.length; i++) {
@@ -97,6 +119,9 @@ if ($result) {
                 } else {
                     difficulty = "Hard";
                 }
+
+                if(typeFilter != "allTypes" && typeFilter != obj.questionType) { continue; }
+                if(diffFilter != "allDifficulties" && diffFilter != difficulty) { continue; }
 
                 leftQuestion = document.createElement("div");
                 leftQuestion.setAttribute("id", "l" + i);
@@ -146,7 +171,7 @@ if ($result) {
                         leftChildren[i].firstChild.appendChild(pointVal);
                         rightChildren = document.getElementById("rightForm").children;
                         for(z = 0; z < objArr.length; z++) {
-                            if(objArr[z].id == input[y].id) {
+                            if(objArr[z].questionID == input[y].id) {
                                 objArrRight.push(objArr[z]);
                                 objArr.splice(z, 1);
                                 break;
@@ -167,7 +192,7 @@ if ($result) {
                 input = rightChildren[i].getElementsByTagName("input");
                 if(input[0].checked == false && input[0].type == "checkbox") {
                     for(j = 0; j < objArrRight.length; j++) {
-                        if(objArrRight[j].id == input[0].id) {
+                        if(objArrRight[j].questionID == input[0].id) {
                             objArr.push(objArrRight[j]);
                             objArrRight.splice(j, 1);
                             break;
@@ -180,7 +205,7 @@ if ($result) {
                         form = document.getElementById("rightForm");
                         form.removeChild(form.lastChild);
                     }
-                    printQuestionBank();
+                    printQuestionBank(filters[0], filters[1]);
                 }
             }
         }
@@ -197,6 +222,14 @@ if ($result) {
             
             centerSubmit.appendChild(createExamButton);
             rightForm.appendChild(centerSubmit);
+        }
+
+        function filterApplied() {
+            typeFil = document.getElementById("typeFilter");
+            difficultyFil = document.getElementById("diffFilter");
+            filters[0] = typeFil.value;
+            filters[1] = difficultyFil.value;
+            printQuestionBank(filters[0], filters[1]);
         }
     </script>
 </body>
