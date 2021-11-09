@@ -16,23 +16,35 @@ unset($_POST["saveChanges"]);
 unset($_POST["studentID"]);
 unset($_POST["examID"]);
 
-$sqlstmt = "UPDATE questiongrade SET achievedPoints = :achievedPoints, teacherComment = :teacherComment WHERE studentID = :studentID AND examID = :examID AND questionID = :questionID";
-$params = array();
-$tempArray = array();
+$sqlstmt = "UPDATE studenttestcases SET teacherScore = :teacherScore WHERE studentID = :studentID AND examID = :examID AND studentTestCaseID = :studentTestCaseID";
+$studentTestCaseUpdateParams = array();
+//$tempArray = array();
+$commentArray = array();
 foreach ($_POST as $key => $value) {
     $splitKey = explode("-", $key);
     $field = ":" . $splitKey[0];
-    $qID = $splitKey[1];
-    $tempArray[$qID][$field] = $value;
-    $tempArray[$qID][":questionID"] = $qID;
+    if ($splitKey[0] == "teacherComment") {
+        $qID = $splitKey[1];
+        $tempArray = array();
+        $tempArray[$field] = $value;
+        $tempArray[":questionID"] = $qID;
+        $tempArray[":examID"] = $examID;
+        $tempArray[":studentID"] = $studentID;
+        array_push($commentArray, $tempArray);
+    } elseif ($splitKey[0] == "teacherScore") {
+        $studentTestCaseID = $splitKey[1];
+        $tempArray = array();
+        $tempArray[":teacherScore"] = $value;
+        $tempArray[":studentTestCaseID"] = $studentTestCaseID;
+        $tempArray[":examID"] = $examID;
+        $tempArray[":studentID"] = $studentID;
+        array_push($studentTestCaseUpdateParams, $tempArray);
+    }
 }
-foreach ($tempArray as $questionInfo) {
-    $questionInfo[":studentID"] = $studentID;
-    $questionInfo["examID"] = $examID;
-    array_push($params, $questionInfo);
-}
+db_execute_query_multiple_times($sqlstmt, $studentTestCaseUpdateParams);
 
-db_execute_query_multiple_times($sqlstmt, $params);
+$sqlstmt = "UPDATE questiongrade SET teacherComment = :teacherComment WHERE studentID = :studentID AND examID = :examID AND questionID = :questionID";
+db_execute_query_multiple_times($sqlstmt, $commentArray);
 
 header("Location: reviewExam.php?examID=$examID&studentID=$studentID");
 exit();

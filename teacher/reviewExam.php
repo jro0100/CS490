@@ -25,7 +25,7 @@ if (isset($_GET["studentID"])) {
 
 // Generate array of JSON objects with student's information for each question
 if ($studentID) {
-    $sqlstmt = "SELECT questiongrade.*, questionbank.question, questionbank.functionToCall, questionbank.questionType FROM questiongrade LEFT JOIN questionbank ON questiongrade.questionID = questionbank.questionID WHERE studentID = :studentID AND examID = :examID";
+    $sqlstmt = "SELECT questiongrade.*, questionbank.question, questionbank.functionToCall, questionbank.questionConstraint FROM questiongrade LEFT JOIN questionbank ON questiongrade.questionID = questionbank.questionID WHERE studentID = :studentID AND examID = :examID";
     $params = array(":studentID" => $studentID,
         ":examID" => $examID);
     $studentAnswers = db_execute($sqlstmt, $params);
@@ -49,8 +49,8 @@ if ($studentID) {
             if ($j == 0) {
                 $correctString = "Defined function as: " . $answerForTestCase;
             } elseif ($answerForTestCase == "matchConstraint: true") {
-                $questionType = $studentAnswers[$i]["questionType"];
-                $correctString = match ($questionType) {
+                $questionConstraint = $studentAnswers[$i]["questionConstraint"];
+                $correctString = match ($questionConstraint) {
                     "forLoop" => "Used a for loop",
                     "whileLoop" => "Used a while loop",
                     "recursion" => "Used recursion",
@@ -78,7 +78,6 @@ if ($studentID) {
         $json = str_replace("\\r\\n", "", json_encode($studentAnswers));
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -201,7 +200,7 @@ if ($studentID) {
                     td2 = document.createElement("td");
                     td2.innerHTML = obj.autogradeOutputs[y].studentOutput;
                     td3 = document.createElement("td");
-                    td3.innerHTML = obj.autogradeOutputs[y].achievedPoints;
+                    td3.innerHTML = obj.autogradeOutputs[y].autoGradeScore;
                     td4 = document.createElement("td");
                     td4.innerHTML = obj.autogradeOutputs[y].maxPoints;
                     td5 = document.createElement("td");
@@ -209,9 +208,9 @@ if ($studentID) {
                     pointsAchieved = document.createElement("input");
                     pointsAchieved.setAttribute("type", "text");
                     pointsAchieved.classList.add("points-achieved");
-                    pointsAchieved.setAttribute("name", "achievedPoints-" + obj.questionID);
+                    pointsAchieved.setAttribute("name", "teacherScore-" + obj.autogradeOutputs[y].studentTestCaseID);
                     pointsAchieved.setAttribute("size", "1");
-                    pointsAchieved.value = obj.autogradeOutputs[y].achievedPoints;
+                    pointsAchieved.value = obj.autogradeOutputs[y].teacherScore;
 
                     tr.appendChild(td1);
                     tr.appendChild(td2);

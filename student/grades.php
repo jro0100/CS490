@@ -9,7 +9,7 @@ $params = array(":teacherID" => $_SESSION["teacherID"]);
 $exams = db_execute($sqlstmt, $params);
 
 for ($i = 0; $i < count($exams); $i++) {
-    $sqlstmt = "SELECT SUM(achievedPoints) as studentTotalPoints FROM questiongrade WHERE examID = :examID AND studentID = :studentID";
+    $sqlstmt = "SELECT SUM(achievedScore) as studentTotalPoints FROM questiongrade WHERE examID = :examID AND studentID = :studentID";
     $params = array(":examID" => $exams[$i]["examID"],
         ":studentID" => $_SESSION["studentID"]);
     $studentTotalPoints = db_execute($sqlstmt, $params)[0]["studentTotalPoints"];

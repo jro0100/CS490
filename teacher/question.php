@@ -8,6 +8,7 @@ if (isset($_POST["submitQuestion"])) {
     $params = array(
         ":question" => htmlentities($_POST["question"]),
         ":questionType" => $_POST["questionType"],
+        ":questionConstraint" => $_POST["constraint"],
         ":difficulty" => $_POST["difficulty"],
         ":parameterCount" => $_POST["parameterCount"],
         ":functionToCall" => $_POST["functionToCall"]
@@ -16,7 +17,7 @@ if (isset($_POST["submitQuestion"])) {
     if ($_POST["questionID"] != "") {
         $sqlstmt = "UPDATE questionbank SET question = :question, questionType = :questionType, difficulty = :difficulty, parameterCount = :parameterCount, functionToCall = :functionToCall WHERE questionID = " . $_POST["questionID"];
     } else {
-        $sqlstmt = "INSERT INTO questionbank (teacherID, question, questionType, difficulty, parameterCount, functionToCall) VALUES (:teacherID, :question, :questionType, :difficulty, :parameterCount, :functionToCall)";
+        $sqlstmt = "INSERT INTO questionbank (teacherID, question, questionType, questionConstraint, difficulty, parameterCount, functionToCall) VALUES (:teacherID, :question, :questionType, :questionConstraint, :difficulty, :parameterCount, :functionToCall)";
         $params[":teacherID"] = $_SESSION["teacherID"];
     }
 
@@ -32,7 +33,7 @@ if (isset($_POST["submitQuestion"])) {
         ":questionID" => $questionID,
         ":answer" => $_POST["functionToCall"]
     ));
-    if ($_POST["questionType"] != "default") {
+    if ($_POST["constraint"] != "none") {
         array_push($params, array(
             ":questionID" => $questionID,
             ":answer" => "matchConstraint: true"
@@ -72,6 +73,7 @@ if (isset($_POST["submitQuestion"])) {
 
     $question = $result["question"];
     $questionType = $result["questionType"];
+    $questionConstraint = $result["questionConstraint"];
     $difficulty = $result["difficulty"];
     $parameterCount = $result["parameterCount"];
     $functionToCall = $result["functionToCall"];

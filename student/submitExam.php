@@ -39,11 +39,11 @@ $totalPointsScored = 0;
 foreach ($_POST as $questionID => $studentAnswer) {
 
     // Get correct name of function that student should be defining and type of question
-    $sqlstmt = "SELECT functionToCall, questionType FROM questionbank WHERE questionID = :questionID";
+    $sqlstmt = "SELECT functionToCall, questionConstraint FROM questionbank WHERE questionID = :questionID";
     $params = array(":questionID" => $questionID);
     $results = db_execute($sqlstmt, $params)[0];
     $functionToCall = $results["functionToCall"];
-    $questionType = $results["questionType"];
+    $questionConstraint = $results["questionConstraint"];
 
 
     // Get maximum points possible for question as given by teacher
@@ -57,7 +57,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
     $maxPoints = intval(db_execute($sqlstmt, $params)[0]["maxPoints"]);
     $maxPointsOverall += $maxPoints;
     $pointsForBadFunctionDef = intval(round($maxPoints / 10));
-    if ($questionType != "default") {
+    if ($questionConstraint != "none") {
         $pointsForQuestionConstraint = intval(round($maxPoints / 2));
     }
 
@@ -69,7 +69,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
 
     $numTests = count($testcases) - 1; // Subtract 1 so that function name test does not have same weight as real test cases
     // Subtract 1 more to account for constraint test case matching
-    if ($questionType != "default") {
+    if ($questionConstraint != "none") {
         $numTests -= 1;
     }
     $numCorrect = 0;
@@ -94,7 +94,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
 
     // Check if constraint has been used properly
     $matchedConstraint = false;
-    switch ($questionType) {
+    switch ($questionConstraint) {
         case "forLoop":
             $constraintSearchTerm = "for";
             break;
@@ -135,46 +135,48 @@ foreach ($_POST as $questionID => $studentAnswer) {
 
     $results = db_execute_query_multiple_times($sqlstmt, $params);
     $functionNameTestCaseID = $results[0]["testCaseID"];
-    if ($questionType != "default") {
+    if ($questionConstraint != "none") {
         $constraintTestCaseID = $results[1]["testCaseID"];
     }
 
-    $insertIntoStudentTestCasesStmt = "INSERT INTO studenttestcases (examID, testCaseID, studentID, maxPoints, achievedPoints, studentOutput) VALUES (:examID, :testCaseID, :studentID, :maxPoints, :achievedPoints, :studentOutput)";
+    $insertIntoStudentTestCasesStmt = "INSERT INTO studenttestcases (examID, testCaseID, studentID, maxPoints, autoGradeScore, teacherScore, studentOutput) VALUES (:examID, :testCaseID, :studentID, :maxPoints, :autoGradeScore, :teacherScore, :studentOutput)";
     $insertIntoStudentTestCasesParams = array();
     foreach ($testcases as $testcase) {
         // Insert true or false as student's answer for constraint matching
         if (isset($constraintTestCaseID) && $constraintTestCaseID == $testcase["testCaseID"]) {
             if ($matchedConstraint) {
                 $matchedConstraintString = "true";
-                $constraintAchievedPoints = $pointsForQuestionConstraint;
+                $constraintautogradeScore = $pointsForQuestionConstraint;
             } else {
                 $matchedConstraintString = "false";
-                $constraintAchievedPoints = 0;
+                $constraintautogradeScore = 0;
             }
             $constraintMatchTestCaseParams = array(
                 ":examID" => $examID,
                 ":testCaseID" => $constraintTestCaseID,
                 ":studentID" => $_SESSION["studentID"],
                 ":maxPoints" => $pointsForQuestionConstraint,
-                ":achievedPoints" => $constraintAchievedPoints,
+                ":autoGradeScore" => $constraintautogradeScore,
+                ":teacherScore" => $constraintautogradeScore,
                 ":studentOutput" => $matchedConstraintString
             );
             array_push($insertIntoStudentTestCasesParams, $constraintMatchTestCaseParams);
 
         // Insert student's function definition
         } elseif ($testcase["testCaseID"] == $functionNameTestCaseID) {
+
+            $functionNameTestCaseScore = 0;
+            $functionNameTestCaseScore = $pointsForBadFunctionDef;
+
             $functionNameTestCaseParams = array(
                 ":examID" => $examID,
                 ":testCaseID" => $functionNameTestCaseID,
                 ":studentID" => $_SESSION["studentID"],
                 ":maxPoints" => $pointsForBadFunctionDef,
+                ":autoGradeScore" => $functionNameTestCaseScore,
+                ":teacherScore" => $functionNameTestCaseScore,
                 ":studentOutput" => $studentFunctionDefinition
             );
-            if ($fixedFunctionName) {
-                $functionNameTestCaseParams[":achievedPoints"] = 0;
-            } else {
-                $functionNameTestCaseParams[":achievedPoints"] = $pointsForBadFunctionDef;
-            }
             array_push($insertIntoStudentTestCasesParams, $functionNameTestCaseParams);
         } else {
             // Generate parameter string for test function call
@@ -194,23 +196,29 @@ foreach ($_POST as $questionID => $studentAnswer) {
 
 
             // Add student's output to param array to insert into database
+
+
+            $testCaseAutogradeScore = 0;
+            if ($studentOutput == $testcase["answer"]) {
+                $numCorrect++;
+                $pointsScoredForQuestion += $pointsPerTest;
+                $testCaseAutogradeScore = $pointsPerTest;
+            }
             $testCaseOutputParams = array(
                 ":examID" => $examID,
                 ":testCaseID" => $testcase["testCaseID"],
                 ":studentID" => $_SESSION["studentID"],
                 ":maxPoints" => $pointsPerTest,
+                ":autoGradeScore" => $testCaseAutogradeScore,
+                ":teacherScore" => $testCaseAutogradeScore,
                 ":studentOutput" => $studentOutput
             );
-            if ($studentOutput == $testcase["answer"]) {
-                $numCorrect++;
-                $pointsScoredForQuestion += $pointsPerTest;
-                $testCaseOutputParams[":achievedPoints"] = $pointsPerTest;
-            } else {
-                $testCaseOutputParams[":achievedPoints"] = 0;
-            }
             array_push($insertIntoStudentTestCasesParams, $testCaseOutputParams);
         }
     }
+    echo "<pre>";
+    var_dump($insertIntoStudentTestCasesParams);
+    echo "</pre>";
     db_execute_query_multiple_times($insertIntoStudentTestCasesStmt, $insertIntoStudentTestCasesParams);
 
     // Calculate score
@@ -225,7 +233,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
     $totalPointsScored += $pointsScoredForQuestion;
 
     // Update student's grade for question to the calculated score
-    $sqlstmt = "UPDATE questiongrade SET achievedPoints = :achievedPoints, studentAnswer = :studentAnswer WHERE studentID = :studentID AND examID = :examID AND questionID = :questionID";
+    $sqlstmt = "UPDATE questiongrade SET achievedScore = :achievedPoints, studentAnswer = :studentAnswer WHERE studentID = :studentID AND examID = :examID AND questionID = :questionID";
     $params = array(":achievedPoints" => $pointsScoredForQuestion,
         ":studentAnswer" => $studentAnswer,
         ":studentID" => $_SESSION["studentID"],
