@@ -135,11 +135,11 @@ if ($studentID) {
                 th2 = document.createElement("th");
                 th2.innerHTML = "Output";
                 th3 = document.createElement("th");
-                th3.innerHTML = "AG Score";
+                th3.innerHTML = "Auto";
                 th4 = document.createElement("th");
                 th4.innerHTML = "Worth";
                 th5 = document.createElement("th");
-                th5.innerHTML = "Prof Score";
+                th5.innerHTML = "Final";
 
                 tr.appendChild(th1);
                 tr.appendChild(th2);
