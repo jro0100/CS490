@@ -11,10 +11,8 @@ if (!isset($_GET["examID"])) {
 
 $examID = $_GET["examID"];
 
-$sqlstmt = "SELECT questiongrade.*, questionbank.question FROM questiongrade LEFT JOIN questionbank ON questiongrade.questionID = questionbank.questionID WHERE studentID = :studentID AND examID = :examID";
-$params = array(":studentID" => $_SESSION["studentID"],
-    ":examID" => $examID);
-$studentAnswers = db_execute($sqlstmt, $params);
+generate_student_outputs($studentAnswers, $_SESSION["studentID"], $examID);
+
 $json = "[]";
 if ($studentAnswers) {
     $json = str_replace("\\r\\n", "<br>", json_encode($studentAnswers));
