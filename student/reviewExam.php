@@ -83,6 +83,7 @@ if ($studentAnswers) {
                 answerCol.innerHTML = obj.studentAnswer;
 
                 //Create column
+                /*
                 pointsCol = document.createElement("div");
                 pointsCol.classList.add("columnHeader");
                 points = document.createElement("input");
@@ -91,6 +92,59 @@ if ($studentAnswers) {
                 points.disabled = true;
                 points.value = obj.achievedPoints;
                 pointsCol.appendChild(points);
+                */
+                centerTable = document.createElement("div");
+                centerTable.classList.add("center-table");
+
+                table = document.createElement("table");
+                table.setAttribute("border", "1");
+                tr = document.createElement("tr");
+                th1 = document.createElement("th");
+                th1.innerHTML = "Test Case";
+                th2 = document.createElement("th");
+                th2.innerHTML = "Output";
+                th3 = document.createElement("th");
+                th3.innerHTML = "Auto";
+                th4 = document.createElement("th");
+                th4.innerHTML = "Worth";
+                th5 = document.createElement("th");
+                th5.innerHTML = "Final";
+
+                tr.appendChild(th1);
+                tr.appendChild(th2);
+                tr.appendChild(th4);
+                tr.appendChild(th3);
+                tr.appendChild(th5);
+                table.appendChild(tr);
+                
+                for(y = 0; y < obj.autogradeOutputs.length; y++) {
+                    tr = document.createElement("tr");
+                    td1 = document.createElement("td");
+                    td1.innerHTML = obj.autogradeOutputs[y].correctOutput;
+                    td2 = document.createElement("td");
+                    td2.innerHTML = obj.autogradeOutputs[y].studentOutput;
+                    td3 = document.createElement("td");
+                    td3.innerHTML = obj.autogradeOutputs[y].autoGradeScore;
+                    td4 = document.createElement("td");
+                    td4.innerHTML = obj.autogradeOutputs[y].maxPoints;
+                    td5 = document.createElement("td");
+
+                    pointsAchieved = document.createElement("input");
+                    pointsAchieved.setAttribute("type", "text");
+                    pointsAchieved.classList.add("points-achieved");
+                    pointsAchieved.setAttribute("name", "teacherScore-" + obj.autogradeOutputs[y].studentTestCaseID);
+                    pointsAchieved.setAttribute("size", "1");
+                    pointsAchieved.disabled = true;
+                    pointsAchieved.value = obj.autogradeOutputs[y].teacherScore;
+
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tr.appendChild(td4);
+                    tr.appendChild(td3);
+                    td5.appendChild(pointsAchieved);
+                    tr.appendChild(td5);
+                    table.appendChild(tr);
+                }
 
                 //Create column
                 commentCol = document.createElement("div");
@@ -109,7 +163,8 @@ if ($studentAnswers) {
     
                 row.appendChild(questionCol);
                 row.appendChild(answerCol);
-                row.appendChild(pointsCol);
+                centerTable.appendChild(table);
+                row.appendChild(centerTable);
                 row.appendChild(commentCol);
                 document.body.appendChild(row);
             }
