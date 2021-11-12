@@ -194,18 +194,20 @@ foreach ($_POST as $questionID => $studentAnswer) {
 
             // Execute student's function
             file_put_contents("test.py", $guaranteedCorrectFunDefinition . "\nprint($functionToCall($paramString))\n");
-            $studentOutput = exec("python test.py");
-
+            $studentOutput = exec("python test.py", $outputArray, $resultCode);
 
             // Add student's output to param array to insert into database
-
-
             $testCaseAutogradeScore = 0;
             if ($studentOutput == $testcase["answer"]) {
                 $numCorrect++;
                 $pointsScoredForQuestion += $pointsPerTest;
                 $testCaseAutogradeScore = $pointsPerTest;
             }
+
+            if ($resultCode != 0) {
+                $studentOutput = "Error";
+            }
+
             $testCaseOutputParams = array(
                 ":examID" => $examID,
                 ":testCaseID" => $testcase["testCaseID"],
