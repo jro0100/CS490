@@ -100,7 +100,9 @@ if ($result) {
         </ul>
     </nav>
 
-    <script src="https://riversun.github.io/jsframe/jsframe.js">
+    <div id="snackbar">Exam Released!</div>
+
+    <script>
         var text = <?php echo $json ?>;
 
         for (i = 0; i < text.length; i++) {
@@ -142,8 +144,8 @@ if ($result) {
             submit.setAttribute("type", "submit");
             submit.setAttribute("name", "releaseExam");
             submit.setAttribute("class", "releaseExam");
+            submit.setAttribute("onclick", "releaseExamToast()");
             submit.setAttribute("value", obj.examID);
-            submit.setAttribute("onclick", "releaseExamToast()")
             submit.innerHTML = "Release Exam";
 
             //Add review Exam Button
@@ -182,10 +184,14 @@ if ($result) {
         document.body.appendChild(buttonDiv);
 
         function releaseExamToast() {
-            const jsFrame = new JSFrame();
-            jsFrame.showToast({
-                html: 'Exam Released', align: 'top', duration: 2000
-            });
+            // Get the snackbar DIV
+            var x = document.getElementById("snackbar");
+
+            // Add the "show" class to DIV
+            x.className = "show";
+
+            // After 3 seconds, remove the show class from DIV
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         }
     </script>
 </body>
