@@ -85,10 +85,15 @@ foreach ($_POST as $questionID => $studentAnswer) {
     if (!preg_match('/def (' . $functionToCall . ')\(/', $studentAnswer, $match)) {
         $fixedFunctionName = true;
         $studentFunctionDefinition = preg_match('/def (.*?)\(/', $studentAnswer, $badMatch);
-        $studentFunctionDefinition = $badMatch[1];
-        $guaranteedCorrectFunDefinition = preg_replace('/def (.*?)\(/', "def $functionToCall(", $studentAnswer);
+        if (count($badMatch) == 0) {
+            $noFunctionDefinition = true;
+            $inputFilteredForFunctionDefinition = $studentAnswer;
+        } else {
+            $studentFunctionDefinition = $badMatch[1];
+            $inputFilteredForFunctionDefinition = preg_replace('/def (.*?)\(/', "def $functionToCall(", $studentAnswer);
+        }
     } else {
-        $guaranteedCorrectFunDefinition = $studentAnswer;
+        $inputFilteredForFunctionDefinition = $studentAnswer;
         $studentFunctionDefinition = $functionToCall;
     }
 
@@ -107,13 +112,13 @@ foreach ($_POST as $questionID => $studentAnswer) {
     }
     if (isset($constraintSearchTerm)) {
         if ($constraintSearchTerm == $functionToCall) {
-            preg_match_all('/' . $constraintSearchTerm . '/', $guaranteedCorrectFunDefinition, $constraintMatches);
+            preg_match_all('/' . $constraintSearchTerm . '/', $inputFilteredForFunctionDefinition, $constraintMatches);
             if (count($constraintMatches[0]) > 1) {
                 $matchedConstraint = true;
                 $pointsScoredForQuestion += $pointsForQuestionConstraint;
             }
         } else {
-            preg_match('/' . $constraintSearchTerm . '/', $guaranteedCorrectFunDefinition, $constraintMatches);
+            preg_match('/' . $constraintSearchTerm . '/', $inputFilteredForFunctionDefinition, $constraintMatches);
             if (count($constraintMatches) > 0) {
                 $matchedConstraint = true;
                 $pointsScoredForQuestion += $pointsForQuestionConstraint;
@@ -170,6 +175,10 @@ foreach ($_POST as $questionID => $studentAnswer) {
                 $functionNameTestCaseScore = $pointsForBadFunctionDef;
             }
 
+            if (isset($noFunctionDefinition) && $noFunctionDefinition == true) {
+                $studentFunctionDefinition = "N/A";
+            }
+
             $functionNameTestCaseParams = array(
                 ":examID" => $examID,
                 ":testCaseID" => $functionNameTestCaseID,
@@ -193,7 +202,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
 
 
             // Execute student's function
-            file_put_contents("test.py", $guaranteedCorrectFunDefinition . "\nprint($functionToCall($paramString))\n");
+            file_put_contents("test.py", $inputFilteredForFunctionDefinition . "\nprint($functionToCall($paramString))\n");
             $studentOutput = exec("python test.py", $outputArray, $resultCode);
 
             // Add student's output to param array to insert into database
