@@ -103,6 +103,8 @@ if (isset($_POST["submitQuestion"])) {
                 <option value="forLoop" >For Loop</option>
                 <option value="whileLoop">While Loop</option>
                 <option value="recursion">Recursion</option>
+                <option value="conditionals">Conditionals</option>
+                <option value="strings">Strings</option>
             </select><br>
 
             <label for="constraint">Constraint</label>
