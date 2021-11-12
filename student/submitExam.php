@@ -166,7 +166,9 @@ foreach ($_POST as $questionID => $studentAnswer) {
         } elseif ($testcase["testCaseID"] == $functionNameTestCaseID) {
 
             $functionNameTestCaseScore = 0;
-            $functionNameTestCaseScore = $pointsForBadFunctionDef;
+            if (!$fixedFunctionName) {
+                $functionNameTestCaseScore = $pointsForBadFunctionDef;
+            }
 
             $functionNameTestCaseParams = array(
                 ":examID" => $examID,
