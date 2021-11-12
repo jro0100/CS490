@@ -100,7 +100,7 @@ if ($result) {
         </ul>
     </nav>
 
-    <script>
+    <script src="https://riversun.github.io/jsframe/jsframe.js">
         var text = <?php echo $json ?>;
 
         for (i = 0; i < text.length; i++) {
@@ -180,8 +180,7 @@ if ($result) {
         form.appendChild(createExamButton);
         buttonDiv.appendChild(form);
         document.body.appendChild(buttonDiv);
-    </script>
-    <script src="https://riversun.github.io/jsframe/jsframe.js">
+
         function releaseExamToast() {
             const jsFrame = new JSFrame();
             jsFrame.showToast({
