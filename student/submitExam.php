@@ -218,9 +218,6 @@ foreach ($_POST as $questionID => $studentAnswer) {
             array_push($insertIntoStudentTestCasesParams, $testCaseOutputParams);
         }
     }
-    echo "<pre>";
-    var_dump($insertIntoStudentTestCasesParams);
-    echo "</pre>";
     db_execute_query_multiple_times($insertIntoStudentTestCasesStmt, $insertIntoStudentTestCasesParams);
 
     // Calculate score
