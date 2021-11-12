@@ -100,8 +100,6 @@ if ($result) {
         </ul>
     </nav>
 
-    <div id="snackbar">Exam Released!</div>
-
     <script>
         var text = <?php echo $json ?>;
 
@@ -144,7 +142,6 @@ if ($result) {
             submit.setAttribute("type", "submit");
             submit.setAttribute("name", "releaseExam");
             submit.setAttribute("class", "releaseExam");
-            submit.setAttribute("onclick", "releaseExamToast()");
             submit.setAttribute("value", obj.examID);
             submit.innerHTML = "Release Exam";
 
@@ -182,17 +179,6 @@ if ($result) {
         form.appendChild(createExamButton);
         buttonDiv.appendChild(form);
         document.body.appendChild(buttonDiv);
-
-        function releaseExamToast() {
-            // Get the snackbar DIV
-            var x = document.getElementById("snackbar");
-
-            // Add the "show" class to DIV
-            x.className = "show";
-
-            // After 3 seconds, remove the show class from DIV
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 8000);
-        }
     </script>
 </body>
 </html>
