@@ -143,6 +143,7 @@ if ($result) {
             submit.setAttribute("name", "releaseExam");
             submit.setAttribute("class", "releaseExam");
             submit.setAttribute("value", obj.examID);
+            submit.setAttribute("onclick", "releaseExamToast()")
             submit.innerHTML = "Release Exam";
 
             //Add review Exam Button
@@ -179,7 +180,14 @@ if ($result) {
         form.appendChild(createExamButton);
         buttonDiv.appendChild(form);
         document.body.appendChild(buttonDiv);
-        
+    </script>
+    <script src="https://riversun.github.io/jsframe/jsframe.js">
+        function releaseExamToast() {
+            const jsFrame = new JSFrame();
+            jsFrame.showToast({
+                html: 'Exam Released', align: 'top', duration: 2000
+            });
+        }
     </script>
 </body>
 </html>
