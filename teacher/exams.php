@@ -131,7 +131,6 @@ if ($result) {
             sub.setAttribute("type", "submit");
             sub.setAttribute("name", "examID");
             sub.setAttribute("class", "reviewExam");
-            submit.setAttribute("onclick", "releaseExamToast()");
             sub.setAttribute("value", obj.examID);
             sub.innerHTML = "Review Exam";
 
@@ -145,6 +144,7 @@ if ($result) {
             submit.setAttribute("type", "submit");
             submit.setAttribute("name", "releaseExam");
             submit.setAttribute("class", "releaseExam");
+            submit.setAttribute("onclick", "releaseExamToast()");
             submit.setAttribute("value", obj.examID);
             submit.innerHTML = "Release Exam";
 
