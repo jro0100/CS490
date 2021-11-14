@@ -120,8 +120,10 @@ if ($studentAnswers) {
                 for(y = 0; y < obj.autogradeOutputs.length; y++) {
                     tr = document.createElement("tr");
                     td1 = document.createElement("td");
+                    td1.classList.add("test-case");
                     td1.innerHTML = obj.autogradeOutputs[y].correctOutput;
                     td2 = document.createElement("td");
+                    td2.classList.add("output");
                     td2.innerHTML = obj.autogradeOutputs[y].studentOutput;
                     td3 = document.createElement("td");
                     td3.innerHTML = obj.autogradeOutputs[y].autoGradeScore;
