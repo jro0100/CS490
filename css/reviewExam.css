@@ -102,10 +102,20 @@ label {
 
 table {
     margin-top: 20px;
+    table-layout: fixed;
 }
 
 td, th {
     padding: 5px 5px 5px 5px;
+    overflow: hidden;
+}
+
+.test-case {
+    width: 230px;
+}
+
+.output {
+    width: 100px;
 }
 
 .center {
