@@ -98,7 +98,7 @@ if ($studentID) {
             </div>
         </div>
 
-        <div id="snackbar">Exam Released!</div>
+        <div id="snackbar">Changes Saved!</div>
 
         <script>
             var text = <?php echo $json ?>;
