@@ -98,6 +98,8 @@ if ($studentID) {
             </div>
         </div>
 
+        <div id="snackbar">Exam Released!</div>
+
         <script>
             var text = <?php echo $json ?>;
 
@@ -198,12 +200,13 @@ if ($studentID) {
             }
             buttonDiv = document.createElement("div");
             buttonDiv.classList.add("center");
-            createExamButton = document.createElement("input");
-            createExamButton.setAttribute("type", "submit");
-            createExamButton.setAttribute("class", "submitButton");
-            createExamButton.setAttribute("name", "saveChanges");
-            createExamButton.value = "Save Changes";
-            buttonDiv.appendChild(createExamButton);
+            saveChanges = document.createElement("input");
+            saveChanges.setAttribute("type", "submit");
+            saveChanges.setAttribute("class", "submitButton");
+            saveChanges.setAttribute("name", "saveChanges");
+            saveChanges.setAttribute("onclick", "releaseExamToast()");
+            saveChanges.value = "Save Changes";
+            buttonDiv.appendChild(saveChanges);
             form.appendChild(buttonDiv);
 
             studentIDInfo = document.createElement("input");
@@ -219,6 +222,20 @@ if ($studentID) {
             form.appendChild(examIDInfo);
     
             document.body.appendChild(form); //Appends the div to the body of the HTML page
+        </script>
+
+        <!-- The following is the JS for alerting the user that the exams have been released -->
+        <script>
+            function releaseExamToast() {
+                // Get the snackbar DIV
+                var x = document.getElementById("snackbar");
+
+                // Add the "show" class to DIV
+                x.className = "show";
+
+                // After 3 seconds, remove the show class from DIV
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }
         </script>
     </body>
 </html>
