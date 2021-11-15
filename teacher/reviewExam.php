@@ -98,7 +98,7 @@ if ($studentID) {
             </div>
         </div>
 
-        <div id="snackbar">Changes Saved!</div>
+        <div id="toast">Changes Saved!</div>
 
         <script>
             var text = <?php echo $json ?>;
@@ -229,14 +229,14 @@ if ($studentID) {
         <!-- The following is the JS for alerting the user that the exams have been released -->
         <script>
             function releaseExamToast() {
-                // Get the snackbar DIV
-                var x = document.getElementById("snackbar");
+                // Get the toast div
+                var toast = document.getElementById("toast");
 
-                // Add the "show" class to DIV
-                x.className = "show";
+                // Add the "show" class to div
+                toast.className = "show";
 
                 // After 3 seconds, remove the show class from DIV
-                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
             }
         </script>
     </body>
