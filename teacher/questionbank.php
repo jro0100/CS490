@@ -13,8 +13,6 @@ $json = "[]";
 if ($result) {
     $json = json_encode($result);
 }
-// echo "Teacher ID: " . $_SESSION["teacherID"] . "<br>";
-// echo $json;
 
 ?>
 
