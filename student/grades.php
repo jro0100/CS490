@@ -9,17 +9,20 @@ $params = array(":teacherID" => $_SESSION["teacherID"]);
 $exams = db_execute($sqlstmt, $params);
 
 for ($i = 0; $i < count($exams); $i++) {
-
-    $sqlstmt = "SELECT studentexam.studentGrade, SUM(questionsonexam.maxPoints) AS maxPoints FROM studentexam, questionsonexam WHERE studentID = :studentID AND studentexam.examID = :examID";
+    // Get student's score for exam
+    $sqlstmt = "SELECT studentGrade FROM studentexam WHERE studentID = :studentID AND studentexam.examID = :examID";
     $params = array(
         ":studentID" => $_SESSION["studentID"],
         ":examID" => $exams[$i]["examID"]
     );
+    $exams[$i]["studentTotalPoints"] = db_execute($sqlstmt, $params)[0]["studentGrade"];
 
-    $results = db_execute($sqlstmt, $params)[0];
-
-    $exams[$i]["studentTotalPoints"] = $results["studentGrade"];
-    $exams[$i]["examMaxPoints"] = $results["maxPoints"];
+    // Get maximum score for exam
+    $sqlstmt = "SELECT SUM(maxPoints) AS maxPoints FROM questionsonexam WHERE examID = :examID";
+    $params = array(
+        ":examID" => $exams[$i]["examID"]
+    );
+    $exams[$i]["examMaxPoints"] = db_execute($sqlstmt, $params)[0]["maxPoints"];
 }
 
 $json = "[]";

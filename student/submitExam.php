@@ -146,6 +146,9 @@ foreach ($_POST as $questionID => $studentAnswer) {
 
     $insertIntoStudentTestCasesStmt = "INSERT INTO studenttestcases (examID, testCaseID, studentID, maxPoints, autoGradeScore, teacherScore, studentOutput) VALUES (:examID, :testCaseID, :studentID, :maxPoints, :autoGradeScore, :teacherScore, :studentOutput)";
     $insertIntoStudentTestCasesParams = array();
+
+    $counter = 0;
+    $lastTestCase = count($testcases) - 1;
     foreach ($testcases as $testcase) {
         // Insert true or false as student's answer for constraint matching
         if (isset($constraintTestCaseID) && $constraintTestCaseID == $testcase["testCaseID"]) {
@@ -190,6 +193,16 @@ foreach ($_POST as $questionID => $studentAnswer) {
             );
             array_push($insertIntoStudentTestCasesParams, $functionNameTestCaseParams);
         } else {
+            if ($counter == $lastTestCase) {
+                $totalTally = ($numTests * $pointsPerTest) + $pointsForBadFunctionDef;
+                if (isset($pointsForQuestionConstraint) && $questionConstraint != "none") {
+                    $totalTally += $pointsForQuestionConstraint;
+                }
+                if ($totalTally > $maxPoints) {
+                    $pointsPerTest = $pointsPerTest - ($totalTally - $maxPoints);
+                }
+            }
+
             // Generate parameter string for test function call
             $sqlstmt = "SELECT * FROM parameters WHERE testCaseID = :testCaseID";
             $params = array(":testCaseID" => $testcase["testCaseID"]);
@@ -228,6 +241,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
             );
             array_push($insertIntoStudentTestCasesParams, $testCaseOutputParams);
         }
+        $counter++;
     }
     db_execute_query_multiple_times($insertIntoStudentTestCasesStmt, $insertIntoStudentTestCasesParams);
 
