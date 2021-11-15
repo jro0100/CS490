@@ -46,6 +46,26 @@ db_execute_query_multiple_times($sqlstmt, $studentTestCaseUpdateParams);
 $sqlstmt = "UPDATE questiongrade SET teacherComment = :teacherComment WHERE studentID = :studentID AND examID = :examID AND questionID = :questionID";
 db_execute_query_multiple_times($sqlstmt, $commentArray);
 
+
+// Update student's grade for their exam list in grades.php
+$sqlstmt = "SELECT SUM(teacherScore) AS finalScore, SUM(maxPoints) AS maxPoints FROM studenttestcases WHERE studentID = :studentID AND examID = :examID";
+$params = array(
+    ":studentID" => $studentID,
+    ":examID" => $examID
+);
+$results = db_execute($sqlstmt, $params);
+if ($results) {
+    $maxPoints = $results[0]["maxPoints"];
+    $updatedScore = $results[0]["finalScore"];
+    $sqlstmt = "UPDATE studentExam SET studentGrade = :studentGrade WHERE examID = :examID AND studentID = :studentID";
+    $params = array(
+        ":studentGrade" => $updatedScore,
+        ":examID" => $examID,
+        ":studentID" => $studentID
+    );
+    db_execute($sqlstmt, $params);
+}
+
 header("Location: reviewExam.php?examID=$examID&studentID=$studentID");
 exit();
 

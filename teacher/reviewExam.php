@@ -30,7 +30,7 @@ if ($studentID) {
 
     $json = "[]";
     if ($studentAnswers) {
-        $json = str_replace("\\r\\n", "", json_encode($studentAnswers));
+        $json = str_replace("\\r\\n", "<br>", json_encode($studentAnswers));
     }
 }
 ?>

@@ -73,7 +73,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
         $numTests -= 1;
     }
     $numCorrect = 0;
-    if (isset($pointsForQuestionConstraint)) {
+    if (isset($pointsForQuestionConstraint) && $questionConstraint != "none") {
         $pointsPerTest = intval(round(($maxPoints - $pointsForBadFunctionDef - $pointsForQuestionConstraint) / $numTests));
     } else {
         $pointsPerTest = intval(round(($maxPoints - $pointsForBadFunctionDef) / $numTests));
@@ -253,9 +253,8 @@ foreach ($_POST as $questionID => $studentAnswer) {
 }
 
 // Add total score to studentexam table
-$grade = round(($totalPointsScored / $maxPointsOverall) * 100, 2);
 $sqlstmt = "UPDATE studentexam SET studentGrade = :studentGrade WHERE studentID = :studentID AND examID = :examID";
-$params = array(":studentGrade" => $grade,
+$params = array(":studentGrade" => $totalPointsScored,
     ":studentID" => $_SESSION["studentID"],
     ":examID" => $examID);
 db_execute($sqlstmt, $params);
