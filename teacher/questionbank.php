@@ -32,7 +32,7 @@ if ($result) {
             <label for="typeFilter">Question Type</label><br>
             <select name="typeFilter" id="typeFilter" style="font-size:17px;" onchange="filterApplied()">
                 <option value="allTypes" selected>All</option>
-                <option value="default">General</option>
+                <option value="general">General</option>
                 <option value="forLoop" >For Loop</option>
                 <option value="whileLoop">While Loop</option>
                 <option value="recursion">Recursion</option>
