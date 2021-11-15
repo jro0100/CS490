@@ -122,7 +122,7 @@ td, th {
     text-align: center;
 }
 
-#toast {
+#snackbar {
     visibility: hidden;
     min-width: 250px;
     margin-left: -125px;
@@ -138,7 +138,7 @@ td, th {
   }
 
   /* When a button is clicked, show the toast */
-  #toast.show {
+  #snackbar.show {
     visibility: visible; /* Show the toast */
     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
     animation: fadein 0.5s, fadeout 0.5s 2.5s;

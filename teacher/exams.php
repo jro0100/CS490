@@ -101,7 +101,7 @@ if ($result) {
         </ul>
     </nav>
 
-    <div id="toast">Exam Released!</div>
+    <div id="snackbar">Exam Released!</div>
 
     <script>
         var text = <?php echo $json ?>;
@@ -189,7 +189,7 @@ if ($result) {
     <script>
         function releaseExamToast() {
             // Get the toast div
-            var toast = document.getElementById("toast");
+            var toast = document.getElementById("snackbar");
 
             // Add the "show" class to div
             toast.className = "show";
