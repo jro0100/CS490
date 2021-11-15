@@ -99,7 +99,7 @@ if (isset($_POST["submitQuestion"])) {
 
             <label for="questionType">Question Type</label>
             <select name="questionType" id="questionType" class="dropdowns">
-                <option value="default" selected>General</option>
+                <option value="general" selected>General</option>
                 <option value="forLoop" >For Loop</option>
                 <option value="whileLoop">While Loop</option>
                 <option value="recursion">Recursion</option>

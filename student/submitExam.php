@@ -73,7 +73,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
         $numTests -= 1;
     }
     $numCorrect = 0;
-    if (isset($pointsForQuestionConstraint)) {
+    if (isset($pointsForQuestionConstraint) && $questionConstraint != "none") {
         $pointsPerTest = intval(round(($maxPoints - $pointsForBadFunctionDef - $pointsForQuestionConstraint) / $numTests));
     } else {
         $pointsPerTest = intval(round(($maxPoints - $pointsForBadFunctionDef) / $numTests));
@@ -146,6 +146,9 @@ foreach ($_POST as $questionID => $studentAnswer) {
 
     $insertIntoStudentTestCasesStmt = "INSERT INTO studenttestcases (examID, testCaseID, studentID, maxPoints, autoGradeScore, teacherScore, studentOutput) VALUES (:examID, :testCaseID, :studentID, :maxPoints, :autoGradeScore, :teacherScore, :studentOutput)";
     $insertIntoStudentTestCasesParams = array();
+
+    $counter = 0;
+    $lastTestCase = count($testcases) - 1;
     foreach ($testcases as $testcase) {
         // Insert true or false as student's answer for constraint matching
         if (isset($constraintTestCaseID) && $constraintTestCaseID == $testcase["testCaseID"]) {
@@ -190,6 +193,16 @@ foreach ($_POST as $questionID => $studentAnswer) {
             );
             array_push($insertIntoStudentTestCasesParams, $functionNameTestCaseParams);
         } else {
+            if ($counter == $lastTestCase) {
+                $totalTally = ($numTests * $pointsPerTest) + $pointsForBadFunctionDef;
+                if (isset($pointsForQuestionConstraint) && $questionConstraint != "none") {
+                    $totalTally += $pointsForQuestionConstraint;
+                }
+                if ($totalTally > $maxPoints) {
+                    $pointsPerTest = $pointsPerTest - ($totalTally - $maxPoints);
+                }
+            }
+
             // Generate parameter string for test function call
             $sqlstmt = "SELECT * FROM parameters WHERE testCaseID = :testCaseID";
             $params = array(":testCaseID" => $testcase["testCaseID"]);
@@ -228,6 +241,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
             );
             array_push($insertIntoStudentTestCasesParams, $testCaseOutputParams);
         }
+        $counter++;
     }
     db_execute_query_multiple_times($insertIntoStudentTestCasesStmt, $insertIntoStudentTestCasesParams);
 
@@ -253,9 +267,8 @@ foreach ($_POST as $questionID => $studentAnswer) {
 }
 
 // Add total score to studentexam table
-$grade = round(($totalPointsScored / $maxPointsOverall) * 100, 2);
 $sqlstmt = "UPDATE studentexam SET studentGrade = :studentGrade WHERE studentID = :studentID AND examID = :examID";
-$params = array(":studentGrade" => $grade,
+$params = array(":studentGrade" => $totalPointsScored,
     ":studentID" => $_SESSION["studentID"],
     ":examID" => $examID);
 db_execute($sqlstmt, $params);
