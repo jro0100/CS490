@@ -61,14 +61,15 @@ if (isset($_POST["releaseExam"])) {
 
     // Create default grade and answer of 0 for each student in questiongrade table, to be updated when they actually
     // take and submit exam
-    $sqlstmt = "INSERT INTO questiongrade (studentID, examID, questionID) VALUES (:studentID, :examID, :questionID)";
+    $sqlstmt = "INSERT INTO questiongrade (studentID, examID, questionID, achievedScore) VALUES (:studentID, :examID, :questionID, :achievedScore)";
     $params = array();
     foreach ($questionIDArray as $questionID) {
         foreach ($studentIDArray as $studentID) {
             array_push($params, array(
                 ":studentID" => $studentID,
                 ":examID" => $examID,
-                ":questionID" => $questionID));
+                ":questionID" => $questionID,
+                ":achievedScore" => 0));
         }
     }
     db_execute_query_multiple_times($sqlstmt, $params);
