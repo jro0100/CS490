@@ -149,7 +149,9 @@ if ($studentID) {
                 tr.appendChild(th3);
                 tr.appendChild(th5);
                 table.appendChild(tr);
-                
+
+                scoreTotal = 0;
+
                 for(y = 0; y < obj.autogradeOutputs.length; y++) {
                     tr = document.createElement("tr");
                     td1 = document.createElement("td");
@@ -171,6 +173,8 @@ if ($studentID) {
                     pointsAchieved.setAttribute("size", "1");
                     pointsAchieved.value = obj.autogradeOutputs[y].teacherScore;
 
+                    scoreTotal += parseInt(obj.autogradeOutputs[y].teacherScore, 10);
+
                     tr.appendChild(td1);
                     tr.appendChild(td2);
                     tr.appendChild(td4);
@@ -179,6 +183,20 @@ if ($studentID) {
                     tr.appendChild(td5);
                     table.appendChild(tr);
                 }
+
+                let scoreRow = document.createElement("tr");
+                elem = document.createElement("td");
+                elem.innerHTML = "Total";
+                scoreRow.appendChild(elem);
+                for (let c = 0; c < 3; c++) {
+                    elem = document.createElement("td");
+                    elem.innerHTML = "-";
+                    scoreRow.appendChild(elem);
+                }
+                let scoreBox = document.createElement("td");
+                scoreBox.innerHTML = scoreTotal;
+                scoreRow.appendChild(scoreBox);
+                table.appendChild(scoreRow);
 
                 commentCol = document.createElement("div");
                 commentCol.classList.add("columnHeader");
