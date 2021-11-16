@@ -87,6 +87,9 @@ a:hover {
     cursor: pointer;
   }
 
+/* The following toast/snackbar CSS is being referenced from W3Schools.
+Their transition of fading in and out was well timed and did not need to be changed.
+The only code changed in the following CSS are the colors */
 #snackbar {
     visibility: hidden; /* Hidden by default. Visible on click */
     min-width: 250px;
@@ -102,9 +105,6 @@ a:hover {
     bottom: 30px;
   }
 
-  /* The following toast/snackbar CSS is being referenced from W3Schools.
-   Their transition of fading in and out was well timed and did not need to be changed.
-   The only code changed in the following CSS are the colors */
   /* When a button is clicked, show the toast */
   #snackbar.show {
     visibility: visible; /* Show the toast */
