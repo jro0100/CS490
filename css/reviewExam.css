@@ -122,6 +122,9 @@ td, th {
     text-align: center;
 }
 
+/* The following toast/snackbar CSS is being referenced from W3Schools.
+   Their transition of fading in and out was well timed and did not need to be changed.
+   The only code changed in the following CSS are the colors */
 #snackbar {
     visibility: hidden;
     min-width: 250px;
