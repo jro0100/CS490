@@ -35,11 +35,16 @@ for ($i = 0; $i < count($questionIDScoreArray); $i++) {
     $questionArray[$i]["points"] = $questionIDScoreArray[$i]["maxPoints"];
 }
 
+$sqlstmt = "SELECT examName FROM exams WHERE examID = :examID";
+$params = array(":examID" => $_GET["examID"]);
+$examName = db_execute($sqlstmt, $params)[0]["examName"];
+
+array_unshift($questionArray, array("examName" => $examName));
+
 $json = "[]";
 if ($questionArray) {
     $json = json_encode($questionArray);
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +72,7 @@ if ($questionArray) {
         form.setAttribute("method", "post");
         form.setAttribute("action", "submitExam.php");
 
-        for (i = 0; i < text.length; i++) {
+        for (i = 1; i < text.length; i++) {
             const obj = JSON.parse(JSON.stringify(text[i]));
 
             //Create row
