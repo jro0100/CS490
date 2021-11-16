@@ -42,7 +42,7 @@ if ($studentID) {
         <link rel="stylesheet"  href="../css/menu.css">
         <link rel="stylesheet"  href="../css/reviewExam.css">
     </head>
-    <body>
+    <body <?php if (isset($_GET["saved"]) && $_GET["saved"] == "1") echo 'onload="saveChangesToast()"'; ?>>
         <nav class="navbar">
             <ul class="nav-links">
                 <li class="nav-item"><a href="index.php">Question Bank</a></li>
@@ -206,7 +206,7 @@ if ($studentID) {
             saveChanges.setAttribute("type", "submit");
             saveChanges.setAttribute("class", "submitButton");
             saveChanges.setAttribute("name", "saveChanges");
-            saveChanges.setAttribute("onclick", "releaseExamToast()");
+            //saveChanges.setAttribute("onclick", "releaseExamToast()");
             saveChanges.value = "Save Changes";
             buttonDiv.appendChild(saveChanges);
             form.appendChild(buttonDiv);
@@ -228,7 +228,7 @@ if ($studentID) {
 
         <!-- The following is the JS for alerting the user that the exams have been released -->
         <script>
-            function releaseExamToast() {
+            function saveChangesToast() {
                 // Get the toast div
                 var toast = document.getElementById("snackbar");
 

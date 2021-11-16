@@ -66,6 +66,6 @@ if ($results) {
     db_execute($sqlstmt, $params);
 }
 
-header("Location: reviewExam.php?examID=$examID&studentID=$studentID");
+header("Location: reviewExam.php?examID=$examID&studentID=$studentID&saved=1");
 exit();
 

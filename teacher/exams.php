@@ -92,7 +92,7 @@ if ($result) {
     <link rel="stylesheet"  href="../css/menu.css">
     <link rel="stylesheet"  href="../css/teacher/exams.css">
 </head>
-<body>
+<body <?php if (isset($_POST["releaseExam"])) echo 'onload="releaseExamToast()"' ?>>
     <nav class="navbar">
         <ul class="nav-links">
             <li class="nav-item"><a href="index.php">Question Bank</a></li>
@@ -145,7 +145,7 @@ if ($result) {
             submit.setAttribute("type", "submit");
             submit.setAttribute("name", "releaseExam");
             submit.setAttribute("class", "releaseExam");
-            submit.setAttribute("onclick", "releaseExamToast()");
+            //submit.setAttribute("onclick", "releaseExamToast()");
             submit.setAttribute("value", obj.examID);
             submit.innerHTML = "Release Exam";
 
