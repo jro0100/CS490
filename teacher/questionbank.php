@@ -11,7 +11,7 @@ $result = db_execute($sqlstmt, $params);
 $json = "[]";
 
 if ($result) {
-    $json = json_encode($result);
+    $json = str_replace("\\r\\n", "<br>", json_encode($result));
 }
 
 ?>
