@@ -74,9 +74,9 @@ foreach ($_POST as $questionID => $studentAnswer) {
     }
     $numCorrect = 0;
     if (isset($pointsForQuestionConstraint) && $questionConstraint != "none") {
-        $pointsPerTest = intval(round(($maxPoints - $pointsForBadFunctionDef - $pointsForQuestionConstraint) / $numTests));
+        $pointsPerTest = intval(floor(($maxPoints - $pointsForBadFunctionDef - $pointsForQuestionConstraint) / $numTests));
     } else {
-        $pointsPerTest = intval(round(($maxPoints - $pointsForBadFunctionDef) / $numTests));
+        $pointsPerTest = intval(floor(($maxPoints - $pointsForBadFunctionDef) / $numTests));
     }
 
 
@@ -200,6 +200,8 @@ foreach ($_POST as $questionID => $studentAnswer) {
                 }
                 if ($totalTally > $maxPoints) {
                     $pointsPerTest = $pointsPerTest - ($totalTally - $maxPoints);
+                } elseif ($totalTally < $maxPoints) {
+                    $pointsPerTest = $pointsPerTest + ($maxPoints - $totalTally);
                 }
             }
 
