@@ -66,11 +66,17 @@ if ($questionArray) {
     </body>
 
     <script>
-        var text = <?php echo $json ?>;
+        var text = [{"examName":"Test Exam 4"}, {"questionID":"5","teacherID":"5","question":"Write a function called add that takes 2 numbers, adds them together, and returns the result","questionType":"Basic Function","difficulty":"0","parameterCount":"2","functionToCall":"add"},{"questionID":"15","teacherID":"5","question":"Write a function called subtract that takes 2 numbers and subtracts the second number from the first one, then returns the result","questionType":"Basic Function","difficulty":"0","parameterCount":"2","functionToCall":"subtract"}];
 
         form = document.createElement("form");
         form.setAttribute("method", "post");
         form.setAttribute("action", "submitExam.php");
+
+        const header = JSON.parse(JSON.stringify(text[0]));
+        title = document.createElement("div");
+        title.classList.add("center-title");
+        title.innerHTML = header.examName;
+        document.body.appendChild(title);
 
         for (i = 1; i < text.length; i++) {
             const obj = JSON.parse(JSON.stringify(text[i]));
