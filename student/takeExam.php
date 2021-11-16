@@ -43,7 +43,7 @@ array_unshift($questionArray, array("examName" => $examName));
 
 $json = "[]";
 if ($questionArray) {
-    $json = json_encode($questionArray);
+    $json = str_replace("\\r\\n", "<br>", json_encode($questionArray));
 }
 ?>
 
@@ -91,7 +91,7 @@ if ($questionArray) {
 
             question = document.createElement("p");
             question.classList.add("center-column-text");
-            question.innerHTML = (i + 1) + ".) " + obj.question;
+            question.innerHTML = i + ".) " + obj.question;
 
             points = document.createElement("p");
             points.classList.add("center-column-text");
