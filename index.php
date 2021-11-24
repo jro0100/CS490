@@ -72,6 +72,7 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
     <meta charset="utf-8">
     <!--- Links to external CSS stylesheet --->
     <link rel="stylesheet"  href="css/login.css">
+    <title>Login</title>
 </head>
 <body>
 <!--- Displays login box in the center of the page --->
