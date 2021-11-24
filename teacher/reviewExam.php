@@ -41,6 +41,7 @@ if ($studentID) {
         <meta charset="utf-8">
         <link rel="stylesheet"  href="../css/menu.css">
         <link rel="stylesheet"  href="../css/reviewExam.css">
+        <title>Review Exam</title>
     </head>
     <body <?php if (isset($_GET["saved"]) && $_GET["saved"] == "1") echo 'onload="saveChangesToast()"'; ?>>
         <nav class="navbar">

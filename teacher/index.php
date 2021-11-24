@@ -12,6 +12,7 @@ redirect_to_login_if_not_valid_teacher();
     <meta charset="utf-8">
     <link rel="stylesheet"  href="../css/menu.css">
     <link rel="stylesheet"  href="../css/teacher/index.css">
+    <title>Questions</title>
 </head>
 <body>
     <nav class="navbar">

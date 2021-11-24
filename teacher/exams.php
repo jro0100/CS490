@@ -91,6 +91,7 @@ if ($result) {
     <meta charset="utf-8">
     <link rel="stylesheet"  href="../css/menu.css">
     <link rel="stylesheet"  href="../css/teacher/exams.css">
+    <title>Exams</title>
 </head>
 <body <?php if (isset($_POST["releaseExam"])) echo 'onload="releaseExamToast()"' ?>>
     <nav class="navbar">

@@ -24,6 +24,7 @@ if ($result) {
     <link rel="stylesheet"  href="../css/menu.css">
     <link rel="stylesheet"  href="../css/teacher/index.css">
     <link rel="stylesheet"  href="../css/teacher/createExam.css">
+    <title>Create Exam</title>
 </head>
 <body>
 

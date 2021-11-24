@@ -54,6 +54,7 @@ if ($questionArray) {
         <link rel="stylesheet"  href="../css/menu.css">
         <link rel="stylesheet"  href="../css/main.css">
         <link rel="stylesheet"  href="../css/student/stuExams.css">
+        <title>Take Exam</title>
     </head>
     <body>
         <nav class="navbar">

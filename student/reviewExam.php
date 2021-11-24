@@ -26,6 +26,7 @@ if ($studentAnswers) {
         <meta charset="utf-8">
         <link rel="stylesheet"  href="../css/menu.css">
         <link rel="stylesheet"  href="../css/reviewExam.css">
+        <title>Review Exam</title>
     </head>
     <body>
         <nav class="navbar">
