@@ -65,7 +65,7 @@ if ($studentAnswers) {
     
             for (i = 0; i < text.length; i++) {
     
-                const obj = JSON.parse(JSON.stringify(text[i]));
+                const obj = text[i];
     
                 //Create row
                 row = document.createElement("div");

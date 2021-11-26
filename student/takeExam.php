@@ -73,14 +73,14 @@ if ($questionArray) {
         form.setAttribute("method", "post");
         form.setAttribute("action", "submitExam.php");
 
-        const header = JSON.parse(JSON.stringify(text[0]));
+        const header = text[0];
         title = document.createElement("div");
         title.classList.add("center-title");
         title.innerHTML = header.examName;
         document.body.appendChild(title);
 
         for (i = 1; i < text.length; i++) {
-            const obj = JSON.parse(JSON.stringify(text[i]));
+            const obj = text[i];
 
             //Create row
             row = document.createElement("div");

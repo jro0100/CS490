@@ -62,7 +62,7 @@ if ($result) {
 
             for (i = 0; i < text.length; i++) {
 
-                const obj = JSON.parse(JSON.stringify(text[i]));
+                const obj = text[i];
 
                 difficulty = "";
                 if(obj.difficulty == 0) {

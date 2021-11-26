@@ -97,7 +97,7 @@ if ($result) {
         const objArr = [];
         const objArrRight = []
         for (i = 0; i < text.length; i++) {
-            const obj = JSON.parse(JSON.stringify(text[i]));
+            const obj = text[i];
             objArr.push(obj);
 
         }
