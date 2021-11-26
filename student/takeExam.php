@@ -59,7 +59,7 @@ if ($questionArray) {
     <body>
         <nav class="navbar">
             <ul class="nav-links">
-                <li class="nav-item"><a href="index.php">Oustanding Exams</a></li>
+                <li class="nav-item"><a href="./">Oustanding Exams</a></li>
                 <li class="nav-item"><a href="grades.php">Grades</a></li>
                 <li class="nav-item"><a href="../logout.php">Logout</a></li>
             </ul>

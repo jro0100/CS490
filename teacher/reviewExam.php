@@ -46,7 +46,7 @@ if ($studentID) {
     <body <?php if (isset($_GET["saved"]) && $_GET["saved"] == "1") echo 'onload="saveChangesToast()"'; ?>>
         <nav class="navbar">
             <ul class="nav-links">
-                <li class="nav-item"><a href="index.php">Question Bank</a></li>
+                <li class="nav-item"><a href="./">Question Bank</a></li>
                 <li class="nav-item"><a href="exams.php">Exams</a></li>
                 <li class="nav-item"><a href="../logout.php">Logout</a></li>
             </ul>
