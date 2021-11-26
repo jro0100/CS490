@@ -28,6 +28,9 @@ if ($studentID) {
 
     generate_student_outputs($studentAnswers, $studentID, $examID);
 
+    $examName = get_exam_name($examID);
+    array_unshift($studentAnswers, array("examName" => $examName));
+
     $json = "[]";
     if ($studentAnswers) {
         $json = json_encode($studentAnswers);
@@ -106,8 +109,10 @@ if ($studentID) {
             form = document.createElement("form");
             form.setAttribute("method", "post");
             form.setAttribute("action", "saveChanges.php");
+
+            document.title = "Review - " + text[0].examName;
     
-            for (i = 0; i < text.length; i++) {
+            for (i = 1; i < text.length; i++) {
     
                 const obj = text[i];
     

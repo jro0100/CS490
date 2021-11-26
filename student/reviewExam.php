@@ -13,6 +13,9 @@ $examID = $_GET["examID"];
 
 generate_student_outputs($studentAnswers, $_SESSION["studentID"], $examID);
 
+$examName = get_exam_name($examID);
+array_unshift($studentAnswers, array("examName" => $examName));
+
 $json = "[]";
 if ($studentAnswers) {
     $json = json_encode($studentAnswers);
@@ -62,8 +65,10 @@ if ($studentAnswers) {
 
         <script>
             var text = <?php echo $json ?>;
+
+            document.title = "Review - " + text[0].examName;
     
-            for (i = 0; i < text.length; i++) {
+            for (i = 1; i < text.length; i++) {
     
                 const obj = text[i];
     

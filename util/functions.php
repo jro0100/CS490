@@ -126,3 +126,19 @@ function generate_student_outputs(&$studentAnswers, $studentID, $examID) {
         $studentAnswers[$i]["autogradeOutputs"] = $autogradeOutputs;
     }
 }
+
+/**
+ * Returns the name of a given exam ID
+ * @param $examID int Database ID of exam to retrieve the name of
+ * @return mixed|null
+ */
+function get_exam_name($examID) {
+    $sqlstmt = "SELECT examName FROM exams WHERE examID = :examID";
+    $params = array(":examID" => $examID);
+    $results = db_execute($sqlstmt, $params);
+    if ($results) {
+        return $results[0]["examName"];
+    } else {
+        return null;
+    }
+}
