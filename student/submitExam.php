@@ -217,7 +217,7 @@ foreach ($_POST as $questionID => $studentAnswer) {
 
 
             // Execute student's function
-            file_put_contents("test.py", $inputFilteredForFunctionDefinition . "\nprint($functionToCall($paramString))\n");
+            file_put_contents("test.py", str_replace("\t", "    ", $inputFilteredForFunctionDefinition) . "\nprint($functionToCall($paramString))\n");
             $studentOutput = exec("python test.py", $outputArray, $resultCode);
 
             // Add student's output to param array to insert into database

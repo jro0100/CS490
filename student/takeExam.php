@@ -103,7 +103,7 @@ if ($questionArray) {
             textArea = document.createElement("textarea");
             textArea.classList.add("text-area");
             textArea.setAttribute("name", obj.questionID);
-            
+
             textArea.setAttribute("id", obj.questionID);
             centerDiv.appendChild(textArea);
             column.appendChild(question);
@@ -129,5 +129,29 @@ if ($questionArray) {
         form.appendChild(centerButton);
         form.appendChild(examID);
         document.body.appendChild(form);
+
+        // Add listener to prevent tabbing out of textareas and insert tab character into textarea
+        document.addEventListener("keydown", event => {
+            if (event.target.nodeName == "TEXTAREA" && event.key == "Tab") {
+
+                /*
+                 * Thanks to user Taufik Nurrohman from
+                 * https://css-tricks.com/snippets/javascript/support-tabs-in-textareas/
+                 */
+                event.preventDefault();
+                // get caret position/selection
+                const textArea = document.getElementById(event.target.id);
+                const val = textArea.value;
+                const start = textArea.selectionStart;
+                const end = textArea.selectionEnd;
+
+                // set textarea value to: text before caret + tab + text after caret
+                textArea.value = val.substring(0, start) + '\t' + val.substring(end);
+
+                // put caret at right position again
+                textArea.selectionStart = textArea.selectionEnd = start + 1;
+            }
+        })
+
     </script>
 </html>
