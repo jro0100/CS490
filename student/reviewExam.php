@@ -15,7 +15,7 @@ generate_student_outputs($studentAnswers, $_SESSION["studentID"], $examID);
 
 $json = "[]";
 if ($studentAnswers) {
-    $json = str_replace("\\r\\n", "<br>", json_encode($studentAnswers));
+    $json = json_encode($studentAnswers);
 }
 
 ?>
@@ -80,8 +80,15 @@ if ($studentAnswers) {
                 //Create column
                 answerCol = document.createElement("div");
                 answerCol.classList.add("column");
-                answerCol.classList.add("center-column-text");
-                answerCol.innerHTML = obj.studentAnswer;
+                //answerCol.classList.add("center-column-text");
+                //answerCol.innerHTML = obj.studentAnswer;
+                answerTextArea = document.createElement("textarea");
+                answerTextArea.readOnly = true;
+                answerTextArea.style.width = "100%";
+                answerTextArea.style.height = "100%";
+                answerTextArea.style.resize = "none";
+                answerTextArea.value = obj.studentAnswer;
+                answerCol.appendChild(answerTextArea);
 
                 //Create column
                 /*
