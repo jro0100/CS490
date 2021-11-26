@@ -145,10 +145,10 @@ if ($questionArray) {
                 const end = textArea.selectionEnd;
 
                 // set textarea value to: text before caret + tab + text after caret
-                textArea.value = val.substring(0, start) + '\t' + val.substring(end);
+                textArea.value = val.substring(0, start) + "    " + val.substring(end);
 
                 // put caret at right position again
-                textArea.selectionStart = textArea.selectionEnd = start + 1;
+                textArea.selectionStart = textArea.selectionEnd = start + 4;
             }
         })
 
