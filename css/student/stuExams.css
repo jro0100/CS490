@@ -1,3 +1,7 @@
+body  {
+    padding-bottom: 15px;
+}
+
 .submitButton {
     background-color: #323232; /* Black */
     color:white;
