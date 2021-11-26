@@ -158,6 +158,8 @@ if ($studentID) {
                 table.appendChild(tr);
 
                 scoreTotal = 0;
+                autogradeTotal = 0;
+                worthTotal = 0;
 
                 for(y = 0; y < obj.autogradeOutputs.length; y++) {
                     tr = document.createElement("tr");
@@ -181,6 +183,8 @@ if ($studentID) {
                     pointsAchieved.value = obj.autogradeOutputs[y].teacherScore;
 
                     scoreTotal += parseInt(obj.autogradeOutputs[y].teacherScore, 10);
+                    autogradeTotal += parseInt(obj.autogradeOutputs[y].autoGradeScore, 10);
+                    worthTotal += parseInt(obj.autogradeOutputs[y].maxPoints, 10);
 
                     tr.appendChild(td1);
                     tr.appendChild(td2);
@@ -195,14 +199,24 @@ if ($studentID) {
                 elem = document.createElement("td");
                 elem.innerHTML = "Total";
                 scoreRow.appendChild(elem);
-                for (let c = 0; c < 3; c++) {
+                for (let c = 0; c < 4; c++) {
                     elem = document.createElement("td");
-                    elem.innerHTML = "-";
+                    switch (c) {
+                        case 1:
+                            elem.innerHTML = worthTotal;
+                            break;
+                        case 2:
+                            elem.innerHTML = autogradeTotal;
+                            break;
+                        case 3:
+                            elem.innerHTML = scoreTotal;
+                            break;
+                        default:
+                            elem.innerHTML = "-";
+                            break;
+                    }
                     scoreRow.appendChild(elem);
                 }
-                let scoreBox = document.createElement("td");
-                scoreBox.innerHTML = scoreTotal;
-                scoreRow.appendChild(scoreBox);
                 table.appendChild(scoreRow);
 
                 commentCol = document.createElement("div");
