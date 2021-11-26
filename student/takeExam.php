@@ -35,10 +35,7 @@ for ($i = 0; $i < count($questionIDScoreArray); $i++) {
     $questionArray[$i]["points"] = $questionIDScoreArray[$i]["maxPoints"];
 }
 
-$sqlstmt = "SELECT examName FROM exams WHERE examID = :examID";
-$params = array(":examID" => $_GET["examID"]);
-$examName = db_execute($sqlstmt, $params)[0]["examName"];
-
+$examName = get_exam_name($_GET["examID"]);
 array_unshift($questionArray, array("examName" => $examName));
 
 $json = "[]";
@@ -78,6 +75,8 @@ if ($questionArray) {
         title.classList.add("center-title");
         title.innerHTML = header.examName;
         document.body.appendChild(title);
+
+        document.title = "Take Exam - " + header.examName;
 
         for (i = 1; i < text.length; i++) {
             const obj = text[i];
