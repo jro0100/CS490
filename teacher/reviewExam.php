@@ -213,7 +213,7 @@ if ($studentID) {
                 comment.setAttribute("type", "text");
                 comment.setAttribute("name", "teacherComment-" + obj.questionID);
                 if (obj.teacherComment == "") {
-                    comment.value = "No Comment";
+                    comment.value = "-";
                 } else {
                     comment.value = obj.teacherComment;
                 }

@@ -184,7 +184,7 @@ if ($studentAnswers) {
                 comment.setAttribute("name", "comment-" + obj.questionID);
                 comment.disabled = true;
                 if (obj.teacherComment == "") {
-                    comment.value = "No Comment";
+                    comment.value = "-";
                 } else {
                     comment.value = obj.teacherComment;
                 }
