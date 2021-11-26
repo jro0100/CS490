@@ -49,7 +49,7 @@ if (isset($_POST["releaseExam"])) {
     $params = array(":teacherID" => $_SESSION["teacherID"]);
     $result = db_execute($sqlstmt, $params);
 
-    $sqlstmt = "INSERT INTO studentexam (studentID, examID, completedByStudent) VALUES (:studentID, :examID, 0)";
+    $sqlstmt = "INSERT INTO studentexam (studentID, examID, completedByStudent, studentGrade) VALUES (:studentID, :examID, 0, 0)";
     $params = array();
     foreach ($result as $student) {
         array_push($params, array(":studentID" => $student["studentID"],
