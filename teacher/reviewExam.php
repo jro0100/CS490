@@ -55,7 +55,7 @@ if ($studentID) {
         <form method="get" action="reviewExam.php">
             <div class="center">
                 <input type="hidden" name="examID" value="<?php echo $examID ?>">
-                <select name="studentID" id="student">
+                <select name="studentID" id="student" onchange=selectNewStudent(this)>
                     <?php
 
                     foreach ($studentIDs as $student) {
@@ -72,7 +72,6 @@ if ($studentID) {
                     }
                     ?>
                 </select><br>
-                <input type="submit" class="submitButton"></input>
             <div>
         </form>
 
@@ -250,6 +249,13 @@ if ($studentID) {
             form.appendChild(examIDInfo);
     
             document.body.appendChild(form); //Appends the div to the body of the HTML page
+
+            // Redirect review exam page to next student when student selector changes
+            function selectNewStudent(selector) {
+                const examID = document.getElementsByName("examID")[0].value;
+                const studentID = selector.value;
+                location.href = "reviewExam.php?examID=" + examID + "&studentID=" + studentID;
+            }
         </script>
 
         <!-- The following is the JS for alerting the user that the exams have been released -->
