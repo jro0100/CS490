@@ -78,7 +78,7 @@ if ($studentID) {
             <div>
         </form>
 
-        <div class="row">
+        <!--<div class="row">
             <div class="columnHeader">
                 <h1 class="center-column-text-font-size">
                     Question
@@ -99,7 +99,7 @@ if ($studentID) {
                     Comment
                 </h1>
             </div>
-        </div>
+        </div>-->
 
         <div id="snackbar">Changes Saved!</div>
 
@@ -111,6 +111,37 @@ if ($studentID) {
             form.setAttribute("action", "saveChanges.php");
 
             document.title = "Review - " + text[0].examName;
+
+            row = document.createElement("div");
+            row.classList.add("row");
+
+            quesionTitle = document.createElement("div");
+            quesionTitle.classList.add("column");
+            quesionTitle.classList.add("center-column-text");
+            quesionTitle.innerHTML = "Question";
+
+            answerTitle = document.createElement("div");
+            answerTitle.classList.add("column");
+            answerTitle.classList.add("center-column-text");
+            answerTitle.innerHTML = "Answer";
+
+            pointsTitle = document.createElement("div");
+            pointsTitle.classList.add("column");
+            pointsTitle.classList.add("center-column-text");
+            pointsTitle.innerHTML = "Points";
+
+            commentTitle = document.createElement("div");
+            commentTitle.classList.add("column");
+            commentTitle.classList.add("center-column-text");
+            commentTitle.innerHTML = "Comment";
+
+            row.appendChild(questionTitle);
+            row.appendChild(answerTitle);
+            row.appendChild(pointsTitle);
+            row.appendChild(commentTitle);
+
+            document.appendChild(row);
+            
     
             for (i = 1; i < text.length; i++) {
     
