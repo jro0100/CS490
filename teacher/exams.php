@@ -177,7 +177,7 @@ if ($result) {
 
             createdExam.appendChild(exam);
             createdExam.appendChild(cDiv);
-            if(object.released === "0") {
+            if(obj.released === "0") {
                 createdExam.appendChild(centerDiv);
             }
             createdExamBox.appendChild(createdExam);
