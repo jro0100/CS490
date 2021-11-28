@@ -78,7 +78,7 @@ if ($studentID) {
             <div>
         </form>
 
-        <!--<div class="row">
+        <div class="row">
             <div class="columnHeader">
                 <h1 class="center-column-text-font-size">
                     Question
@@ -99,7 +99,7 @@ if ($studentID) {
                     Comment
                 </h1>
             </div>
-        </div>-->
+        </div>
 
         <div id="snackbar">Changes Saved!</div>
 
@@ -112,7 +112,7 @@ if ($studentID) {
 
             document.title = "Review - " + text[0].examName;
 
-            row = document.createElement("div");
+            /*row = document.createElement("div");
             row.classList.add("row");
 
             quesionTitle = document.createElement("div");
@@ -140,7 +140,7 @@ if ($studentID) {
             row.appendChild(pointsTitle);
             row.appendChild(commentTitle);
 
-            document.body.appendChild(row);
+            document.body.appendChild(row);*/
             
     
             for (i = 1; i < text.length; i++) {
