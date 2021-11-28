@@ -177,7 +177,9 @@ if ($result) {
 
             createdExam.appendChild(exam);
             createdExam.appendChild(cDiv);
-            createdExam.appendChild(centerDiv);
+            if(object.released === "0") {
+                createdExam.appendChild(centerDiv);
+            }
             createdExamBox.appendChild(createdExam);
 
             leftCol = document.getElementById("leftCol");
