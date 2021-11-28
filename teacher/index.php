@@ -191,7 +191,7 @@ if (isset($_POST["submitQuestion"])) {
                         column.classList.add("column");
 
                         p = document.createElement("p");
-                        p.classList.add("center-column-text");
+                        p.classList.add("center-header-box");
                         if(y == parseInt(colVal)) {
                             p.innerHTML = "Answer";
                         } else {
