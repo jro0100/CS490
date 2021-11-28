@@ -143,7 +143,7 @@ if (isset($_POST["submitQuestion"])) {
                 <div id="masterParent">
                 </div>
                 <br>
-                <button type="submit" class="submitButton" name="submitQuestion" value="Save Question">Save Question</button>
+                <button type="submit" class="saveQuestion" name="submitQuestion" value="Save Question">Save Question</button>
             </form>
         </div>
 
