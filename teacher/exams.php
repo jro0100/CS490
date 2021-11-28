@@ -102,6 +102,25 @@ if ($result) {
         </ul>
     </nav>
 
+    <form action="createExam.php">
+        <div class="center">
+            <input type="submit" class="submitButton" name="createExam" value="Create Exam">
+        </div>
+    </form>
+
+    <div class="float-container">
+        <div class="float-child" id="leftCol">
+            <div class="title">
+                Unreleased Exams
+            </div>
+        </div>
+        <div class="float-child" id="rightCol">
+            <div class="title">
+                Released Exams
+            </div>
+        </div>
+    </div>
+
     <div id="snackbar">Exam Released!</div>
 
     <script>
@@ -111,13 +130,12 @@ if ($result) {
 
             const obj = text[i];
 
-            //Create row
-            row = document.createElement("div");
-            row.classList.add("row");
+            createdExamBox = document.createElement("div");
+            createdExamBox.classList.add("exam-layout");
 
-            //Create column
-            column = document.createElement("div");
-            column.classList.add("column");
+            createdExam = document.createElement("div");
+            createdExam.classList.add("center-column-text");
+
 
             exam = document.createElement("p");
             exam.classList.add("center-column-text");
@@ -146,7 +164,6 @@ if ($result) {
             submit.setAttribute("type", "submit");
             submit.setAttribute("name", "releaseExam");
             submit.setAttribute("class", "releaseExam");
-            //submit.setAttribute("onclick", "releaseExamToast()");
             submit.setAttribute("value", obj.examID);
             submit.innerHTML = "Release Exam";
 
@@ -158,12 +175,15 @@ if ($result) {
             form.appendChild(submit);
             centerDiv.appendChild(form);
 
-            column.appendChild(exam);
-            column.appendChild(cDiv);
-            column.appendChild(centerDiv); //Add button to release the exam
+            createdExam.appendChild(exam);
+            createdExam.appendChild(cDiv);
+            createdExam.appendChild(centerDiv);
+            createdExamBox.appendChild(createdExam);
 
-            row.appendChild(column);
-            document.body.appendChild(row); //Appends the div to the body of the HTML page
+            leftCol = document.getElementById("leftCol");
+            rightCol = document.getElementById("rightCol");
+            if(obj.released === "1") { rightCol.appendChild(createdExamBox); }
+            else { leftCol.appendChild(createdExamBox); }
         }
 
         if (text.length == 0) {
@@ -172,18 +192,6 @@ if ($result) {
             emptiness.innerHTML = "NO EXAMS EXIST YET!";
             document.body.appendChild(emptiness);
         }
-        form = document.createElement("form");
-        form.setAttribute("action", "createExam.php");
-        buttonDiv = document.createElement("div");
-        buttonDiv.classList.add("center");
-        createExamButton = document.createElement("input");
-        createExamButton.setAttribute("type", "submit");
-        createExamButton.setAttribute("class", "submitButton");
-        createExamButton.setAttribute("name", "createExam");
-        createExamButton.value = "Create Exam";
-        form.appendChild(createExamButton);
-        buttonDiv.appendChild(form);
-        document.body.appendChild(buttonDiv);
     </script>
 
     <!-- The following is the JS for alerting the user that the exams have been released -->
