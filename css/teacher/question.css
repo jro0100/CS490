@@ -22,9 +22,12 @@
 	font-family:Arial;
     color: black;
 	font-size: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .inputStyle {
+    text-align: center;
     border-radius: 6px;
     background-color: white;
     margin: 5px;
