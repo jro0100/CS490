@@ -140,7 +140,7 @@ if ($studentID) {
             row.appendChild(pointsTitle);
             row.appendChild(commentTitle);
 
-            document.appendChild(row);
+            document.body.appendChild(row);
             
     
             for (i = 1; i < text.length; i++) {
