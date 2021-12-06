@@ -85,7 +85,7 @@ if ($studentID) {
                 </h1>
             </div>
             <div class="columnHeader">
-                <h1 class="center-column-text-font-size">
+                <h1 class="center-answer-field">
                     Answer
                 </h1>
             </div>
