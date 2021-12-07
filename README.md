@@ -2,6 +2,8 @@
 
 The goal of this project was to create an autograding website for student's taking exams.
 
+This project is currently being hosted on: https://cs490-project-website.herokuapp.com/
+
 1) Instructor can enter questions (including test cases) into question 
 bank.
 2) Instructor can select questions from question bank to make exam. This 
